@@ -2,6 +2,12 @@
   "name": "gulp-file-loader",
   "version": "0.0.0",
   "description": "Auto generate import only files for any file type. scss, js, pug, whatever you want.",
+  "dependencies": {
+    "through2": "^2.0.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,8 +31,5 @@
   "bugs": {
     "url": "https://github.com/Dan503/gulp-file-loader/issues"
   },
-  "homepage": "https://github.com/Dan503/gulp-file-loader#readme",
-  "dependencies": {
-    "through2": "^2.0.3"
-  }
+  "homepage": "https://github.com/Dan503/gulp-file-loader#readme"
 }
