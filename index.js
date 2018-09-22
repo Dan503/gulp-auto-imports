@@ -6,17 +6,12 @@
   https://github.com/gulp-community/gulp-concat/blob/master/index.js
 */
 
-var fs = require('fs');
 var through = require('through2');
-var path = require('path');
-var File = require('vinyl');
-var Concat = require('concat-with-sourcemaps');
 var relative = require('relative');
 
-// file can be a vinyl file object or a string
-// when a string it will construct a new one
-module.exports = function(file, opt) {
-  if (!file) {
+// fileName must be a string
+module.exports = function(fileName, opt) {
+  if (!fileName) {
     throw new Error('gulp-file-loader: Missing options');
   }
 
@@ -32,30 +27,19 @@ module.exports = function(file, opt) {
 
   var latestFile;
   var latestMod;
-  var fileName;
-  var concat;
 
   var relativePaths = [];
 
-  // if (typeof file === 'string') {
-  //   fileName = file;
-  // } else if (typeof file.path === 'string') {
-  //   fileName = path.basename(file.path);
-  // } else {
-  //   throw new Error('gulp-concat: Missing path in file options');
-  // }
-
-  function bufferContents(file, enc, cb) {
+  function bufferContents(file, enc, done) {
     // ignore empty files
     if (file.isNull()) {
-      cb();
-      return;
+      return done();
     }
 
     // It doesn't support streams
     if (file.isStream()) {
-      this.emit('error', new Error('gulp-concat: Streaming not supported'));
-      cb();
+      this.emit('error', new Error('gulp-file-loader: Streaming not supported'));
+      done();
       return;
     }
 
@@ -68,35 +52,29 @@ module.exports = function(file, opt) {
 
     relativePaths.push(get_relative_path(file, opt.dest));
 
-    // construct concat instance
-    if (!concat) {
-      concat = new Concat(false, fileName, opt.newLine);
-    }
-
-    // add file to concat instance
-    concat.add(file.relative, file.contents);
-
-    cb();
+    done();
   }
 
-  function endStream(cb) {
+  function endStream(done) {
 
     // no files passed in, no file goes out
-    if (!latestFile || !concat) {
-      return cb();
+    if (!latestFile) {
+      return done();
     }
 
+    //Creates a new file based on the old one
     var newFile = latestFile.clone({contents: false});
 
-    //sets the new file name
-    newFile.path = join(latestFile.base, file);
+    //Sets the new file name
+    newFile.path = join(latestFile.base, fileName);
 
     var fileContent = relativePaths.join('\n');
 
+    //Adds the content to the file
     newFile.contents =  new Buffer(fileContent, "utf-8");
 
     this.push(newFile);
-    cb();
+    done();
   }
 
   return through.obj(bufferContents, endStream);
@@ -109,8 +87,6 @@ function get_relative_path(file, dest) {
   var relFixDots = relativePath.replace(/^(\.\.?)/, '$1/');
   var relDotSlash = relFixDots.replace(/^([^.\/])/, './$1');
   var relDupesRemoved = relDotSlash.replace(/\/\//g, '/');
-
-  // console.log({ from, to, initial: relativePath, final: relDupesRemoved });
 
   return relDupesRemoved;
 }
