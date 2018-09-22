@@ -65,9 +65,7 @@ module.exports = function(opt) {
     //Sets the new file name
     newFile.path = join(latestFile.base, opt.fileName);
 
-    var formatPath = path => opt.format.replace(/\$path/g, path);
-
-    var formattedPaths = relativePaths.map(formatPath);
+    var formattedPaths = relativePaths.map(path => formatPath(path, opt.format));
 
     var fileContent = formattedPaths.join('\n');
 
@@ -79,6 +77,11 @@ module.exports = function(opt) {
   }
 
   return through.obj(bufferContents, endStream);
+};
+
+function formatPath (path, format, index) {
+  var placeholder = new RegExp(`\\$path${index || ''}`,'g');
+  return format.replace(placeholder, path)
 };
 
 function get_relative_path(file, dest) {
