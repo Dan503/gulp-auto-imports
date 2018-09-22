@@ -65,7 +65,11 @@ module.exports = function(opt) {
     //Sets the new file name
     newFile.path = join(latestFile.base, opt.fileName);
 
-    var fileContent = relativePaths.join('\n');
+    var formatPath = path => opt.format.replace(/\$path/g, path);
+
+    var formattedPaths = relativePaths.map(formatPath);
+
+    var fileContent = formattedPaths.join('\n');
 
     //Adds the content to the file
     newFile.contents =  new Buffer(fileContent, "utf-8");
