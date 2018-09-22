@@ -24,7 +24,6 @@ module.exports = function(file, opt) {
     opt.newLine = '\n';
   }
 
-  var isUsingSourceMaps = false;
   var latestFile;
   var latestMod;
   var fileName;
@@ -45,17 +44,11 @@ module.exports = function(file, opt) {
       return;
     }
 
-    // we don't do streams (yet)
+    // It doesn't support streams
     if (file.isStream()) {
       this.emit('error', new Error('gulp-concat: Streaming not supported'));
       cb();
       return;
-    }
-
-    // enable sourcemap support for concat
-    // if a sourcemap initialized file comes in
-    if (file.sourceMap && isUsingSourceMaps === false) {
-      isUsingSourceMaps = true;
     }
 
     // set latest file if not already set,
@@ -67,11 +60,11 @@ module.exports = function(file, opt) {
 
     // construct concat instance
     if (!concat) {
-      concat = new Concat(isUsingSourceMaps, fileName, opt.newLine);
+      concat = new Concat(false, fileName, opt.newLine);
     }
 
     // add file to concat instance
-    concat.add(file.relative, file.contents, file.sourceMap);
+    concat.add(file.relative, file.contents);
     cb();
   }
 
@@ -94,10 +87,6 @@ module.exports = function(file, opt) {
     }
 
     joinedFile.contents = concat.content;
-
-    if (concat.sourceMapping) {
-      joinedFile.sourceMap = JSON.parse(concat.sourceMap);
-    }
 
     this.push(joinedFile);
     cb();
