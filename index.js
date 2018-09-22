@@ -9,19 +9,16 @@
 var through = require('through2');
 var relative = require('relative');
 
-// fileName must be a string
-module.exports = function(fileName, opt) {
-  if (!fileName) {
-    throw new Error('gulp-file-loader: Missing options');
+function err(condition, message) {
+  if (condition) {
+    throw new Error('gulp-file-loader: ' + message);
   }
+}
 
-  // if (!opt.format) {
-  //   throw new Error('gulp-file-loader: format option is required');
-  // }
-
-  // if (!opt.dest) {
-  //   throw new Error('gulp-file-loader: dest option is required');
-  // }
+module.exports = function(opt) {
+  err(!opt.fileName, '"fileName" option is required (file name given to the final output file)')
+  err(!opt.format, '"format" option is required. (format of each import line in the generated file)')
+  err(!opt.dest, '"dest" option is required. (Should be the same as the gulp.dest() value)')
 
   opt = opt || {};
 
