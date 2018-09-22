@@ -9,14 +9,24 @@
 var through = require('through2');
 var path = require('path');
 var File = require('vinyl');
-var Concat = require('concat-with-sourcemaps');
+// var Concat = require('concat-with-sourcemaps');
+var relative = require('relative');
 
 // file can be a vinyl file object or a string
 // when a string it will construct a new one
 module.exports = function(file, opt) {
   if (!file) {
-    throw new Error('gulp-concat: Missing file option');
+    throw new Error('gulp-file-loader: Missing options');
   }
+
+  // if (!opt.format) {
+  //   throw new Error('gulp-file-loader: format option is required');
+  // }
+
+  // if (!opt.dest) {
+  //   throw new Error('gulp-file-loader: dest option is required');
+  // }
+
   opt = opt || {};
 
   // to preserve existing |undefined| behaviour and to introduce |newLine: ""| for binaries
@@ -28,14 +38,15 @@ module.exports = function(file, opt) {
   var latestMod;
   var fileName;
   var concat;
+  var finalOutput;
 
-  if (typeof file === 'string') {
-    fileName = file;
-  } else if (typeof file.path === 'string') {
-    fileName = path.basename(file.path);
-  } else {
-    throw new Error('gulp-concat: Missing path in file options');
-  }
+  // if (typeof file === 'string') {
+  //   fileName = file;
+  // } else if (typeof file.path === 'string') {
+  //   fileName = path.basename(file.path);
+  // } else {
+  //   throw new Error('gulp-concat: Missing path in file options');
+  // }
 
   function bufferContents(file, enc, cb) {
     // ignore empty files
@@ -58,13 +69,18 @@ module.exports = function(file, opt) {
       latestMod = file.stat && file.stat.mtime;
     }
 
-    // construct concat instance
-    if (!concat) {
-      concat = new Concat(false, fileName, opt.newLine);
-    }
+    get_relative_path(file, opt.dest);
 
-    // add file to concat instance
-    concat.add(file.relative, file.contents);
+    // debug(file);
+
+    // // construct concat instance
+    // if (!concat) {
+    //   concat = new Concat(false, fileName, opt.newLine);
+    // }
+
+    // // add file to concat instance
+    // concat.add(file.relative, file.contents);
+
     cb();
   }
 
@@ -94,3 +110,32 @@ module.exports = function(file, opt) {
 
   return through.obj(bufferContents, endStream);
 };
+
+function get_relative_path(file, dest) {
+  var from = slash( join([file.cwd, dest]) );
+  var to = slash(file.history[0]);
+  var relativePath = slash( relative(from, to) );
+  var relFixDots = relativePath.replace(/^(\.\.?)/, '$1/');
+  var relDotSlash = relFixDots.replace(/^([^.\/])/, './$1');
+  var relDupesRemoved = relDotSlash.replace(/\/\//g, '/');
+
+  console.log({ from, to, initial: relativePath, final: relDupesRemoved });
+
+  return relDupesRemoved;
+}
+
+function slash(string){
+  return string.replace(/\\/g,'/');
+}
+
+function debug(file) {
+  var propValue;
+  for(var propName in file) {
+      propValue = file[propName];
+      console.log(`{${propName}: ${propValue}}`);
+  }
+}
+
+function join(array){
+  return array.join('/');
+}

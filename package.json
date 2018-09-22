@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Auto generate import only files for any file type. scss, js, pug, whatever you want.",
   "dependencies": {
+    "relative": "^3.0.2",
     "through2": "^2.0.3"
   },
   "devDependencies": {
