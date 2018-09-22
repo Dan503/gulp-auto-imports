@@ -63,7 +63,7 @@ module.exports = function(opt) {
     var newFile = latestFile.clone({contents: false});
 
     //Sets the new file name
-    newFile.path = join(latestFile.base, fileName);
+    newFile.path = join(latestFile.base, opt.fileName);
 
     var fileContent = relativePaths.join('\n');
 
