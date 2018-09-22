@@ -27,6 +27,9 @@
     "file",
     "loader"
   ],
+  "engines" : {
+    "node" : ">=4.9.1"
+  },
   "author": "Daniel Tonon <dan503.npm@gmail.com>",
   "license": "MIT",
   "bugs": {
