@@ -3,7 +3,6 @@ var gulp = require('gulp');
 
 var fileLoader = require('./index');
 
-
 gulp.task('default', function(){
 
 	var dest = 'test/scss';
@@ -13,10 +12,10 @@ gulp.task('default', function(){
 		'./other-test-folder/scss/**/*.scss'
 	])
 		.pipe(fileLoader({
-			format: '@import "$path";',
+			format: 'import $name from "$path";',
 			//needed so that relative paths are able to be generated properly
 			dest: dest,
-			fileName: 'file-loader.scss'
+			fileName: 'file-loader.js',
 		}))
 		.pipe(gulp.dest(dest))
 })

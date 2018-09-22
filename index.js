@@ -6,6 +6,7 @@
   https://github.com/gulp-community/gulp-concat/blob/master/index.js
 */
 
+var path = require('path');
 var through = require('through2');
 var relative = require('relative');
 
@@ -19,8 +20,6 @@ module.exports = function(opt) {
   err(!opt.fileName, '"fileName" option is required (file name given to the final output file)')
   err(!opt.format, '"format" option is required. (format of each import line in the generated file)')
   err(!opt.dest, '"dest" option is required. (Should be the same as the gulp.dest() value)')
-
-  opt = opt || {};
 
   var latestFile;
   var latestMod;
@@ -65,9 +64,11 @@ module.exports = function(opt) {
     //Sets the new file name
     newFile.path = join(latestFile.base, opt.fileName);
 
-    var formatPath = path => opt.format.replace(/\$path/g, path);
-
-    var formattedPaths = relativePaths.map(formatPath);
+    var formattedPaths = relativePaths.map(filePath => {
+      var step_1_pathFormatted = formatPath(filePath, opt.format);
+      var step_2_nameFormatted = formatName(filePath, step_1_pathFormatted);
+      return step_2_nameFormatted;
+    });
 
     var fileContent = formattedPaths.join('\n');
 
@@ -80,6 +81,16 @@ module.exports = function(opt) {
 
   return through.obj(bufferContents, endStream);
 };
+
+function formatPath (filePath, format) {
+  return format.replace(/\$path/g, filePath);
+}
+function formatName (filePath, format) {
+  var ext = path.extname(filePath);
+  var name = path.basename(filePath, ext);
+  var safeName = name.replace(/\W/g,'_');
+  return format.replace(/\$name/g, safeName);
+}
 
 function get_relative_path(file, dest) {
   var from = slash( join(file.cwd, dest) );
