@@ -6,10 +6,11 @@
   https://github.com/gulp-community/gulp-concat/blob/master/index.js
 */
 
+var fs = require('fs');
 var through = require('through2');
 var path = require('path');
 var File = require('vinyl');
-// var Concat = require('concat-with-sourcemaps');
+var Concat = require('concat-with-sourcemaps');
 var relative = require('relative');
 
 // file can be a vinyl file object or a string
@@ -29,16 +30,12 @@ module.exports = function(file, opt) {
 
   opt = opt || {};
 
-  // to preserve existing |undefined| behaviour and to introduce |newLine: ""| for binaries
-  if (typeof opt.newLine !== 'string') {
-    opt.newLine = '\n';
-  }
-
   var latestFile;
   var latestMod;
   var fileName;
   var concat;
-  var finalOutput;
+
+  var relativePaths = [];
 
   // if (typeof file === 'string') {
   //   fileName = file;
@@ -69,42 +66,36 @@ module.exports = function(file, opt) {
       latestMod = file.stat && file.stat.mtime;
     }
 
-    get_relative_path(file, opt.dest);
+    relativePaths.push(get_relative_path(file, opt.dest));
 
-    // debug(file);
+    // construct concat instance
+    if (!concat) {
+      concat = new Concat(false, fileName, opt.newLine);
+    }
 
-    // // construct concat instance
-    // if (!concat) {
-    //   concat = new Concat(false, fileName, opt.newLine);
-    // }
-
-    // // add file to concat instance
-    // concat.add(file.relative, file.contents);
+    // add file to concat instance
+    concat.add(file.relative, file.contents);
 
     cb();
   }
 
   function endStream(cb) {
+
     // no files passed in, no file goes out
     if (!latestFile || !concat) {
-      cb();
-      return;
+      return cb();
     }
 
-    var joinedFile;
+    var newFile = latestFile.clone({contents: false});
 
-    // if file opt was a file path
-    // clone everything from the latest file
-    if (typeof file === 'string') {
-      joinedFile = latestFile.clone({contents: false});
-      joinedFile.path = path.join(latestFile.base, file);
-    } else {
-      joinedFile = new File(file);
-    }
+    //sets the new file name
+    newFile.path = join(latestFile.base, file);
 
-    joinedFile.contents = concat.content;
+    var fileContent = relativePaths.join('\n');
 
-    this.push(joinedFile);
+    newFile.contents =  new Buffer(fileContent, "utf-8");
+
+    this.push(newFile);
     cb();
   }
 
@@ -112,14 +103,14 @@ module.exports = function(file, opt) {
 };
 
 function get_relative_path(file, dest) {
-  var from = slash( join([file.cwd, dest]) );
+  var from = slash( join(file.cwd, dest) );
   var to = slash(file.history[0]);
   var relativePath = slash( relative(from, to) );
   var relFixDots = relativePath.replace(/^(\.\.?)/, '$1/');
   var relDotSlash = relFixDots.replace(/^([^.\/])/, './$1');
   var relDupesRemoved = relDotSlash.replace(/\/\//g, '/');
 
-  console.log({ from, to, initial: relativePath, final: relDupesRemoved });
+  // console.log({ from, to, initial: relativePath, final: relDupesRemoved });
 
   return relDupesRemoved;
 }
@@ -136,6 +127,6 @@ function debug(file) {
   }
 }
 
-function join(array){
-  return array.join('/');
+function join(...array){
+  return slash(array.join('/'));
 }

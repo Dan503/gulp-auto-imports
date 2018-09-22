@@ -6,7 +6,7 @@ var fileLoader = require('./index');
 
 gulp.task('default', function(){
 	return gulp.src([
-		'./test/scss/**/*.scss',
+		'./test/scss/scss-input/**/*.scss',
 		'./other-test-folder/scss/**/*.scss'
 	])
 		.pipe(fileLoader('all.scss', {
