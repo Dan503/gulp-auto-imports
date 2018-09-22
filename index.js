@@ -16,6 +16,8 @@ function err(condition, message) {
   }
 }
 
+var isString = string => typeof string === 'string';
+
 module.exports = function(opt) {
   err(!opt.fileName, '"fileName" option is required (file name given to the final output file)')
   err(!opt.format, '"format" option is required. (format of each import line in the generated file)')
@@ -64,13 +66,9 @@ module.exports = function(opt) {
     //Sets the new file name
     newFile.path = join(latestFile.base, opt.fileName);
 
-    var formattedPaths = relativePaths.map(filePath => {
-      var step_1_pathFormatted = formatPath(filePath, opt.format);
-      var step_2_nameFormatted = formatName(filePath, step_1_pathFormatted);
-      return step_2_nameFormatted;
-    });
-
-    var fileContent = formattedPaths.join('\n');
+    var fileContent = isString(opt.format) ?
+      format_paths(relativePaths, opt.format) :
+      format_template(relativePaths, opt.format, opt.template);
 
     //Adds the content to the file
     newFile.contents =  new Buffer(fileContent, "utf-8");
@@ -82,9 +80,34 @@ module.exports = function(opt) {
   return through.obj(bufferContents, endStream);
 };
 
+function format_paths(relativePaths, format) {
+  var formattedPaths = relativePaths.map(filePath => {
+    var step_1_pathFormatted = formatPath(filePath, format);
+    var step_2_nameFormatted = formatName(filePath, step_1_pathFormatted);
+    return step_2_nameFormatted;
+  });
+  return formattedPaths.join('\n');
+}
+
+function format_template(relativePaths, formats, template) {
+  err(!template, 'The "template" setting is required if "format" is an object');
+
+  var newTemplate = template;
+
+  for (var type in formats) {
+    var format = formats[type];
+    var formatSet = format_paths(relativePaths, format);
+    var placeholder = new RegExp(`\\$format\\[${type}\\]`,'g');
+    newTemplate = newTemplate.replace(placeholder, formatSet);
+  }
+
+  return newTemplate;
+}
+
 function formatPath (filePath, format) {
   return format.replace(/\$path/g, filePath);
 }
+
 function formatName (filePath, format) {
   var ext = path.extname(filePath);
   var name = path.basename(filePath, ext);
