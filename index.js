@@ -10,6 +10,8 @@ var path = require('path');
 var through = require('through2');
 var relative = require('relative');
 
+var Unique_Set = require('./helpers/Unique_Set');
+
 function err(condition, message) {
   if (condition) {
     throw new Error('gulp-file-loader: ' + message);
@@ -81,9 +83,10 @@ module.exports = function(opt) {
 };
 
 function format_paths(relativePaths, format) {
+  var uniqueSet = new Unique_Set();
   var formattedPaths = relativePaths.map(filePath => {
     var step_1_pathFormatted = formatPath(filePath, format);
-    var step_2_nameFormatted = formatName(filePath, step_1_pathFormatted);
+    var step_2_nameFormatted = formatName(filePath, step_1_pathFormatted, uniqueSet);
     return step_2_nameFormatted;
   });
   return formattedPaths.join('\n');
@@ -108,12 +111,14 @@ function formatPath (filePath, format) {
   return format.replace(/\$path/g, filePath);
 }
 
-function formatName (filePath, format) {
+function formatName (filePath, format, uniqueSet) {
   var ext = path.extname(filePath);
   var name = path.basename(filePath, ext);
   var safeName = name.replace(/\W/g,'_');
-  return format.replace(/\$name/g, safeName);
+  var uniqueName = uniqueSet.add(safeName);
+  return format.replace(/\$name/g, uniqueName);
 }
+
 
 function get_relative_path(file, dest) {
   var from = slash( join(file.cwd, dest) );
