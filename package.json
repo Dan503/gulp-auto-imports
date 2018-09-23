@@ -1,6 +1,6 @@
 {
   "name": "gulp-file-loader",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Auto generate import only files for any file type. scss, js, pug, whatever you want.",
   "dependencies": {
     "relative": "^3.0.2",
