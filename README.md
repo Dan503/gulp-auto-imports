@@ -269,15 +269,13 @@ $(() => {
 })
 ```
 
-## Understanding format and template
+## Understanding the `format` and `template` settings
 
 It is recommended that you use an ES6 Template Literal (the back tick style strings) for creating the template rather than regular strings. Template Literals will allow you to define the markup found inside the output file exactly as written in a single string. Regular strings don't accept new lines so it makes writing the template much more difficult.
 
 Remember that Template Literal's count all white space literally, so any white space you add to the template will appear in the final output. To avoid an odd looking output file, save the template to a `template` variable outside of the gulp task so that there is no indentation to the side of it.
 
 The template works by replacing each `$format[formatName]` statement with a full list of imports formated in the specified way provided in the `format` object.
-
-If you want indenting, the **indenting should be added to the format setting** _not_ the template setting. If you indent the template, only the first item in the list will be indented. The rest will press hard up against the edge of the page. You will notice that I added two spaces to the front of the `functions` format string to create the two space indent in the JS example.
 
 If the format is provided as a string, the template is ignored. If it is provided as an object, a template is required.
 
@@ -304,13 +302,99 @@ thing
 thing_1
 ```
 
-
 ### $path
 
 `$path` in the `format` setting is replaced with a relative path that goes from the file-loader file to the file being loaded in.
 
 ```
 $path = ./path/to/file.ext
+```
+
+
+### Using indents
+
+If you want indenting, the **indenting should be added through the `format` setting** _not_ the `template` setting. If you indent the template, only the first item in the list will be indented. The rest will press hard up against the edge of the page.
+
+For example, if you use this as your template:
+
+```js
+// How NOT to indent your template
+
+var template = `
+$format[imports]
+
+export default function(){
+    // Notice the indent here
+    $format[functions]
+}
+`;
+
+```
+
+You will end up with a JS file that looks like this:
+
+```js
+// The result of incorrect indentation
+
+import one from "../components/one/one.js";
+import two from "../components/two/two.js";
+import three from "../components/three/three.js";
+import four from "../components/four/four.js";
+
+export default function(){
+    // Notice the indent here
+    one();
+two();
+three();
+four();
+}
+```
+
+Instead, apply indentation through the `format` setting:
+
+```js
+//How to apply correct indentation
+
+var template = `
+$format[imports]
+
+export default function(){
+    // Notice the indent here
+$format[functions]
+}
+`;
+
+// ...
+
+fileLoader({
+  format: {
+    imports: 'import $name from "$path";',
+    // The indent is added here, not in the template
+    functions: '    $name();'
+  },
+  dest: dest,
+  fileName: 'file-loader.js',
+  template: template
+})
+```
+
+That will produce the desired output:
+
+```js
+// The result of correct indenting
+
+import one from "../components/one/one.js";
+import two from "../components/two/two.js";
+import three from "../components/three/three.js";
+import four from "../components/four/four.js";
+
+export default function(){
+    // Notice the indent here
+    one();
+    two();
+    three();
+    four();
+}
 ```
 
 ## Other settings
