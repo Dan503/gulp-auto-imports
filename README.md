@@ -262,6 +262,8 @@ Use an ES6 Template Literal (the back tick style strings) for creating the templ
 
 The template works by replacing each `$format[formatName]` statement with a full list of imports formated in the specified format given in the `format` object.
 
+If you want indenting, the **indenting should be added to the format setting** _not_ the template setting. If you indent the the template, only the first item in the list will be indented. The rest will press hard up against the edge of the page. You will notice that I added two spaces to the front of the `functions` format to create the two space indent in the JS example.
+
 If the format is provided as a string, the template is ignored. If it is provided as an object, a template is required.
 
 ### $name
