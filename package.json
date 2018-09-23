@@ -7,7 +7,8 @@
     "through2": "^2.0.3"
   },
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1"
   },
   "main": "index.js",
   "scripts": {
@@ -27,8 +28,8 @@
     "file",
     "loader"
   ],
-  "engines" : {
-    "node" : ">=4.9.1"
+  "engines": {
+    "node": ">=4.9.1"
   },
   "author": "Daniel Tonon <dan503.npm@gmail.com>",
   "license": "MIT",

@@ -1,5 +1,6 @@
 
 var gulp = require('gulp');
+var sass = require('gulp-sass');
 
 var fileLoader = require('./index');
 
@@ -11,7 +12,13 @@ $format[functions]
 }
 `;
 
-gulp.task('default', function(){
+gulp.task('sass', ['sass:load'], function(){
+	return gulp.src('./test/scss/main.scss')
+		.pipe(sass().on('error', sass.logError))
+		.pipe(gulp.dest('./test/css'));
+});
+
+gulp.task('sass:load', function(){
 
 	var dest = 'test/scss';
 
@@ -20,15 +27,17 @@ gulp.task('default', function(){
 		'./other-test-folder/scss/**/*.scss'
 	])
 		.pipe(fileLoader({
-			// format: 'import $name from "$path";',
-			format: {
-				imports: 'import $name from "$path";',
-				functions: '  $name();'
-			},
+			format: '@import "$path";',
+			// format: {
+			// 	imports: 'import $name from "$path";',
+			// 	functions: '  $name();'
+			// },
 			//needed so that relative paths are able to be generated properly
 			dest: dest,
-			fileName: 'file-loader.js',
+			fileName: 'file-loader.scss',
 			template
 		}))
 		.pipe(gulp.dest(dest))
 })
+
+gulp.task('default', ['sass']);
