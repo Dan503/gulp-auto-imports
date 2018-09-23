@@ -2,7 +2,7 @@
 
 _Auto generate import-only files for any file type. scss, js, pug, whatever you want._
 
-[![Supported Node version](https://img.shields.io/node/v/gulp-file-loader?style=for-the-badge)](https://nodejs.org/en/) ![State of dependencies](https://img.shields.io/depfu/depfu/gulp-file-loader?style=for-the-badge)
+[![Supported Node version](https://img.shields.io/node/v/gulp-file-loader.svg?style=for-the-badge)](https://nodejs.org/en/)
 
 Are you sick of having to manually manage scss files that look like this?
 
