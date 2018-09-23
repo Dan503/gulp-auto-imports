@@ -40,4 +40,11 @@ gulp.task('sass:load', function(){
 		.pipe(gulp.dest(dest))
 })
 
-gulp.task('default', ['sass']);
+gulp.task('sass:watch', function () {
+  gulp.watch([
+		'./test/scss/scss-input/**/*.scss',
+		'./other-test-folder/scss/**/*.scss'
+	], ['sass']);
+});
+
+gulp.task('default', ['sass', 'sass:watch']);
