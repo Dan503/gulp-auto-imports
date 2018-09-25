@@ -7,11 +7,16 @@
 
 // npm
 var through = require('through2');
+var fileExists = require('file-exists');
+var fs = require('fs');
 
 // helpers
 var err = require('./helpers/err');
+var log = require('./helpers/log');
 var get_relative_path = require('./helpers/get_relative_path');
 var join = require('./helpers/join');
+var get_paths_from_string = require('./helpers/get_paths_from_string');
+var arrays_match = require('./helpers/arrays_match');
 
 // formatters
 var format_paths = require('./formatters/format_paths');
@@ -24,8 +29,9 @@ module.exports = function(opt) {
   err(!opt.format, '"format" option is required. (format of each import line in the generated file)')
   err(!opt.dest, '"dest" option is required. (Should be the same as the gulp.dest() value)')
 
-  var latestFile;
+  var lastFile;
   var latestMod;
+  var generatedFilePath = join([opt.dest, opt.fileName]);
 
   var relativePaths = [];
 
@@ -45,7 +51,7 @@ module.exports = function(opt) {
     // set latest file if not already set,
     // or if the current file was modified more recently.
     if (!latestMod || file.stat && file.stat.mtime > latestMod) {
-      latestFile = file;
+      lastFile = file;
       latestMod = file.stat && file.stat.mtime;
     }
 
@@ -57,29 +63,61 @@ module.exports = function(opt) {
   function endStream(done) {
 
     // no files passed in, no file goes out
-    if (!latestFile) {
+    if (!lastFile) {
       return done();
     }
 
+    var generate_file = () => {
+      log(`Generating ${opt.fileName}`);
+      var newFile = create_file(lastFile, opt);
+      this.push(newFile);
+      done();
+    }
+
+    fileExists(generatedFilePath, (error, exists) => {
+      err(error, error);
+      if (exists) {
+        read_file();
+      } else {
+        generate_file();
+      }
+    })
+
+    function read_file() {
+      fs.readFile(generatedFilePath, (error, data) => {
+        if(error) throw error;
+        var content = data.toString();
+
+        var oldPaths = get_paths_from_string(content);
+
+        if (arrays_match(relativePaths, oldPaths)) {
+          //Skip file generation
+          done();
+        } else {
+          generate_file();
+        }
+      })
+    }
+  }
+
+  return through.obj(bufferContents, endStream);
+
+
+  function create_file (inspirationFile, opt) {
+
     //Creates a new file based on the old one
-    var newFile = latestFile.clone({contents: false});
+    var newFile = inspirationFile.clone({contents: false});
 
     //Sets the new file name
-    newFile.path = join([latestFile.base, opt.fileName]);
+    newFile.path = join([inspirationFile.base, opt.fileName]);
 
     var fileContent = isString(opt.format) ?
       format_paths(relativePaths, opt.format) :
       format_template(relativePaths, opt.format, opt.template);
 
-    //Adds the content to the file
-    newFile.contents =  new Buffer(fileContent, "utf-8");
+    newFile.contents = new Buffer(fileContent, "utf-8");
 
-    this.push(newFile);
-    done();
+    return newFile;
   }
 
-  return through.obj(bufferContents, endStream);
 };
-
-
-
