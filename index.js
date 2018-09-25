@@ -15,8 +15,6 @@ var err = require('./helpers/err');
 var log = require('./helpers/log');
 var get_relative_path = require('./helpers/get_relative_path');
 var join = require('./helpers/join');
-var get_paths_from_string = require('./helpers/get_paths_from_string');
-var arrays_match = require('./helpers/arrays_match');
 
 // formatters
 var format_paths = require('./formatters/format_paths');
@@ -67,9 +65,13 @@ module.exports = function(opt) {
       return done();
     }
 
+    var fileContent = isString(opt.format) ?
+      format_paths(relativePaths, opt.format) :
+      format_template(relativePaths, opt.format, opt.template);
+
     var generate_file = () => {
       log(`Generating ${opt.fileName}`);
-      var newFile = create_file(lastFile, opt);
+      var newFile = create_file(lastFile, opt, fileContent);
       this.push(newFile);
       done();
     }
@@ -88,9 +90,7 @@ module.exports = function(opt) {
         if(error) throw error;
         var content = data.toString();
 
-        var oldPaths = get_paths_from_string(content);
-
-        if (arrays_match(relativePaths, oldPaths)) {
+        if (fileContent === content) {
           //Skip file generation
           done();
         } else {
@@ -103,17 +103,13 @@ module.exports = function(opt) {
   return through.obj(bufferContents, endStream);
 
 
-  function create_file (inspirationFile, opt) {
+  function create_file (inspirationFile, opt, fileContent) {
 
     //Creates a new file based on the old one
     var newFile = inspirationFile.clone({contents: false});
 
     //Sets the new file name
     newFile.path = join([inspirationFile.base, opt.fileName]);
-
-    var fileContent = isString(opt.format) ?
-      format_paths(relativePaths, opt.format) :
-      format_template(relativePaths, opt.format, opt.template);
 
     newFile.contents = new Buffer(fileContent, "utf-8");
 
