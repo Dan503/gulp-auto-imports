@@ -65,13 +65,13 @@ module.exports = function(opt) {
       return done();
     }
 
-    var fileContent = isString(opt.format) ?
+    var newContent = isString(opt.format) ?
       format_paths(relativePaths, opt.format) :
       format_template(relativePaths, opt.format, opt.template);
 
     var generate_file = () => {
       log(`Generating ${opt.fileName}`);
-      var newFile = create_file(lastFile, opt, fileContent);
+      var newFile = create_file(lastFile, opt, newContent);
       this.push(newFile);
       done();
     }
@@ -88,9 +88,9 @@ module.exports = function(opt) {
     function read_file() {
       fs.readFile(generatedFilePath, (error, data) => {
         if(error) throw error;
-        var content = data.toString();
+        var oldContent = data.toString();
 
-        if (fileContent === content) {
+        if (newContent === oldContent) {
           //Skip file generation
           done();
         } else {
@@ -103,7 +103,7 @@ module.exports = function(opt) {
   return through.obj(bufferContents, endStream);
 
 
-  function create_file (inspirationFile, opt, fileContent) {
+  function create_file (inspirationFile, opt, newContent) {
 
     //Creates a new file based on the old one
     var newFile = inspirationFile.clone({contents: false});
@@ -111,7 +111,7 @@ module.exports = function(opt) {
     //Sets the new file name
     newFile.path = join([inspirationFile.base, opt.fileName]);
 
-    newFile.contents = new Buffer(fileContent, "utf-8");
+    newFile.contents = new Buffer(newContent, "utf-8");
 
     return newFile;
   }
