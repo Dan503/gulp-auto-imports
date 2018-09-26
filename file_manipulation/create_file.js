@@ -1,4 +1,6 @@
 
+var join = require('../helpers/join');
+
 module.exports = function create_file (inspirationFile, opt, newContent) {
 
 	//Creates a new file based on the old one

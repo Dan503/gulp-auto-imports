@@ -16,6 +16,8 @@ var join = require('./helpers/join');
 var get_relative_path = require('./content-generators/get_relative_path');
 var read_file = require('./file_manipulation/read_file');
 var generate_content = require('./content-generators/generate_content');
+var create_file = require('./file_manipulation/create_file');
+var order_content = require('./content-generators/order_content');
 
 module.exports = function(opt) {
   err(!opt.fileName, '"fileName" option is required (file name given to the final output file)')
