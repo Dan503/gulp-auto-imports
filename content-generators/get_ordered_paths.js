@@ -13,6 +13,11 @@ module.exports = function get_ordered_paths ({ oldContent, newPaths }) {
 		}
 	});
 
-	var finalPaths = oldOrderedPaths.concat(newOrderedPaths);
+	var ammendedPaths = oldOrderedPaths.concat(newOrderedPaths);
+
+	var finalPaths = ammendedPaths.filter(path => {
+		return contains(newPaths, path);
+	});
+
 	return finalPaths;
 }
