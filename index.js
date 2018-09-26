@@ -8,19 +8,14 @@
 // npm
 var through = require('through2');
 var fileExists = require('file-exists');
-var fs = require('fs');
 
 // helpers
 var err = require('./helpers/err');
 var log = require('./helpers/log');
-var get_relative_path = require('./helpers/get_relative_path');
 var join = require('./helpers/join');
-
-// formatters
-var format_paths = require('./formatters/format_paths');
-var format_template = require('./formatters/format_template');
-
-var isString = string => typeof string === 'string';
+var get_relative_path = require('./content-generators/get_relative_path');
+var read_file = require('./file_manipulation/read_file');
+var generate_content = require('./content-generators/generate_content');
 
 module.exports = function(opt) {
   err(!opt.fileName, '"fileName" option is required (file name given to the final output file)')
@@ -65,13 +60,9 @@ module.exports = function(opt) {
       return done();
     }
 
-    var newContent = isString(opt.format) ?
-      format_paths(relativePaths, opt.format) :
-      format_template(relativePaths, opt.format, opt.template);
-
-    var generate_file = () => {
+    var generate_file = (content) => {
       log(`Generating ${opt.fileName}`);
-      var newFile = create_file(lastFile, opt, newContent);
+      var newFile = create_file(lastFile, opt, content);
       this.push(newFile);
       done();
     }
@@ -79,41 +70,30 @@ module.exports = function(opt) {
     fileExists(generatedFilePath, (error, exists) => {
       err(error, error);
       if (exists) {
-        read_file();
+        read_file(generatedFilePath)
+        .then( oldContent => {
+
+          var orderedContent = opt.retainOrder ?
+            order_content({ oldContent, newPaths: relativePaths, opt }) :
+            generate_content({ pathsArray: relativePaths, opt });
+
+          if (orderedContent === oldContent) {
+            //Skip file generation
+            done();
+          } else {
+            generate_file(orderedContent);
+          }
+
+        });
       } else {
-        generate_file();
+        generate_file(newContent);
       }
     })
 
-    function read_file() {
-      fs.readFile(generatedFilePath, (error, data) => {
-        if(error) throw error;
-        var oldContent = data.toString();
 
-        if (newContent === oldContent) {
-          //Skip file generation
-          done();
-        } else {
-          generate_file();
-        }
-      })
-    }
   }
 
   return through.obj(bufferContents, endStream);
 
-
-  function create_file (inspirationFile, opt, newContent) {
-
-    //Creates a new file based on the old one
-    var newFile = inspirationFile.clone({contents: false});
-
-    //Sets the new file name
-    newFile.path = join([inspirationFile.base, opt.fileName]);
-
-    newFile.contents = new Buffer(newContent, "utf-8");
-
-    return newFile;
-  }
 
 };

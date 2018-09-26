@@ -1,8 +1,8 @@
 
 var relative = require('relative');
 
-var slash = require('./slash');
-var join = require('./join');
+var slash = require('../helpers/slash');
+var join = require('../helpers/join');
 
 module.exports = function get_relative_path(file, dest) {
   var from = slash( join([file.cwd, dest]) );
