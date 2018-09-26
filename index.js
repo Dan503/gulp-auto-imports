@@ -63,8 +63,8 @@ module.exports = function(opt) {
     }
 
     var generate_file = (content) => {
-      log(`Generating ${opt.fileName}`);
       var newFile = create_file(lastFile, opt, content);
+      log(`Generated ${opt.fileName}`);
       this.push(newFile);
       done();
     }
