@@ -1,5 +1,5 @@
 
-var remove_dupes = require('./remove_dupes');
+var remove_dupes = require('../helpers/remove_dupes');
 
 module.exports = function get_paths_from_string(string){
 	var pathRegEx = /\.\.?\/[^\n"?:*<>|]+\.[A-z0-9]+/g;

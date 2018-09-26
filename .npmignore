@@ -2,3 +2,4 @@ test
 other-test-folder
 gulpfile.js
 gulp
+node_modules

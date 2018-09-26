@@ -22,6 +22,7 @@ gulp.task('sass:load', function(){
 			format: '@import "$path";',
 			dest: dest,
 			fileName: 'file-loader.scss',
+			retainOrder: true,
 		}))
 		.pipe(gulp.dest(dest))
 })

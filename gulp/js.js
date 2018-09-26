@@ -26,6 +26,7 @@ gulp.task('js:load', function(){
 			//needed so that relative paths are able to be generated properly
 			dest: dest,
 			fileName: 'file-loader.js',
+			retainOrder: true,
 			template
 		}))
 		.pipe(gulp.dest(dest))
