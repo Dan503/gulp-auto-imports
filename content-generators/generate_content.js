@@ -14,8 +14,8 @@ module.exports = function generate_content ({ pathsArray, opt }) {
 
 	var defaultHeadFoot = formatIsString ? '\n' : '';
 
-	var header = opt.header ? `\n${opt.header}\n\n` : defaultHeadFoot;
-	var footer = opt.footer ? `\n\n${opt.footer}\n` : defaultHeadFoot;
+	var header = opt.header ? `${opt.header}\n` : defaultHeadFoot;
+	var footer = opt.footer ? `\n${opt.footer}` : defaultHeadFoot;
 
 	return header + output + footer;
 }
