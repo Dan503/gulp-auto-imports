@@ -1,4 +1,6 @@
 
+var gulp = require('gulp');
+
 var dest = 'test/presets';
 
 gulp.task('preset:es5', function(){
