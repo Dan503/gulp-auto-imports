@@ -62,6 +62,8 @@ module.exports = function(opt) {
       return done();
     }
 
+    var new_content = ()=> generate_content({ pathsArray: relativePaths, opt });
+
     var generate_file = (content) => {
       var newFile = create_file(lastFile, opt, content);
       log(`Generated ${opt.fileName}`);
@@ -77,7 +79,7 @@ module.exports = function(opt) {
 
           var orderedContent = opt.retainOrder ?
             order_content({ oldContent, newPaths: relativePaths, opt }) :
-            generate_content({ pathsArray: relativePaths, opt });
+            new_content();
 
           if (orderedContent === oldContent) {
             //Skip file generation
@@ -88,7 +90,7 @@ module.exports = function(opt) {
 
         });
       } else {
-        generate_file(newContent);
+        generate_file( new_content() );
       }
     })
 
