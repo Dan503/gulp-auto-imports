@@ -1,5 +1,6 @@
 
 var gulp = require('gulp');
+var fileLoader = require('../');
 
 var dest = 'test/presets';
 
