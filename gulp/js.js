@@ -16,11 +16,11 @@ $format[functions]
 
 gulp.task('js:load', function(){
 
-	var dest = 'test/js';
+	var dest = 'tests/test/js';
 
 	return gulp.src([
-		'./test/js/js-input/**/*.js',
-		'./other-test-folder/js/**/*.js'
+		'./tests/test/js/js-input/**/*.js',
+		'./tests/other-test-folder/js/**/*.js'
 	])
 		.pipe(fileLoader({
 			format: {
@@ -40,7 +40,7 @@ gulp.task('js', ['js:load']);
 
 gulp.task('js:watch', function () {
   gulp.watch([
-		'./test/js/js-input/**/*.js',
-		'./other-test-folder/js/**/*.js'
+		'./tests/test/js/js-input/**/*.js',
+		'./tests/other-test-folder/js/**/*.js'
 	], ['js']);
 });

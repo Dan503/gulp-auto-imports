@@ -12,18 +12,18 @@ var header = `
 `;
 
 gulp.task('sass', ['sass:load'], function(){
-	return gulp.src('./test/scss/main.scss')
+	return gulp.src('./tests/test/scss/main.scss')
 		.pipe(sass().on('error', sass.logError))
-		.pipe(gulp.dest('./test/css'));
+		.pipe(gulp.dest('./tests/test/css'));
 });
 
 gulp.task('sass:load', function(){
 
-	var dest = 'test/scss';
+	var dest = 'tests/test/scss';
 
 	return gulp.src([
-		'./test/scss/scss-input/**/*.scss',
-		'./other-test-folder/scss/**/*.scss'
+		'./tests/test/scss/scss-input/**/*.scss',
+		'./tests/other-test-folder/scss/**/*.scss'
 	])
 		.pipe(fileLoader({
 			format: '@import "$path";',
@@ -37,7 +37,7 @@ gulp.task('sass:load', function(){
 
 gulp.task('sass:watch', function () {
   gulp.watch([
-		'./test/scss/scss-input/**/*.scss',
-		'./other-test-folder/scss/**/*.scss'
+		'./tests/test/scss/scss-input/**/*.scss',
+		'./tests/other-test-folder/scss/**/*.scss'
 	], ['sass']);
 });

@@ -10,11 +10,11 @@ var header = `
 
 gulp.task('pug:load', function(){
 
-	var dest = 'test/pug';
+	var dest = 'tests/test/pug';
 
 	return gulp.src([
-		'./test/pug/pug-input/**/*.pug',
-		'./other-test-folder/pug/**/*.pug'
+		'./tests/test/pug/pug-input/**/*.pug',
+		'./tests/other-test-folder/pug/**/*.pug'
 	])
 		.pipe(fileLoader({
 			format: 'include $path',
@@ -30,7 +30,7 @@ gulp.task('pug', ['pug:load']);
 
 gulp.task('pug:watch', function () {
   gulp.watch([
-		'./test/pug/pug-input/**/*.pug',
-		'./other-test-folder/pug/**/*.pug'
+		'./tests/test/pug/pug-input/**/*.pug',
+		'./tests/other-test-folder/pug/**/*.pug'
 	], ['pug']);
 });
