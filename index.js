@@ -75,7 +75,7 @@ module.exports = function(opt) {
 
     var generate_file = (content) => {
       var newFile = create_file(lastFile, opt, content);
-      log(`Generated ${c.yellow( opt.fileName )}`);
+      log(`Generated ${ c.magenta( join([opt.dest, c.yellow( opt.fileName )]) ) }`);
       this.push(newFile);
       done();
     }
