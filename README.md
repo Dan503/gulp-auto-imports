@@ -4,7 +4,18 @@ _Auto generate import-only files for any file type. scss, js, pug, whatever you 
 
 [![Supported Node version](https://img.shields.io/node/v/gulp-file-loader.svg?style=for-the-badge)](https://nodejs.org/en/)
 
-Are you sick of having to manually manage scss files that look like this?
+Are you sick of having to manually manage files that are purely just a bunch of import statements?
+
+Wouldn't it be awesome if Gulp could just look at your file system and manage this busy work for you?
+
+That is where Gulp File Loader comes in. Gulp File Loader will automatically manage these import-only files for you giving you more time to worry about the important stuff.
+
+Due to it's high level of customization, Gulp File Loader is able to generate any import file you can imagine. SCSS, JS, Pug, PHP, you name it, it can create an import file for it (assuming the language supports import functionality in some way).
+
+
+## Before and after Gulp File Loader <!-- omit in toc -->
+
+### SCSS Before <!-- omit in toc -->
 
 ```scss
 @import "../components/component-A/A.scss";
@@ -13,7 +24,13 @@ Are you sick of having to manually manage scss files that look like this?
 @import "../components/component-D/D.scss";
 ```
 
-Or Javascript files that look like this?
+### SCSS After <!-- omit in toc -->
+
+```scss
+@import "./file-loader.scss";
+```
+
+### JS before <!-- omit in toc -->
 
 ```js
 import $ from 'jquery';
@@ -31,11 +48,29 @@ $(() => {
 })
 ```
 
-Wouldn't it be awesome if Gulp could just look at your file system and manage this busy work for you?
+### JS after <!-- omit in toc -->
 
-That is where Gulp File Loader comes in. Gulp File Loader will automatically manage these import-only files for you giving you more time to worry about the important stuff.
+```js
+import $ from 'jquery';
 
-Due to it's high level of customization, Gulp File Loader is able to generate any import file you can imagine. SCSS, JS, Pug, PHP, you name it, it can create an import file for it (assuming the language supports import functionality in some way).
+import fileLoader from "./fileLoader.js";
+
+$(() => {
+  fileLoader();
+})
+```
+
+## Contents <!-- omit in toc -->
+
+- [Install](#install)
+- [Manual SCSS set up](#manual-scss-set-up)
+  - [Gulp 4 SCSS set up](#gulp-4-scss-set-up)
+- [Manual JS set up](#manual-js-set-up)
+- [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
+  - [$name](#name)
+  - [$path](#path)
+  - [Using indents](#using-indents)
+- [Other settings](#other-settings)
 
 ## Install
 
@@ -67,8 +102,7 @@ For my examples, I am assuming a folder structure that looks like this:
   |  |  |  main.css
 ```
 
-
-## Basic SCSS set up
+## Manual SCSS set up
 
 I'll use SCSS as an example first because it is both simple and popular. You will need the Gulp Sass plugin for this to work
 (`npm i gulp-sass -D`)
@@ -96,6 +130,7 @@ gulp.task('sass:load', function(){
       format: '@import "$path";',
       dest: dest,
       fileName: 'file-loader.scss',
+      retainOrder: true,
     }))
     .pipe(gulp.dest(dest))
   })
@@ -164,6 +199,7 @@ gulp.task('sass:load', function(){
       format: '@import "$path";',
       dest: dest,
       fileName: 'file-loader.scss',
+      retainOrder: true,
     }))
     .pipe(gulp.dest(dest))
   })
@@ -181,7 +217,7 @@ gulp.task('sass:compile', function(){
 gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
 ```
 
-## Basic JS set up
+## Manual JS set up
 
 JS is slightly more complicated.
 
