@@ -65,6 +65,7 @@ $(() => {
 - [Install](#install)
 - [Manual SCSS set up](#manual-scss-set-up)
   - [Gulp 4 SCSS set up](#gulp-4-scss-set-up)
+  - [`retainOrder` setting](#retainorder-setting)
 - [Manual JS set up](#manual-js-set-up)
 - [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
   - [$name](#name)
@@ -176,8 +177,6 @@ Alternatively you can make `file-loader.scss` your main scss file instead and sk
 
 You can now auto-load you're component scss files! 😃
 
-**Warning:** CSS is highly dependent on the order that rules appear in. Gulp File Loader currently does not allow the order that imports appear in to be altered. This is however a feature planned for a future release.
-
 ### Gulp 4 SCSS set up
 
 If you are using Gulp 4, the set-up will look more like this:
@@ -216,6 +215,18 @@ gulp.task('sass:compile', function(){
 // ensure that 'sass:load' runs before 'sass:compile'
 gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
 ```
+
+### `retainOrder` setting
+
+You may have noticed that I added a setting called `retainOrder`.
+
+In CSS, the order that styles are written in matters significantly. It is important that you are able to alter the order that files are loaded in if you wish to have full control over your CSS specificity.
+
+Other globing methods (eg. `@import "../path/to/components/**/*.scss";`) do not give you the ability to alter the order that the files are loaded in. You are generally restricted to loading files in alphabetical order. Gulp File Loader gives you back the ability to control the order your CSS loads in with it's `retainOrder` setting (introduced in v2.0.0).
+
+By default `retainOrder` is set to `false`. When `retainOrder` is set to `true`, Gulp File Loader will not alter the order of the existing import paths if you manually edit them yourself. Make sure that if you enable the `retainOrder` setting you **save the output file into source control**. This will ensure that your co-workers don't end up with a CSS file that is in a different order to yours.
+
+Gulp File Loader will still delete old files from the list that don't exist any more. It will also add any new files it finds to the bottom of the list. It will not retain any comments or other alterations to the file. It will only retain the order that the imports were announced in.
 
 ## Manual JS set up
 
