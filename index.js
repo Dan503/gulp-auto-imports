@@ -19,7 +19,14 @@ var generate_content = require('./content-generators/generate_content');
 var create_file = require('./file_manipulation/create_file');
 var order_content = require('./content-generators/order_content');
 
+var presets = require('./content-generators/preset-settings');
+
 module.exports = function(opt) {
+
+  if (opt.preset) {
+    opt = Object.assign(presets[opt.preset], opt);
+  }
+
   err(!opt.fileName, '"fileName" option is required (file name given to the final output file)')
   err(!opt.format, '"format" option is required. (format of each import line in the generated file)')
   err(!opt.dest, '"dest" option is required. (Should be the same as the gulp.dest() value)')
@@ -62,6 +69,8 @@ module.exports = function(opt) {
       return done();
     }
 
+    var new_content = ()=> generate_content({ pathsArray: relativePaths, opt });
+
     var generate_file = (content) => {
       var newFile = create_file(lastFile, opt, content);
       log(`Generated ${opt.fileName}`);
@@ -77,7 +86,7 @@ module.exports = function(opt) {
 
           var orderedContent = opt.retainOrder ?
             order_content({ oldContent, newPaths: relativePaths, opt }) :
-            generate_content({ pathsArray: relativePaths, opt });
+            new_content();
 
           if (orderedContent === oldContent) {
             //Skip file generation
@@ -88,7 +97,7 @@ module.exports = function(opt) {
 
         });
       } else {
-        generate_file(newContent);
+        generate_file( new_content() );
       }
     })
 
