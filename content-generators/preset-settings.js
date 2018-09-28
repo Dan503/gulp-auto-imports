@@ -9,6 +9,7 @@ var presets = {
   pug: require("../presets/pug.js"),
   sass: require("../presets/sass.js"),
   scss: require("../presets/scss.js"),
+  stylus: require("../presets/stylus.js"),
 }
 
 module.exports = presets;

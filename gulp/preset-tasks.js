@@ -58,11 +58,21 @@ gulp.task('preset:scss', function(){
 		.pipe(gulp.dest(dest))
 })
 
+gulp.task('preset:stylus', function(){
+	return gulp.src([
+		'./test/stylus/stylus-input/**/*.styl',
+		'./other-test-folder/stylus/**/*.styl'
+	])
+		.pipe(fileLoader({ preset: 'stylus', dest: dest, fileName: 'preset.styl'}))
+		.pipe(gulp.dest(dest))
+})
+
 gulp.task('presets', [
 	'preset:es5',
 	'preset:es6',
 	'preset:jade',
 	'preset:pug',
 	'preset:sass',
-	'preset:scss'
+	'preset:scss',
+	'preset:stylus',
 ])
