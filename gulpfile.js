@@ -12,7 +12,8 @@ gulp.task('default', [
 	'sass',
 	'pug',
 	'preset-loader',
-	// 'presets'
-]);
+], ()=> {
+	gulp.start('presets');
+});
 
 gulp.task('watch', ['default', 'js:watch', 'sass:watch', 'pug:watch']);
