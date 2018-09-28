@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "Auto generate import-only files for any file type. scss, js, pug, whatever you want.",
   "dependencies": {
+    "chalk": "^2.4.1",
     "file-exists": "^5.0.1",
     "relative": "^3.0.2",
     "through2": "^2.0.3"

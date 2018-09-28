@@ -8,10 +8,12 @@
 // npm
 var through = require('through2');
 var fileExists = require('file-exists');
+var c = require('chalk');
 
 // helpers
 var err = require('./helpers/err');
 var log = require('./helpers/log');
+var isString = require('./helpers/isString');
 var join = require('./helpers/join');
 var get_relative_path = require('./content-generators/get_relative_path');
 var read_file = require('./file_manipulation/read_file');
@@ -21,15 +23,19 @@ var order_content = require('./content-generators/order_content');
 
 var presets = require('./content-generators/preset-settings');
 
+var dest_error = require('./error-messages/dest');
+var format_error = require('./error-messages/format');
+var fileName_error = require('./error-messages/fileName');
+
 module.exports = function(opt) {
 
   if (opt.preset) {
     opt = Object.assign(presets[opt.preset], opt);
   }
 
-  err(!opt.fileName, '"fileName" option is required (file name given to the final output file)')
-  err(!opt.format, '"format" option is required. (format of each import line in the generated file)')
-  err(!opt.dest, '"dest" option is required. (Should be the same as the gulp.dest() value)')
+  err(!opt.fileName, fileName_error)
+  err(!opt.format, format_error)
+  err(!opt.dest, dest_error)
 
   var lastFile;
   var latestMod;
@@ -43,12 +49,8 @@ module.exports = function(opt) {
       return done();
     }
 
-    // It doesn't support streams
-    if (file.isStream()) {
-      this.emit('error', new Error('gulp-file-loader: Streaming not supported'));
-      done();
-      return;
-    }
+    // gulp-file-loader doesn't support streams
+    err(file.isStream(), 'Streaming is not supported');
 
     // set latest file if not already set,
     // or if the current file was modified more recently.
@@ -73,7 +75,7 @@ module.exports = function(opt) {
 
     var generate_file = (content) => {
       var newFile = create_file(lastFile, opt, content);
-      log(`Generated ${opt.fileName}`);
+      log(`Generated ${c.yellow( opt.fileName )}`);
       this.push(newFile);
       done();
     }
