@@ -11,21 +11,21 @@ var fileExists = require('file-exists');
 var c = require('chalk');
 
 // helpers
-var err = require('./helpers/err');
-var log = require('./helpers/log');
-var isString = require('./helpers/isString');
-var join = require('./helpers/join');
-var get_relative_path = require('./content-generators/get_relative_path');
-var read_file = require('./file_manipulation/read_file');
-var generate_content = require('./content-generators/generate_content');
-var create_file = require('./file_manipulation/create_file');
-var order_content = require('./content-generators/order_content');
+var err = require('./core/helpers/err');
+var log = require('./core/helpers/log');
+var isString = require('./core/helpers/isString');
+var join = require('./core/helpers/join');
+var get_relative_path = require('./core/content-generators/get_relative_path');
+var read_file = require('./core/file_manipulation/read_file');
+var generate_content = require('./core/content-generators/generate_content');
+var create_file = require('./core/file_manipulation/create_file');
+var order_content = require('./core/content-generators/order_content');
 
-var presets = require('./content-generators/preset-settings');
+var presets = require('./core/content-generators/preset-settings');
 
-var dest_error = require('./error-messages/dest');
-var format_error = require('./error-messages/format');
-var fileName_error = require('./error-messages/fileName');
+var dest_error = require('./core/error-messages/dest');
+var format_error = require('./core/error-messages/format');
+var fileName_error = require('./core/error-messages/fileName');
 
 module.exports = function(opt) {
 

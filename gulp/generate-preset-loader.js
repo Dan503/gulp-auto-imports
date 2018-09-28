@@ -15,7 +15,7 @@ module.exports = presets;
 
 gulp.task('preset-loader', function(){
 
-	var dest = 'content-generators';
+	var dest = 'core/content-generators';
 
 	return gulp.src('./presets/*.js')
 		.pipe(fileLoader({

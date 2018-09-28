@@ -3,13 +3,13 @@
 // Run "gulp" or "gulp preset-loader" to generate this file instead.
 
 var presets = {
-  es5: require("../presets/es5.js"),
-  es6: require("../presets/es6.js"),
-  jade: require("../presets/jade.js"),
-  pug: require("../presets/pug.js"),
-  sass: require("../presets/sass.js"),
-  scss: require("../presets/scss.js"),
-  stylus: require("../presets/stylus.js"),
+  es5: require("../../presets/es5.js"),
+  es6: require("../../presets/es6.js"),
+  jade: require("../../presets/jade.js"),
+  pug: require("../../presets/pug.js"),
+  sass: require("../../presets/sass.js"),
+  scss: require("../../presets/scss.js"),
+  stylus: require("../../presets/stylus.js"),
 }
 
 module.exports = presets;
