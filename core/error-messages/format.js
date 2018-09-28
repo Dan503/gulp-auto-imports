@@ -2,7 +2,7 @@
 var c = require('chalk');
 
 module.exports =
-`${c.yellow('"format"')} option is required.
+`"${c.yellow('format')}" option is required.
 ${c.grey('This dictates the format of each import line in the generated file.')}
 
 ${c.bold('Example:')}

@@ -2,7 +2,7 @@
 var c = require('chalk');
 
 module.exports =
-`${c.yellow('"template"')} option is required if ${c.yellow('"format"')} is an object.
+`"${c.yellow('template')}" option is required if "${c.yellow('format')}" is an object.
 ${c.grey('This dictates the overall structure of the generated file.')}
 
 ${c.bold('Example:')}
