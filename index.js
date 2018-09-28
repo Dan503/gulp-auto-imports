@@ -19,7 +19,14 @@ var generate_content = require('./content-generators/generate_content');
 var create_file = require('./file_manipulation/create_file');
 var order_content = require('./content-generators/order_content');
 
+var presets = require('./content-generators/preset-settings');
+
 module.exports = function(opt) {
+
+  if (opt.preset) {
+    opt = Object.assign(presets[opt.preset], opt);
+  }
+
   err(!opt.fileName, '"fileName" option is required (file name given to the final output file)')
   err(!opt.format, '"format" option is required. (format of each import line in the generated file)')
   err(!opt.dest, '"dest" option is required. (Should be the same as the gulp.dest() value)')
