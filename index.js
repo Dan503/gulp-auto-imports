@@ -7,25 +7,39 @@
 
 // npm
 var through = require('through2');
+var fileExists = require('file-exists');
+var c = require('chalk');
 
 // helpers
-var err = require('./helpers/err');
-var get_relative_path = require('./helpers/get_relative_path');
-var join = require('./helpers/join');
+var err = require('./core/helpers/err');
+var log = require('./core/helpers/log');
+var isString = require('./core/helpers/isString');
+var join = require('./core/helpers/join');
+var get_relative_path = require('./core/content-generators/get_relative_path');
+var read_file = require('./core/file_manipulation/read_file');
+var generate_content = require('./core/content-generators/generate_content');
+var create_file = require('./core/file_manipulation/create_file');
+var order_content = require('./core/content-generators/order_content');
 
-// formatters
-var format_paths = require('./formatters/format_paths');
-var format_template = require('./formatters/format_template');
+var presets = require('./core/content-generators/preset-settings');
 
-var isString = string => typeof string === 'string';
+var dest_error = require('./core/error-messages/dest');
+var format_error = require('./core/error-messages/format');
+var fileName_error = require('./core/error-messages/fileName');
 
 module.exports = function(opt) {
-  err(!opt.fileName, '"fileName" option is required (file name given to the final output file)')
-  err(!opt.format, '"format" option is required. (format of each import line in the generated file)')
-  err(!opt.dest, '"dest" option is required. (Should be the same as the gulp.dest() value)')
 
-  var latestFile;
+  if (opt.preset) {
+    opt = Object.assign(presets[opt.preset], opt);
+  }
+
+  err(!opt.fileName, fileName_error)
+  err(!opt.format, format_error)
+  err(!opt.dest, dest_error)
+
+  var lastFile;
   var latestMod;
+  var generatedFilePath = join([opt.dest, opt.fileName]);
 
   var relativePaths = [];
 
@@ -35,17 +49,13 @@ module.exports = function(opt) {
       return done();
     }
 
-    // It doesn't support streams
-    if (file.isStream()) {
-      this.emit('error', new Error('gulp-file-loader: Streaming not supported'));
-      done();
-      return;
-    }
+    // gulp-file-loader doesn't support streams
+    err(file.isStream(), 'Streaming is not supported');
 
     // set latest file if not already set,
     // or if the current file was modified more recently.
     if (!latestMod || file.stat && file.stat.mtime > latestMod) {
-      latestFile = file;
+      lastFile = file;
       latestMod = file.stat && file.stat.mtime;
     }
 
@@ -57,29 +67,46 @@ module.exports = function(opt) {
   function endStream(done) {
 
     // no files passed in, no file goes out
-    if (!latestFile) {
+    if (!lastFile) {
       return done();
     }
 
-    //Creates a new file based on the old one
-    var newFile = latestFile.clone({contents: false});
+    var new_content = ()=> generate_content({ pathsArray: relativePaths, opt });
 
-    //Sets the new file name
-    newFile.path = join([latestFile.base, opt.fileName]);
+    var generate_file = (content) => {
+      var newFile = create_file(lastFile, opt, content);
+      log(`Generated ${ c.magenta( join([opt.dest, c.yellow( opt.fileName )]) ) }`);
+      this.push(newFile);
+      done();
+    }
 
-    var fileContent = isString(opt.format) ?
-      format_paths(relativePaths, opt.format) :
-      format_template(relativePaths, opt.format, opt.template);
+    fileExists(generatedFilePath, (error, exists) => {
+      err(error, error);
+      if (exists) {
+        read_file(generatedFilePath)
+        .then( oldContent => {
 
-    //Adds the content to the file
-    newFile.contents =  new Buffer(fileContent, "utf-8");
+          var orderedContent = opt.retainOrder ?
+            order_content({ oldContent, newPaths: relativePaths, opt }) :
+            new_content();
 
-    this.push(newFile);
-    done();
+          if (orderedContent === oldContent) {
+            //Skip file generation
+            done();
+          } else {
+            generate_file(orderedContent);
+          }
+
+        });
+      } else {
+        generate_file( new_content() );
+      }
+    })
+
+
   }
 
   return through.obj(bufferContents, endStream);
+
+
 };
-
-
-
