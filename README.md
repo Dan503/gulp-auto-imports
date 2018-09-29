@@ -351,6 +351,7 @@ The `$name` placeholder in the `format` setting is replaced with the file name o
 
 gulp_file_loader_is_awesome_123
 ```
+
 If there are duplicate file names, a number is added to the end of the name based on how many duplicates it has found to ensure that each name is unique.
 
 ```
@@ -363,15 +364,19 @@ thing
 thing_1
 ```
 
+The `$name` placeholder is excellent for use cases where you need to assign an import path to a variable name.
+
+You can use the `$name` placeholder as much as you like. That includes having the `$name` placeholder appear multiple times in a single format rule. The `$name` will always refer to the same import path.
+
 ### The `$path` placeholder
 
 The `$path` placeholder in the `format` setting is replaced with a relative path that goes from the file-loader output file to the file that is being loaded in.
 
-`$path` can only be declared once per format rule.
-
 ```
 $path = ./path/to/file.ext
 ```
+
+`$path` can only be declared once per format rule.
 
 ### Using indents
 
