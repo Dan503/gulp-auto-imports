@@ -1,6 +1,6 @@
 # Gulp File Loader
 
-_Auto generate import-only files for any file type. scss, js, pug, whatever you want._
+_Auto generate import-only files for any file type. SCSS, JS, Pug, whatever you want._
 
 [![Supported Node version](https://img.shields.io/node/v/gulp-file-loader.svg?style=for-the-badge)](https://nodejs.org/en/)
 
