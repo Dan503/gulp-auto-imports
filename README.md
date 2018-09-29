@@ -85,26 +85,30 @@ Install Gulp File Loader using the following command:
 npm install gulp-file-loader --save-dev
 ```
 
-For my examples, I am assuming a folder structure that looks like this:
+For my examples, I am assuming that the project folder structure looks like this:
 
 ```
 [root]
-  source
-  |  components
-  |  |  [component folders]
-  |  |  |  [component files]
-  |  js
-  |  |  file-loader.js
-  |  |  main.js
-  |  scss
-  |  |  config
-  |  |  |  [scss config files]
-  |  |  file-loader.scss
-  |  |  main.scss
-  build
-  |  assets
-  |  |  css
-  |  |  |  main.css
+|  source
+|  |  components
+|  |  |  [component-folders]
+|  |  |  |  [component-name].js
+|  |  |  |  [component-name].scss
+|  |  js
+|  |  |  file-loader.js
+|  |  |  main.js
+|  |  scss
+|  |  |  config
+|  |  |  |  [scss-config-files]
+|  |  |  file-loader.scss
+|  |  |  main.scss
+|  build
+|  |  assets
+|  |  |  css
+|  |  |  |  main.css
+|  |  |  js
+|  |  |  |  main.js
+| gulpfile.js
 ```
 
 ## Manual SCSS set up
@@ -122,7 +126,8 @@ var fileLoader = require('gulp-file-loader');
 
 gulp.task('sass:load', function(){
 
-  var dest = './source/scss';
+  // Always relative to gulpfile.js even if this code is inside a folder
+  var dest = 'source/scss';
 
   // Do not leave off the "return", it is vital!
   return gulp.src([
@@ -133,8 +138,11 @@ gulp.task('sass:load', function(){
     .pipe(fileLoader({
       // "$path" is replaced with a relative file path
       format: '@import "$path";',
+      // destination folder (must match gulp.dest)
       dest: dest,
+      // name of the output file
       fileName: 'file-loader.scss',
+      // Don't change the order that imports are currently in
       retainOrder: true,
     }))
     .pipe(gulp.dest(dest))
@@ -151,6 +159,18 @@ The output of this Gulp task will look something like this:
 @import "./config/A.scss";
 @import "./config/B.scss";
 @import "../components/one/one.scss";
+@import "../components/two/two.scss";
+```
+
+Due to the `retainOrder: true` setting, you can rearrange the output. Gulp File Loader will preserve the order when it recompiles.
+
+```scss
+// Rearrange the output and Gulp File Loader will preserve it
+// (Requires the `retainOrder` setting to be enabled)
+
+@import "../components/one/one.scss";
+@import "./config/A.scss";
+@import "./config/B.scss";
 @import "../components/two/two.scss";
 ```
 
@@ -176,9 +196,22 @@ Finally add this line to your main scss file:
 @import "./file-loader.scss";
 ```
 
-Alternatively you can make `file-loader.scss` your main scss file instead and skip that last step.
+Alternatively you can make `file-loader.scss` your main scss file and skip that last step altogether. This removes the need for a main.scss file.
 
-You can now auto-load you're component scss files! 😃
+```js
+// Use file-loader.scss as the main scss file if you want
+
+var gulp = require('gulp');
+var sass = require('gulp-sass');
+
+gulp.task('sass', ['sass:load'], function(){
+  return gulp.src('./source/scss/file-loader.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./build/assets/css'));
+});
+```
+
+You can now auto-load all of you're component scss files while still retaining full control over CSS source order! 😃
 
 ### Gulp 4 SCSS set up
 
@@ -191,8 +224,9 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var fileLoader = require('gulp-file-loader');
 
+// The "sass:load" task is identical to the Gulp 3 version
 gulp.task('sass:load', function(){
-  var dest = './source/scss';
+  var dest = 'source/scss';
   return gulp.src([
     './source/scss/config/**/*.scss',
     './source/components/**/*.scss'
@@ -207,21 +241,21 @@ gulp.task('sass:load', function(){
   })
 })
 
-// ['sass:load'] removed from sass compile task
+// ['sass:load'] removed from Gulp 4 "sass:compile" task
 gulp.task('sass:compile', function(){
   return gulp.src('./source/scss/main.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./build/assets/css'));
 });
 
-// The main sass task uses gulp.series to
-// ensure that 'sass:load' runs before 'sass:compile'
+// The main sass task uses gulp.series() to
+// ensure that "sass:load" runs before "sass:compile"
 gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
 ```
 
 ### The `retainOrder` setting
 
-You may have noticed that I added a setting called `retainOrder`.
+I briefly touched on the `retainOrder` setting earlier, however there is a bit more to know about it.
 
 In CSS, the order that styles are written in matters significantly. It is important that you are able to alter the order that files are loaded in if you wish to have full control over your CSS specificity.
 
@@ -253,11 +287,11 @@ $format[functions]
 
 gulp.task('js:load', function(){
 
-  var dest = './source/js';
+  var dest = 'source/js';
 
   return gulp.src('./source/components/**/*.js')
     .pipe(fileLoader({
-      // Format is now split into an object
+      // Format is now split into an object holding named format strings
       format: {
         // "$name" is replaced with the name of the file
         imports: 'import $name from "$path";',
@@ -322,7 +356,7 @@ $(() => {
 Note that a typical component js file will need to export a function by default for this configuration to work.
 
 ```js
-// component js file
+// component js file example
 
 export default function on_page_load() {
   // Place code here that you wish to run
@@ -338,7 +372,7 @@ Remember that Template Literal's count all white space literally, so any white s
 
 The template works by replacing each `$format[formatName]` statement with a full list of imports formated in the specified way provided in the `format` object.
 
-If the format is provided as a string, the template is ignored. If it is provided as an object, a template is required.
+If the `format` setting is provided as a string, the `template` setting is ignored. If `format` is provided as an object, the `template` setting is required.
 
 ### The `$name` placeholder
 
@@ -431,9 +465,9 @@ $format[functions]
 }
 `;
 
-// ...
+// ... other Gulp code ...
 
-fileLoader({
+.pipe(fileLoader({
   format: {
     imports: 'import $name from "$path";',
     // The indent is added here, not in the template
@@ -442,7 +476,7 @@ fileLoader({
   dest: dest,
   fileName: 'file-loader.js',
   template: template
-})
+}))
 ```
 
 That will produce the desired output:
@@ -506,25 +540,25 @@ var default_settings = {
 
 <dl>
   <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/es6.js">es6</a></dt>
-  <dd>JavaScript imports that use the modern <code>import thing from './file.js';</code> syntax.</dd>
+  <dd>JavaScript imports that use the modern import syntax (<code>import thing from './file.js';</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/es5.js">es5</a></dt>
-  <dd>JavaScript imports that use the CommonJS <code>var thing = require('./file.js');</code> syntax.</dd>
+  <dd>JavaScript imports that use the old CommonJS syntax (<code>var thing = require('./file.js');</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/pug.js">pug</a></dt>
-  <dd>Intended for use with builds that use <a href="https://pugjs.org/api/getting-started.html">Pug</a> as the templating language <code>include ./file.pug</code>.</dd>
+  <dd>Intended for use with builds that use <a href="https://pugjs.org/api/getting-started.html">Pug</a> as the templating language (<code>include ./file.pug</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/jade.js">jade</a></dt>
-  <dd>For use on projects that haven't upgraded their old <a href="http://jade-lang.com/">Jade</a> powered projects to <a href="https://pugjs.org/api/getting-started.html">Pug</a> yet <code>include ./file.jade</code>.</dd>
+  <dd>For use on projects that haven't upgraded their old <a href="http://jade-lang.com/">Jade</a> powered projects to <a href="https://pugjs.org/api/getting-started.html">Pug</a> yet (<code>include ./file.jade</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/scss.js">scss</a></dt>
-  <dd>Sass import statements that use the <a href="https://sass-lang.com/guide">newer SCSS style syntax</a> <code>@import "./file.scss";</code>.</dd>
+  <dd>Sass import statements that use the <a href="https://sass-lang.com/guide">newer SCSS style syntax</a> (<code>@import "./file.scss";</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/sass.js">sass</a></dt>
-  <dd>Sass import statements that use the <a href="http://sass-lang.com/documentation/file.INDENTED_SYNTAX.html">older indented style syntax</a> <code>@import ./file.sass</code>.</dd>
+  <dd>Sass import statements that use the <a href="http://sass-lang.com/documentation/file.INDENTED_SYNTAX.html">older indented style syntax</a> (<code>@import ./file.sass</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/stylus.js">stylus</a></dt>
-  <dd>Intended for use with the <a href="http://stylus-lang.com/">Stylus</a> CSS generation language <code>@import "./file.styl"</code>.</dd>
+  <dd>Intended for use with the <a href="http://stylus-lang.com/">Stylus</a> CSS generation language (<code>@import "./file.styl"</code>).</dd>
 </dl>
 
 You can browse the available presets and see what their settings look like in [the `presets` folder](https://github.com/Dan503/gulp-file-loader/tree/master/presets). The presets are named after the file names in that folder.
@@ -549,7 +583,7 @@ You can override any of the preset settings by providing your own alternative se
   <dd>A string of text that is added to the <strong>top</strong> of the output file when it is generated. This is good for leaving comments like "<code style="white-space: nowrap;">// Do not edit this file</code>".</dd>
 
   <dt>footer</dt>
-  <dd>A string of text that is added to the <strong>bottom</strong> of the output file when it is generated. This might be useful for calling a custom function at the bottom of the file after all the imports have loaded.</dd>
+  <dd>A string of text that is added to the <strong>bottom</strong> of the output file when it is generated. This might be useful for calling a custom function at the bottom of the file after all the imports have been loaded.</dd>
 
   <dt>format</dt>
   <dd>The format setting dictates the format of each import line in the generated file. It can either be a string or an object holding multiple named strings. If you provide an object to this setting, the <code>template</code> setting is also required. Use the <code>$path</code> and <code>$name</code> placeholders inside the string to determine where the file path and name should go.</dd>
@@ -561,7 +595,7 @@ You can override any of the preset settings by providing your own alternative se
   <dd>A string holding the file name for the output file. The file extension must be included.</dd>
 
   <dt>dest</dt>
-  <dd>Should be identical to the setting used in <code>gulp.dest</code>. It determines where the output file is sent after processing. It is <strong>always</strong> a relative path from <code>gulpfile.js</code>,  <strong>not a relative path from the current file</strong>. Example: <code>path/to/destination</code>. The <code>gulp.dest</code> setting is unavailable at the time the plugin is called, thus the setting needs to be provided explicitly.</dd>
+  <dd>Should be identical to the setting used in <code>gulp.dest</code>. It determines where the output file is sent after processing. It is <strong>always</strong> a relative path from <code>gulpfile.js</code>,  <strong>not a relative path from the current file</strong>. Example: <code>"path/to/destination"</code>. The <code>gulp.dest</code> setting is unavailable at the time the plugin is called, thus the setting needs to be provided explicitly.</dd>
 
   <dt>retainOrder</dt>
   <dd>This is set to <code>false</code> by default. When set to <code>true</code>, it will never alter the order that imports are loaded in. This gives you the ability to manually edit the output file to achieve the desired import order. Make sure to <strong>save the output file into source control</strong> so that your team mates end up with a file that is in the same order as yours.</dd>
