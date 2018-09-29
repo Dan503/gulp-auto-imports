@@ -319,6 +319,17 @@ $(() => {
 })
 ```
 
+Note that a typical component js file will need to export a function by default for this configuration to work.
+
+```js
+// component js file
+
+export default function on_page_load() {
+  // Place code here that you wish to run
+  // when the `fileLoader()` function is called
+}
+```
+
 ## Understanding the `format` and `template` settings
 
 It is recommended that you use an ES6 Template Literal (the back tick style strings) for creating the template rather than regular strings. Template Literals will allow you to define the markup found inside the output file exactly as written in a single string. Regular strings don't accept new lines so it makes writing the template much more difficult.
