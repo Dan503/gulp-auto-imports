@@ -65,11 +65,11 @@ $(() => {
 - [Install](#install)
 - [Manual SCSS set up](#manual-scss-set-up)
   - [Gulp 4 SCSS set up](#gulp-4-scss-set-up)
-  - [`retainOrder` setting](#retainorder-setting)
+  - [The `retainOrder` setting](#the-retainorder-setting)
 - [Manual JS set up](#manual-js-set-up)
 - [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
-  - [$name](#name)
-  - [$path](#path)
+  - [The `$name` placeholder](#the-name-placeholder)
+  - [The `$path` placeholder](#the-path-placeholder)
   - [Using indents](#using-indents)
 - [Other settings](#other-settings)
 
@@ -169,7 +169,6 @@ Finally add this line to your main scss file:
 
 ```scss
 // Import the file-loader.scss file from main.scss
-
 @import "./file-loader.scss";
 ```
 
@@ -216,7 +215,7 @@ gulp.task('sass:compile', function(){
 gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
 ```
 
-### `retainOrder` setting
+### The `retainOrder` setting
 
 You may have noticed that I added a setting called `retainOrder`.
 
@@ -299,7 +298,7 @@ gulp.task('js', ['js:load'], function(){
 });
 ```
 
-Depending on how your unique gulp set up looks, this may not be the best way to do it. The main point is that the file-loader task _must_ be completed before the main.js file is compiled. If you want to squeeze out more performance, it only needs to run if there are either new files added to the system or if files have been removed from the system. I might add this as an automated feature in the future but for now it runs every time it is called.
+Depending on how your unique gulp set up looks, this may not be the best way to do it. The main point is that the file-loader task _must_ be completed before the main.js file is compiled.
 
 Now that Gulp is set up, import your generated file from main.js and call it as a function.
 
@@ -326,18 +325,18 @@ The template works by replacing each `$format[formatName]` statement with a full
 
 If the format is provided as a string, the template is ignored. If it is provided as an object, a template is required.
 
-### $name
+### The `$name` placeholder
 
-`$name` in the `format` setting is replaced with the file name of the file. Any non-alphabetic and non-numeric characters are converted to underscores to prevent possible syntax errors.
+The `$name` placeholder in the `format` setting is replaced with the file name of the file. Any non-alphabetic and non-numeric characters are converted to underscores to prevent possible syntax errors.
 
 ```
-./folder/path/gulp-file-loader-is-awesome-123.js
+./folder/path/gulp-file-loader-is-awesome!123.js
 
  === converts to the $name ===
 
 gulp_file_loader_is_awesome_123
 ```
-If there are duplicate file names, a number is added to the end of the name based on how many duplicates it has found so far to ensure that each name is unique.
+If there are duplicate file names, a number is added to the end of the name based on how many duplicates it has found to ensure that each name is unique.
 
 ```
 ./folder/one/thing.js
@@ -349,14 +348,15 @@ thing
 thing_1
 ```
 
-### $path
+### The `$path` placeholder
 
-`$path` in the `format` setting is replaced with a relative path that goes from the file-loader file to the file being loaded in.
+The `$path` placeholder in the `format` setting is replaced with a relative path that goes from the file-loader output file to the file that is being loaded in.
+
+`$path` can only be declared once per format rule.
 
 ```
 $path = ./path/to/file.ext
 ```
-
 
 ### Using indents
 
