@@ -17,5 +17,5 @@ module.exports = {
     functions: '  $name();'
   },
   fileName: 'file-loader.js',
-  template
+  template: template,
 }
