@@ -110,6 +110,7 @@ export default function() {
   - [Available presets](#available-presets)
   - [Overriding a preset](#overriding-a-preset)
 - [Settings reference guide](#settings-reference-guide)
+- [Change Log](#change-log)
 
 ## Install
 
@@ -639,3 +640,7 @@ You can override any of the preset settings by providing your own alternative se
   <dt>preset</dt>
   <dd>Use a set of predefined default settings rather than configuring all of the settings yourself. You can view the available presets and the settings that they provide in <a href="https://github.com/Dan503/gulp-file-loader/tree/master/presets">the <code>presets</code> folder</a>.</dd>
 </dl>
+
+## Change Log
+
+The Change log can be viewed on the [Gulp File Loader GitHub releases](https://github.com/Dan503/gulp-file-loader/releases) page.
