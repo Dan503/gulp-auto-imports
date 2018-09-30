@@ -7,7 +7,7 @@ var header = `
 var template = `
 $format[imports]
 
-export default function(){
+export default ()=> {
 $format[functions]
 }
 `;
