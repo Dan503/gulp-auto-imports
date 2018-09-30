@@ -12,6 +12,7 @@ That is where Gulp File Loader comes in. Gulp File Loader will automatically man
 
 Due to it's high level of customization, Gulp File Loader is able to generate any import file you can imagine. SCSS, JS, Pug, PHP, you name it, it can create an import file for it (assuming the language supports import functionality in some way).
 
+Gulp File Loader also has the ability to remember the order that imports are declared in. If you have ever had any experience with glob-loading SCSS files, you will know the pain of trying to get `alpha.scss` to override styles in `beta.scss`. With Gulp File Loader, simply rearrange the import statements and you're done!
 
 ## Before and after Gulp File Loader <!-- omit in toc -->
 
