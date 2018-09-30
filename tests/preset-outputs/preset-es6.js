@@ -8,7 +8,7 @@ import two from "../test/js/js-input/two.js";
 import one_1 from "../other-test-folder/js/one.js";
 import two_1 from "../other-test-folder/js/two.js";
 
-export default ()=> {
+export default function(){
   one();
   two();
   one_1();
