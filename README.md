@@ -19,6 +19,8 @@ Gulp File Loader also has the ability to remember the order that imports are dec
 ### SCSS Before <!-- omit in toc -->
 
 ```scss
+// main.scss (manually edited)
+
 @import "../components/component-A/A.scss";
 @import "../components/component-B/B.scss";
 @import "../components/component-C/C.scss";
@@ -26,14 +28,27 @@ Gulp File Loader also has the ability to remember the order that imports are dec
 ```
 
 ### SCSS After <!-- omit in toc -->
+```scss
+// main.scss (manually edited)
+
+@import "./file-loader.scss";
+```
 
 ```scss
-@import "./file-loader.scss";
+// file-loader.scss (auto-generated)
+// retains the order that imports are declared in if edited manually
+
+@import "../components/component-A/A.scss";
+@import "../components/component-B/B.scss";
+@import "../components/component-C/C.scss";
+@import "../components/component-D/D.scss";
 ```
 
 ### JS before <!-- omit in toc -->
 
 ```js
+// main.js (manually edited)
+
 import $ from 'jquery';
 
 import A from "../components/component-A/A.js";
@@ -52,12 +67,30 @@ $(() => {
 ### JS after <!-- omit in toc -->
 
 ```js
+// main.js (manually edited)
+
 import $ from 'jquery';
 
-import fileLoader from "./fileLoader.js";
+import fileLoader from "./file-loader.js";
 
 $(() => {
   fileLoader();
+})
+```
+
+```js
+// file-loader.js (auto-generated)
+
+import A from "../components/component-A/A.js";
+import B from "../components/component-B/B.js";
+import C from "../components/component-C/C.js";
+import D from "../components/component-D/D.js";
+
+export default function() {
+  A();
+  B();
+  C();
+  D();
 })
 ```
 
