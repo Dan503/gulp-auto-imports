@@ -6,11 +6,13 @@ require('./gulp/scss');
 require('./gulp/pug');
 require('./gulp/generate-preset-loader');
 require('./gulp/preset-tasks');
+require('./gulp/slash-tests');
 
 gulp.task('default', [
 	'js',
 	'sass',
 	'pug',
+	'slashes',
 	'preset-loader',
 ], ()=> {
 	gulp.start('presets');

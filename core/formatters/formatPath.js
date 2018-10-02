@@ -6,12 +6,14 @@ var path_error = require('../error-messages/$path');
 
 function format_path (spec) {
   // Node 4.0.0 does not support destructuring :(
-  // spec = { regEx, relativePath, format, isAbsolute, dest }
+  // spec = { regEx, relativePath, format, isAbsolute, dest, slashStyle }
   var pathCount = (spec.format.match(spec.regEx) || []).length;
   err(pathCount > 1, path_error);
   var absolutePath = path.resolve('./', spec.dest, spec.relativePath);
   var chosenPath = spec.isAbsolute ? absolutePath : spec.relativePath;
-  var finalFormat = spec.format.replace(spec.regEx, chosenPath);
+  var slashes = /[\/\\]+/g;
+  var finalPath = spec.slashStyle ? chosenPath.replace(slashes, spec.slashStyle) : chosenPath;
+  var finalFormat = spec.format.replace(spec.regEx, finalPath);
   return finalFormat;
 }
 
@@ -19,14 +21,41 @@ module.exports = function (relativePath, initialFormat, dest) {
 
   var formatters = [
     {
-      type: 'relative',
+      type: 'relative-forward-slash',
       regEx: /\$path/g,
       isAbsolute: false,
+      slashStyle: '/',
+    }, {
+      type: 'relative-back-slash',
+      regEx: /\$_path/g,
+      isAbsolute: false,
+      slashStyle: '\\',
+    }, {
+      type: 'relative-escaped-back-slash',
+      regEx: /\$\\path/g,
+      isAbsolute: false,
+      slashStyle: '\\\\',
     },
+
     {
-      type: 'absolute',
+      type: 'absolute-auto',
       regEx: /\$absolute/g,
       isAbsolute: true,
+    }, {
+      type: 'absolute-forward-slash',
+      regEx: /\$\/absolute/g,
+      isAbsolute: true,
+      slashStyle: '/',
+    }, {
+      type: 'absolute-back-slash',
+      regEx: /\$_absolute/g,
+      isAbsolute: true,
+      slashStyle: '\\',
+    }, {
+      type: 'absolute-escaped-back-slash',
+      regEx: /\$\\absolute/g,
+      isAbsolute: true,
+      slashStyle: '\\\\',
     }
   ];
 
@@ -36,7 +65,8 @@ module.exports = function (relativePath, initialFormat, dest) {
       relativePath: relativePath,
       format: progressiveFormat,
       isAbsolute: formatter.isAbsolute,
-      dest: dest
+      dest: dest,
+      slashStyle: formatter.slashStyle,
     })
   }, initialFormat);
 
