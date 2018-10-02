@@ -5,32 +5,32 @@ var fileLoader = require('../index');
 var template = `
 // Template slash test
 
-REM Relative path forward [default]
-REM $path
+:: Relative path forward [default]
+:: $path
 $format[relForward]
 
-REM Relative path back
-REM $\\_path
+:: Relative path back
+:: $\\_path
 $format[relBack]
 
-REM Relative path double back
-REM $\\\\path
+:: Relative path double back
+:: $\\\\path
 $format[relDoubleBack]
 
-REM Absolute path auto [OS decides direction]
-REM $absolute
+:: Absolute path auto [OS decides direction]
+:: $absolute
 $format[absAuto]
 
-REM Absolute path forced forward slashes
-REM $/absolute
+:: Absolute path forced forward slashes
+:: $/absolute
 $format[absForward]
 
-REM Absolute path forced back slashes
-REM $\\_absolute
+:: Absolute path forced back slashes
+:: $\\_absolute
 $format[absBack]
 
-REM Absolute path forced double slashes
-REM $\\\\absolute
+:: Absolute path forced double slashes
+:: $\\\\absolute
 $format[absDoubleBack]
 `;
 
