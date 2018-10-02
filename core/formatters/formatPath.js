@@ -32,7 +32,7 @@ module.exports = function (relativePath, initialFormat, dest) {
       slashStyle: '\\',
     }, {
       type: 'relative-escaped-back-slash',
-      regEx: /\$\\\\path/g,
+      regEx: /\$\\path/g,
       isAbsolute: false,
       slashStyle: '\\\\',
     },
@@ -53,7 +53,7 @@ module.exports = function (relativePath, initialFormat, dest) {
       slashStyle: '\\',
     }, {
       type: 'absolute-escaped-back-slash',
-      regEx: /\$\\\\absolute/g,
+      regEx: /\$\\absolute/g,
       isAbsolute: true,
       slashStyle: '\\\\',
     }
