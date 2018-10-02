@@ -14,8 +14,8 @@ module.exports = function generate_content ({ pathsArray, opt }) {
 	warn(formatIsString && opt.template, template_warning);
 
 	var output = formatIsString ?
-		format_paths(pathsArray, opt.format) :
-		format_template(pathsArray, opt.format, opt.template);
+		format_paths(pathsArray, opt) :
+		format_template(pathsArray, opt);
 
 	var defaultHeadFoot = formatIsString ? '\n' : '';
 
