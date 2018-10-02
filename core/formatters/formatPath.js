@@ -1,10 +1,48 @@
 
+var path = require('path');
+
 var err = require('../helpers/err');
 var path_error = require('../error-messages/$path');
 
-module.exports = function formatPath (filePath, format) {
-  var regEx = /\$path/g;
-  var pathCount = (format.match(regEx) || []).length;
+function format_path (spec) {
+  // Node 4.0.0 does not support destructuring :(
+  // spec = { regEx, relativePath, format, isAbsolute, dest }
+  var pathCount = (spec.format.match(spec.regEx) || []).length;
   err(pathCount > 1, path_error);
-  return format.replace(regEx, filePath);
+  var absolutePath = path.resolve('./', spec.dest, spec.relativePath);
+  var chosenPath = spec.isAbsolute ? absolutePath : spec.relativePath;
+  var finalFormat = spec.format.replace(spec.regEx, chosenPath);
+  return finalFormat;
+}
+
+module.exports = function (relativePath, initialFormat, dest) {
+  var relative_regEx = /\$path/g;
+  var absolute_regEx = /\$absolute/g;
+
+  console.log({initialFormat, relativePath});
+
+  var formatters = [
+    {
+      type: 'relative',
+      regex: /\$path/g,
+      isAbsolute: false,
+    },
+    {
+      type: 'absolute',
+      regex: /\$absolute/g,
+      isAbsolute: true,
+    }
+  ];
+
+  var finalFormat = formatters.reduce((progressiveFormat, formatter) => {
+    return format_path({
+      regEx: formatter.regEx,
+      relativePath: relativePath,
+      format: progressiveFormat,
+      isAbsolute: formatter.isAbsolute,
+      dest: dest
+    })
+  }, initialFormat);
+
+  return finalFormat;
 }
