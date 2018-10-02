@@ -38,19 +38,21 @@ gulp.task('slashes', function(){
 
 	var dest = 'tests';
 
+	var slashes = ' :://\\\\inline slashes test';
+
 	return gulp.src([
 		'./tests/test/js/js-input/**/*.js',
 		'./tests/other-test-folder/js/**/*.js'
 	])
 		.pipe(fileLoader({
 			format: {
-				relForward: 'cd $path',
-				relBack: 'cd $\_path',
-				relDoubleBack: 'cd $\\path',
-				absAuto: 'cd $absolute',
-				absForward: 'cd $/absolute',
-				absBack: 'cd $\_absolute',
-				absDoubleBack: 'cd $\\absolute',
+				relForward: 'cd $path'+slashes,
+				relBack: 'cd $\_path'+slashes,
+				relDoubleBack: 'cd $\\path'+slashes,
+				absAuto: 'cd $absolute'+slashes,
+				absForward: 'cd $/absolute'+slashes,
+				absBack: 'cd $\_absolute'+slashes,
+				absDoubleBack: 'cd $\\absolute'+slashes,
 			},
 			dest: dest,
 			fileName: 'slash-test.bat',
