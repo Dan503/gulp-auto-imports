@@ -11,7 +11,8 @@ module.exports = function format_template(relativePaths, opt) {
 
   for (var type in opt.format) {
     var format = opt.format[type];
-    var formatSet = format_paths(relativePaths, format);
+    var settings = Object.assign({}, opt, { format: format });
+    var formatSet = format_paths(relativePaths, settings);
     var placeholder = new RegExp(`\\$format\\[${type}\\]`,'g');
     newTemplate = newTemplate.replace(placeholder, formatSet);
   }
