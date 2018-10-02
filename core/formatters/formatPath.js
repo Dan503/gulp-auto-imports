@@ -16,20 +16,16 @@ function format_path (spec) {
 }
 
 module.exports = function (relativePath, initialFormat, dest) {
-  var relative_regEx = /\$path/g;
-  var absolute_regEx = /\$absolute/g;
-
-  console.log({initialFormat, relativePath});
 
   var formatters = [
     {
       type: 'relative',
-      regex: /\$path/g,
+      regEx: /\$path/g,
       isAbsolute: false,
     },
     {
       type: 'absolute',
-      regex: /\$absolute/g,
+      regEx: /\$absolute/g,
       isAbsolute: true,
     }
   ];
