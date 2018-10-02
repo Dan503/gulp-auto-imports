@@ -5,7 +5,6 @@
   "dependencies": {
     "chalk": "^2.4.1",
     "file-exists": "^5.0.1",
-    "relative": "^3.0.2",
     "through2": "^2.0.3"
   },
   "devDependencies": {
