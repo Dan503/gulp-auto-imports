@@ -5,6 +5,10 @@ var fileLoader = require('../index');
 var template = `
 // Template slash test
 
+:: Absolute path forced double slashes
+:: $\\\\absolute
+$format[absDoubleBack]
+
 :: Relative path forward [default]
 :: $path
 $format[relForward]
@@ -28,10 +32,6 @@ $format[absForward]
 :: Absolute path forced back slashes
 :: $\\_absolute
 $format[absBack]
-
-:: Absolute path forced double slashes
-:: $\\\\absolute
-$format[absDoubleBack]
 `;
 
 gulp.task('slashes', function(){
@@ -56,6 +56,7 @@ gulp.task('slashes', function(){
 			},
 			dest: dest,
 			fileName: 'slash-test.bat',
+			retainOrder: true,
 			template
 		}))
 		.pipe(gulp.dest(dest))
