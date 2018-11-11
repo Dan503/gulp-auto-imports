@@ -13,7 +13,6 @@ var c = require('chalk');
 // helpers
 var err = require('./core/helpers/err');
 var log = require('./core/helpers/log');
-var isString = require('./core/helpers/isString');
 var join = require('./core/helpers/join');
 var get_relative_path = require('./core/content-generators/get_relative_path');
 var read_file = require('./core/file_manipulation/read_file');
@@ -30,7 +29,7 @@ var fileName_error = require('./core/error-messages/fileName');
 module.exports = function(opt) {
 
   if (opt.preset) {
-    opt = Object.assign(presets[opt.preset], opt);
+    opt = Object.assign({}, presets[opt.preset], opt);
   }
 
   err(!opt.fileName, fileName_error)
