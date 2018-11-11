@@ -104,6 +104,7 @@ export default function() {
 - [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
   - [The `$name` placeholder](#the-name-placeholder)
   - [The `$path` placeholder](#the-path-placeholder)
+  - [The `$absolute` placeholder](#the-absolute-placeholder)
   - [Using indents](#using-indents)
 - [Preset shortcuts](#preset-shortcuts)
   - [Using a preset](#using-a-preset)
@@ -446,6 +447,17 @@ $path = ./path/to/file.ext
 ```
 
 `$path` can only be declared once per format rule.
+
+By default, the `$path` placeholder will format the output path using forward slashes (`/`). As of version 2.1.0, you can tell Gulp File Loader to output backslashes (`\`) instead. `$\_path` will output single backslashes, `$\\path` will output double backslashes for when they need to be escaped.
+
+```
+$\_path = .\path\to\file.ext
+$\\path = .\\path\\to\\file.ext
+```
+
+### The `$absolute` placeholder
+
+
 
 ### Using indents
 
