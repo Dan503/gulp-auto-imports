@@ -41,3 +41,25 @@ gulp.task('sass:watch', function () {
 		'./tests/other-test-folder/scss/**/*.scss'
 	], ['sass']);
 });
+
+
+
+var sassDest = 'tests/multi-output-result';
+
+function load_sass(folder) {
+	var dest = sassDest+'/'+folder;
+	return gulp.src('./tests/test/scss/'+folder+'/**/*.scss')
+		.pipe(fileLoader({ preset: 'scss', dest, fileName: 'test-output.scss' }))
+		.pipe(gulp.dest(dest))
+}
+
+var scssFolders = ['variables', 'mixins', 'components', 'pages'];
+var scssLoadTasks = scssFolders.map(folderName => 'load:scss:'+folderName);
+
+scssFolders.forEach((folderName, i) => {
+	gulp.task(scssLoadTasks[i], function(){
+		return load_sass(folderName)
+	})
+})
+
+gulp.task('multi-output-test', scssLoadTasks);
