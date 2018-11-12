@@ -22,6 +22,10 @@ gulp.task('sass:load', function(){
 	var dest = 'tests/test/scss';
 
 	return gulp.src([
+		'./tests/test/scss/variables/**/*.scss',
+		'./tests/test/scss/mixins/**/*.scss',
+		'./tests/test/scss/components/**/*.scss',
+		'./tests/test/scss/pages/**/*.scss',
 		'./tests/test/scss/scss-input/**/*.scss',
 		'./tests/other-test-folder/scss/**/*.scss'
 	])
