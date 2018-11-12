@@ -12,6 +12,7 @@ gulp.task('default', [
 	'sass',
 	'pug',
 	'preset-loader',
+	'multi-output-test'
 ], ()=> {
 	gulp.start('presets');
 });

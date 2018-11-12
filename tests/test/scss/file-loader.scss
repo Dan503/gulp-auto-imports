@@ -5,6 +5,12 @@
 // You may NOT make any other alterations to this file.
 
 @import "../../other-test-folder/scss/one.scss";
+@import "./variables/var-2.scss";
+@import "./variables/variable.scss";
+@import "./mixins/mixin.scss";
+@import "./components/component.scss";
+@import "./pages/page.scss";
+@import "./components/other-component.scss";
 @import "./scss-input/one.scss";
 @import "./scss-input/two.scss";
 @import "../../other-test-folder/scss/two.scss";

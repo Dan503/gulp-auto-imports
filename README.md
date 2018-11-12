@@ -314,6 +314,18 @@ Due to the `retainOrder: true` setting, you can rearrange the output. Gulp File 
 @import "../components/two/two.scss";
 ```
 
+If you add a new file to the system (eg. a `config/C.scss` file) gulp-file-loader will aim to group it with the other files found in the same folder.
+
+```scss
+// gulp-file-loader will aim to group new files with files found in the same folder
+
+@import "../components/one/one.scss";
+@import "./config/A.scss";
+@import "./config/B.scss";
+@import "./config/C.scss"; // new file added
+@import "../components/two/two.scss";
+```
+
 Now in your main sass compile task, require `"sass:load"` as a dependent task of your main sass compile task like so:
 
 ```js
@@ -400,11 +412,15 @@ I briefly touched on the `retainOrder` setting earlier, however there is a bit m
 
 In CSS, the order that styles are written in matters significantly. It is important that you are able to alter the order that files are loaded in if you wish to have full control over your CSS specificity.
 
-Other globing methods (eg. `@import "../path/to/components/**/*.scss";`) do not give you the ability to alter the order that the files are loaded in. You are generally restricted to loading files in alphabetical order. Gulp File Loader gives you back the ability to control the order your CSS loads in with it's `retainOrder` setting (introduced in v2.0.0).
+Other globing methods (eg. `@import "../path/to/components/**/*.scss";`) do not give you the ability to alter the order that the files are loaded in. You are generally restricted to loading files in alphabetical order. Gulp File Loader gives you back the ability to control the order that your CSS loads in with it's `retainOrder` setting (introduced in v2.0.0).
 
 By default `retainOrder` is set to `false`. When `retainOrder` is set to `true`, Gulp File Loader will not alter the order of the existing import paths if you manually edit them yourself. Make sure that if you enable the `retainOrder` setting you **save the output file into source control**. This will ensure that your co-workers don't end up with a CSS file that is in a different order to yours.
 
-Gulp File Loader will still delete old files from the list that don't exist any more. It will also add any new files it finds to the bottom of the list. It will not retain any comments or other alterations to the file. It will only retain the order that the imports were announced in.
+Gulp File Loader will still delete old files from the list that don't exist any more.
+
+If it detects that a new file is added to the system, Gulp File Loader will aim to keep that new file grouped with other files found in the same folder. (Prior to v2.1.0 it just dumped it at the bottom of the file). This means that new scss config file imports will be placed at the top of the file-loader file with the other config files. This gives all your component files access to the new config settings without you having to make any alterations to the imports file.
+
+It will not retain any comments or other alterations to the file. It will only retain the order that the imports were announced in.
 
 ## Manual JS set up
 
