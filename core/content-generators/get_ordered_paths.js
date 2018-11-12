@@ -6,6 +6,10 @@ module.exports = function get_ordered_paths ({ oldContent, newPaths }) {
 	var contains = (array, value) => array.indexOf(value) > -1;
 	var oldOrderedPaths = get_paths_from_string(oldContent);
 
+	if (oldOrderedPaths.length < 1) {
+		return newPaths;
+	}
+
 	var newOrderedPaths = [].concat(oldOrderedPaths);
 	newPaths.forEach((path) => {
 		if (!contains(oldOrderedPaths, path)) {
