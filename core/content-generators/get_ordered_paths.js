@@ -13,8 +13,13 @@ module.exports = function get_ordered_paths ({ oldContent, newPaths }) {
 	var newOrderedPaths = [].concat(oldOrderedPaths);
 	newPaths.forEach((path) => {
 		if (!contains(oldOrderedPaths, path)) {
-			var matchingIndex = get_highest_index_match(path, oldOrderedPaths);
-			newOrderedPaths.splice(matchingIndex + 1, 0, path);
+			var bestMatch = get_best_match(path, oldOrderedPaths);
+			if (bestMatch.score < 2) {
+				var originalIndex = newPaths.indexOf(path);
+				newOrderedPaths.splice(originalIndex, 0, path);
+			} else {
+				newOrderedPaths.splice(bestMatch.index + 1, 0, path);
+			}
 		}
 	});
 
@@ -25,21 +30,24 @@ module.exports = function get_ordered_paths ({ oldContent, newPaths }) {
 	return finalPaths;
 }
 
-function get_highest_index_match(targetPath, comparisonArray) {
+function get_best_match(targetPath, comparisonArray) {
 	var lineScores = comparisonArray.map(comparisonPath => compare_paths(targetPath, comparisonPath));
-	var highestIndex = lineScores.reduce((highIndex, score, index) => {
-		if (highIndex <= score) {
-			highIndex = index;
+	var bestMatch = lineScores.reduce((currentBestMatch, score, index) => {
+		if (currentBestMatch.score <= score) {
+			currentBestMatch = {
+				index: index,
+				score: score,
+			}
 		}
-		return highIndex;
-	}, 0)
+		return currentBestMatch;
+	}, {score: 0, index: 0})
 
-	return highestIndex;
+	return bestMatch;
 }
 
 function compare_paths(targetPath, comparisonPath) {
-	var targetArray = targetPath.split('');
-	var comparisonArray = comparisonPath.split('');
+	var targetArray = targetPath.replace(/\.?\.\//g,'').split('');
+	var comparisonArray = comparisonPath.replace(/\.?\.\//g,'').split('');
 
 	var i = 0;
 	var compare = i => targetArray[i] == comparisonArray[i];
