@@ -24,10 +24,13 @@
     "automatic",
     "automated",
     "auto",
+    "import",
+    "importer",
     "module",
     "component",
     "file",
-    "loader"
+    "loader",
+    "load"
   ],
   "engines": {
     "node": ">=4.0.0"
