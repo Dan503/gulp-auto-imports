@@ -168,7 +168,6 @@ gulp.task('js:load', function(){
     // Using the "es6" preset
     .pipe(fileLoader({ preset: 'es6', dest: dest }))
     .pipe(gulp.dest(dest))
-  })
 })
 
 gulp.task('js', ['js:load'], function(){
@@ -287,8 +286,6 @@ gulp.task('sass:load', function(){
       header: "// output from gulp-file-loader",
     }))
     .pipe(gulp.dest(dest))
-  })
-
 })
 ```
 
@@ -391,7 +388,6 @@ gulp.task('sass:load', function(){
       retainOrder: true,
     }))
     .pipe(gulp.dest(dest))
-  })
 })
 
 // ['sass:load'] removed from Gulp 4 "sass:compile" task
