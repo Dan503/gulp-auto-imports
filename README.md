@@ -14,9 +14,33 @@ Due to it's high level of customization, Gulp File Loader is able to generate an
 
 Gulp File Loader also has the ability to remember the order that imports are declared in. If you have ever had any experience with glob-loading SCSS files, you will know the pain of trying to get `alpha.scss` to override styles in `beta.scss`. With Gulp File Loader, simply rearrange the import statements and you're done!
 
-## Before and after Gulp File Loader <!-- omit in toc -->
+## Contents <!-- omit in toc -->
 
-### SCSS Before <!-- omit in toc -->
+- [Before and after Gulp File Loader](#before-and-after-gulp-file-loader)
+  - [SCSS Before](#scss-before)
+  - [SCSS After](#scss-after)
+  - [JS before](#js-before)
+  - [JS after](#js-after)
+- [Install](#install)
+- [Quick and easy preset settings](#quick-and-easy-preset-settings)
+  - [Using a preset](#using-a-preset)
+  - [Available presets](#available-presets)
+  - [Overriding a preset](#overriding-a-preset)
+- [Manual SCSS set up](#manual-scss-set-up)
+  - [Gulp 4 SCSS set up](#gulp-4-scss-set-up)
+  - [The `retainOrder` setting](#the-retainorder-setting)
+- [Manual JS set up](#manual-js-set-up)
+- [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
+  - [The `$name` placeholder](#the-name-placeholder)
+  - [The `$path` placeholder](#the-path-placeholder)
+  - [Using indents](#using-indents)
+- [Settings reference guide](#settings-reference-guide)
+- [Change Log](#change-log)
+
+
+## Before and after Gulp File Loader
+
+### SCSS Before
 
 ```scss
 // main.scss (manually edited)
@@ -27,7 +51,7 @@ Gulp File Loader also has the ability to remember the order that imports are dec
 @import "../components/component-D/D.scss";
 ```
 
-### SCSS After <!-- omit in toc -->
+### SCSS After
 ```scss
 // main.scss (manually edited)
 
@@ -44,7 +68,7 @@ Gulp File Loader also has the ability to remember the order that imports are dec
 @import "../components/component-D/D.scss";
 ```
 
-### JS before <!-- omit in toc -->
+### JS before
 
 ```js
 // main.js (manually edited)
@@ -64,7 +88,7 @@ $(() => {
 })
 ```
 
-### JS after <!-- omit in toc -->
+### JS after
 
 ```js
 // main.js (manually edited)
@@ -93,24 +117,6 @@ export default function() {
   D();
 })
 ```
-
-## Contents <!-- omit in toc -->
-
-- [Install](#install)
-- [Quick and easy preset settings](#quick-and-easy-preset-settings)
-  - [Using a preset](#using-a-preset)
-  - [Available presets](#available-presets)
-  - [Overriding a preset](#overriding-a-preset)
-- [Manual SCSS set up](#manual-scss-set-up)
-  - [Gulp 4 SCSS set up](#gulp-4-scss-set-up)
-  - [The `retainOrder` setting](#the-retainorder-setting)
-- [Manual JS set up](#manual-js-set-up)
-- [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
-  - [The `$name` placeholder](#the-name-placeholder)
-  - [The `$path` placeholder](#the-path-placeholder)
-  - [Using indents](#using-indents)
-- [Settings reference guide](#settings-reference-guide)
-- [Change Log](#change-log)
 
 ## Install
 
