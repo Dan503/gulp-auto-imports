@@ -30,6 +30,11 @@ Gulp File Loader also has the ability to remember the order that imports are dec
   - [Gulp 4 SCSS set up](#gulp-4-scss-set-up)
   - [The `retainOrder` setting](#the-retainorder-setting)
 - [Manual JS set up](#manual-js-set-up)
+- [JS configuration examples](#js-configuration-examples)
+  - [Rollup](#rollup)
+    - [Rollup in Gulp 4](#rollup-in-gulp-4)
+    - [Rollup in Gulp 3](#rollup-in-gulp-3)
+  - [Browserify](#browserify)
 - [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
   - [The `$name` placeholder](#the-name-placeholder)
   - [The `$path` placeholder](#the-path-placeholder)
@@ -523,6 +528,202 @@ Note that a typical component js file will need to export a function by default 
 export default function on_page_load() {
   // Place code here that you wish to run
   // when the `fileLoader()` function is called
+}
+```
+
+## JS configuration examples
+
+Adding this functionality to your JS compiler can be tricky since JS compilers generally don't run off typical gulp functionality for performance reasons.
+
+### Rollup
+
+Rollup has a pretty straight forward integration. It is very similar to more typical gulp set ups. It gets around the performance issues by allowing you to cache the last bundle that was generated.
+
+Running `gulp start` will run the file loader, compile the JS, and then start watching files.
+
+(Rollup by default does not bundle CommonJS `require()` statements).
+
+#### Rollup in Gulp 4
+
+```js
+'use strict';
+
+// Import file loader plugin
+var fileLoader = require('gulp-file-loader');
+
+var gulp = require('gulp');
+var rollup = require('rollup-stream');
+var sourcemaps = require('gulp-sourcemaps');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+
+gulp.task('js:load', function(){
+  const dest = './src/_modules/file-loaders';
+  return gulp.src([
+    './src/_modules/**/*.js',
+    // exclude files and folders starting with an underscore
+    '!./src/_modules/{**/\_*,**/\_*/**}',
+  ])
+    // Run the file loader
+    .pipe(fileLoader({preset: 'es6', dest, fileName: '_file-loader.js'}))
+    .pipe(gulp.dest(dest))
+})
+
+var cache;
+gulp.task('js:compile', function() {
+  return rollup({
+      // point to the entry file.
+      input: './src/_scripts/main.js',
+      sourcemap: true,
+      // use cache for better performance
+      cache: cache,
+      // Intended for use with browsers
+      format: 'iife',
+    })
+    .on('bundle', function(bundle) {
+      // update cache data after every bundle is created
+      cache = bundle;
+    })
+    // point to the entry file.
+    .pipe(source('main.js', './src/_scripts'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.write('.'))
+
+    .pipe(gulp.dest('./tmp'));
+});
+
+gulp.task('js', gulp.series('js:load', 'js:compile'));
+
+gulp.task('js:watch', function(done){
+  gulp.watch(['./src/**/*.js'], gulp.series('js'))
+  done();
+})
+
+gulp.task('start', gulp.series('js', 'js:watch'));
+```
+
+#### Rollup in Gulp 3
+
+```js
+'use strict';
+
+// Import file loader plugin
+var fileLoader = require('gulp-file-loader');
+
+var gulp = require('gulp');
+var rollup = require('rollup-stream');
+var sourcemaps = require('gulp-sourcemaps');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+
+gulp.task('js:load', function(){
+  const dest = './src/_modules/file-loaders';
+  return gulp.src([
+    './src/_modules/**/*.js',
+    // exclude files and folders starting with an underscore
+    '!./src/_modules/{**/\_*,**/\_*/**}',
+  ])
+    // Run the file loader
+    .pipe(fileLoader({preset: 'es6', dest, fileName: '_file-loader.js'}))
+    .pipe(gulp.dest(dest))
+})
+
+var cache;
+gulp.task('js', ['js:load'], function() {
+  return rollup({
+      // point to the entry file.
+      input: './src/_scripts/main.js',
+      sourcemap: true,
+      // use cache for better performance
+      cache: cache,
+      // Intended for use with browsers
+      format: 'iife',
+    })
+    .on('bundle', function(bundle) {
+      cache = bundle;
+    })
+    // point to the entry file.
+    .pipe(source('main.js', './src/_scripts'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.write('.'))
+
+    .pipe(gulp.dest('./tmp'));
+});
+
+gulp.task('js:watch', function(){
+  gulp.watch(['./src/**/*.js'], ['js'])
+})
+
+gulp.task('start', ['js', 'js:watch']);
+```
+
+### Browserify
+
+Browserify is more difficult to integrate with due to it not running off typical `gulp.watch()` functionality. The key to getting it to work is by converting Gulp File Loader into a promise.
+
+Below is a modified version of the of the [Gulp browserify + watchify recipe](https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md) that has Gulp File Loader installed.
+
+This code will work in both Gulp 3 and Gulp 4.
+
+```js
+'use strict';
+
+// Import file loader plugin
+var fileLoader = require('gulp-file-loader');
+
+var watchify = require('watchify');
+var browserify = require('browserify');
+var gulp = require('gulp');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var log = require('gulplog');
+var sourcemaps = require('gulp-sourcemaps');
+
+var customOpts = {
+  entries: ['./source/index.js'],
+  debug: true
+};
+var opts = Object.assign({}, watchify.args, customOpts);
+
+// Watch for changes then bundle
+var b = watchify(browserify(opts));
+
+gulp.task('js', bundle); // so you can run `gulp js` to build the file
+b.on('update', bundle); // on any dep update, runs the bundler
+b.on('log', log.info); // output build logs to terminal
+
+// Convert the file loader Gulp stream into a promise
+function file_loader(){
+  return new Promise(function (resolve) {
+    const dest = './source/components/_module-loaders';
+    return gulp.src([
+      './source/components/**/*.js',
+      // exclude files and folders starting with an underscore
+      '!./source/components/{**/\_*,**/\_*/**}',
+    ])
+      // Run the file loader
+      .pipe(fileLoader({preset: 'es5', dest, fileName: '_component-loader.js'}))
+      .pipe(gulp.dest(dest))
+      .on('end', function(){
+        resolve();
+      });
+  })
+}
+
+function bundle() {
+  // Ensure all components are being imported before bundling
+  return file_loader().then(function(){
+    // Then bundle the code
+    return b.bundle()
+      .on('error', log.error.bind(log, 'Browserify Error'))
+      .pipe(source('bundle.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./dist'));
+  })
 }
 ```
 
