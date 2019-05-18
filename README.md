@@ -180,7 +180,7 @@ gulp.task('sass:load', function(){
   return gulp.src('./source/components/**/*.scss')
     // Using the "scss" preset ("dest" must be provided here as well)
     .pipe(fileLoader({ preset: 'scss', dest: dest }))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(dest));
 })
 
 /************\
@@ -196,7 +196,7 @@ gulp.task('sass:compile', function(){
 })
 
 // make "sass:load" run before "sass:compile" when "sass" is run
-gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
+gulp.task('sass', gulp.series('sass:load', 'sass:compile'));
 
 // Watch for changes
 gulp.task('watch', function(done){
@@ -218,7 +218,7 @@ gulp.task('sass', ['sass:load'], function(){
 
 // Watch for changes
 gulp.task('watch', function(){
-  gulp.watch('source/**/*.scss', ['sass'])
+  gulp.watch('source/**/*.scss', ['sass']);
 })
 ```
 
@@ -312,7 +312,7 @@ gulp.task('sass:load', function(){
   var dest = 'source/scss';
   return gulp.src('./source/components/**/*.scss')
     .pipe(fileLoader({ preset: 'scss', dest: dest }))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(dest));
 })
 
 // Sass compile task (depends on 'sass:load' task)
@@ -340,7 +340,7 @@ gulp.task('sass:load', function(){
   var dest = 'source/scss';
   return gulp.src('./source/components/**/*.scss')
     .pipe(fileLoader({ preset: 'scss', dest: dest }))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(dest));
 })
 
 // Sass compile task
@@ -353,7 +353,7 @@ gulp.task('sass:compile', function(){
 })
 
 // Combined sass compile task
-gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
+gulp.task('sass', gulp.series('sass:load', 'sass:compile'));
 ```
 
 ### Using a combination inside main.scss
@@ -458,7 +458,7 @@ gulp.task('js:load', function(){
   ])
     // Run the file loader
     .pipe(fileLoader({ preset: 'es6', dest }))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(dest));
 })
 
 var cache;
@@ -480,7 +480,7 @@ gulp.task('js:compile', function() {
     .pipe(source('main.js', './source/js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(sourcemaps.write('.'))
+    .pipe(sourcemaps.write('.'));
 
     .pipe(gulp.dest('./build/assets/js'));
 });
@@ -488,7 +488,7 @@ gulp.task('js:compile', function() {
 gulp.task('js', gulp.series('js:load', 'js:compile'));
 
 gulp.task('js:watch', function(done){
-  gulp.watch(['./source/**/*.js'], gulp.series('js'))
+  gulp.watch(['./source/**/*.js'], gulp.series('js'));
   done();
 })
 
@@ -518,7 +518,7 @@ gulp.task('js:load', function(){
   ])
     // Run the file loader
     .pipe(fileLoader({ preset: 'es6', dest }))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(dest));
 })
 
 var cache;
@@ -544,7 +544,7 @@ gulp.task('js', ['js:load'], function() {
 });
 
 gulp.task('js:watch', function(){
-  gulp.watch(['./source/**/*.js'], ['js'])
+  gulp.watch(['./source/**/*.js'], ['js']);
 })
 
 gulp.task('start', ['js', 'js:watch']);
@@ -608,7 +608,7 @@ gulp.task('js:load', function(){
   ])
     // Run the file loader
     .pipe(fileLoader({preset: 'es5', dest }))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(dest));
 })
 
 
@@ -630,8 +630,8 @@ gulp.task('js', gulp.series('js:load', bundle)); // so you can run `gulp js` to 
 gulp.task('watch', function(done) {
   var watcher = gulp.watch('./source/components/**/*.js')
   //Gulp 4 has the advantage of only running when a file is added/removed, not changed
-  watcher.on('add', gulp.series('js:load'))
-  watcher.on('unlink', gulp.series('js:load'))
+  watcher.on('add', gulp.series('js:load'));
+  watcher.on('unlink', gulp.series('js:load'));
   done();
 }
 ```
@@ -713,7 +713,7 @@ gulp.task('sass:load', function(){
       // Add a message to the top of the file
       header: "// output from gulp-file-loader",
     }))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(dest));
 })
 ```
 
@@ -769,7 +769,7 @@ gulp.task('js:load', function(){
       fileName: 'file-loader.js',
       template: template
     }))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(dest));
 
 })
 ```
