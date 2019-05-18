@@ -552,11 +552,13 @@ gulp.task('start', ['js', 'js:watch']);
 
 ### Browserify
 
-Browserify is more difficult to integrate with due to it not running off typical `gulp.watch()` functionality. The key to getting it to work is by converting Gulp File Loader into a promise instead of a Gulp stream.
-
 Below is a modified version of the of the [Gulp browserify + watchify recipe](https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md) that has Gulp File Loader installed.
 
-This code will work in both Gulp 3 and Gulp 4.
+Browserify gets around performance issues by using a special "Watchify" JS library instead of `gulp.watch()`. You specify an entry file. Watchify watches for any changes to files that are imported from that entry file. It will also watch for changes to files imported from those imported files (and so on and so on forever).
+
+The code below will generate a new `file-loader.js` file when it detects a JS file has been added to or removed from the components folder. The auto-generated `file-loader.js` file is imported into the main entry js file meaning Watchify is watching it for changes. When the new `file-loader.js` file is generated, Watchify detects that the file has changed. This triggers Watchify to initiate a Browserify rebundle.
+
+Most of the code below works in both both Gulp 3 and Gulp 4.
 
 ```js
 'use strict';
@@ -573,6 +575,7 @@ var log = require('gulplog');
 var sourcemaps = require('gulp-sourcemaps');
 
 var customOpts = {
+  // entry file defined here
   entries: ['./source/js/main.js'],
   debug: true
 };
@@ -581,51 +584,66 @@ var opts = Object.assign({}, watchify.args, customOpts);
 // Watch for changes then bundle
 var b = watchify(browserify(opts));
 
-gulp.task('js', bundle); // so you can run `gulp js` to build the file
 b.on('update', bundle); // on any dep update, runs the bundler
 b.on('log', log.info); // output build logs to terminal
 
-// Convert the file loader Gulp stream into a promise
-function file_loader(){
-  return new Promise(function (resolve) {
-    const dest = './source/js';
-    return gulp.src([
-      './source/components/**/*.js',
-      // exclude files and folders starting with an underscore
-      '!./source/components/{**/\_*,**/\_*/**}',
-    ])
-      // Run the file loader
-      .pipe(fileLoader({preset: 'es5', dest }))
-      .pipe(gulp.dest(dest))
-      .on('end', function(){
-        resolve();
-      });
-  })
+function bundle() {
+  // Then bundle the code
+  return b.bundle()
+    .on('error', log.error.bind(log, 'Browserify Error'))
+    .pipe(source('main.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./build/assets/js'));
 }
 
-function bundle() {
-  // Ensure all components are being imported before bundling
-  return file_loader().then(function(){
-    // Then bundle the code
-    return b.bundle()
-      .on('error', log.error.bind(log, 'Browserify Error'))
-      .pipe(source('main.js'))
-      .pipe(buffer())
-      .pipe(sourcemaps.init({loadMaps: true}))
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./build/assets/js'));
-  })
+// File loader Gulp task
+gulp.task('js:load', function(){
+  const dest = './source/js';
+  return gulp.src([
+    './source/components/**/*.js',
+    // exclude files and folders starting with an underscore
+    '!./source/components/{**/\_*,**/\_*/**}',
+  ])
+    // Run the file loader
+    .pipe(fileLoader({preset: 'es5', dest }))
+    .pipe(gulp.dest(dest))
+})
+
+
+///////////////////////////
+// Gulp 3 specific code //
+/////////////////////////
+gulp.task('js', ['js:load'], bundle); // so you can run `gulp js` to build the file
+gulp.task('watch', function() {
+  // Gulp 3 can't distinguish between 'add','unlink', and 'change' events
+  // so it also has to run on file changes
+  gulp.watch('./source/components/**/*.js', ['js:load'])
+}
+
+
+///////////////////////////
+// Gulp 4 specific code //
+/////////////////////////
+gulp.task('js', gulp.series('js:load', bundle)); // so you can run `gulp js` to build the file
+gulp.task('watch', function(done) {
+  var watcher = gulp.watch('./source/components/**/*.js')
+  //Gulp 4 has the advantage of only running when a file is added/removed, not changed
+  watcher.on('add', gulp.series('js:load'))
+  watcher.on('unlink', gulp.series('js:load'))
+  done();
 }
 ```
 
 ### Making use of the generated JS file
 
-Now that Gulp is set up to build a file-loader for you, import your generated file from main.js and call it as a function.
+Now that Gulp is set up to build a file-loader JS file for you, import your generated file from main.js and call it as a function.
 
 ```js
 // Import file-loader.js inside main.js
-
-import fileLoader from './file-loader.js'
+import fileLoader from './file-loader.js'; // ES6
+var fileLoader = require('./file-loader.js'); // ES5
 
 document.addEventListener("DOMContentLoaded", function() {
   // Run the file-loader code on page load
@@ -638,7 +656,18 @@ Note that a typical component js file will need to export a function by default 
 ```js
 // component js file example
 
+  /////////
+ // ES6 //
+/////////
 export default function on_page_load() {
+  // Place code here that you wish to run
+  // when the `fileLoader()` function is called
+}
+
+  /////////
+ // ES5 //
+/////////
+module.exports = function on_page_load() {
   // Place code here that you wish to run
   // when the `fileLoader()` function is called
 }
