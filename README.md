@@ -619,8 +619,8 @@ gulp.task('js', ['js:load'], bundle); // so you can run `gulp js` to build the f
 gulp.task('watch', function() {
   // Gulp 3 can't distinguish between 'add','unlink', and 'change' events
   // so it also has to run on file changes
-  gulp.watch('./source/components/**/*.js', ['js:load'])
-}
+  gulp.watch('./source/components/**/*.js', ['js:load']);
+})
 
 
 ///////////////////////////
@@ -633,7 +633,7 @@ gulp.task('watch', function(done) {
   watcher.on('add', gulp.series('js:load'));
   watcher.on('unlink', gulp.series('js:load'));
   done();
-}
+})
 ```
 
 ### Making use of the generated JS file
