@@ -628,7 +628,7 @@ gulp.task('watch', function() {
 /////////////////////////
 gulp.task('js', gulp.series('js:load', bundle)); // so you can run `gulp js` to build the file
 gulp.task('watch', function(done) {
-  var watcher = gulp.watch('./source/components/**/*.js')
+  var watcher = gulp.watch('./source/components/**/*.js');
   //Gulp 4 has the advantage of only running when a file is added/removed, not changed
   watcher.on('add', gulp.series('js:load'));
   watcher.on('unlink', gulp.series('js:load'));
