@@ -31,7 +31,7 @@ gulp.task('sass:load', function () {
 		])
 		.pipe(
 			fileLoader({
-				format: '@import "$path";',
+				format: `@import '$path';`,
 				dest: dest,
 				fileName: 'auto-imports.scss',
 				retainOrder: true,

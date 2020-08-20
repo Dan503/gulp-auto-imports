@@ -8,7 +8,7 @@ var template = `
 
 $format[imports]
 
-export default function(){
+export default function () {
 $format[functions]
 }
 `
@@ -24,8 +24,8 @@ gulp.task('js:load', function () {
 		.pipe(
 			fileLoader({
 				format: {
-					imports: 'import $name from "$path";',
-					functions: '  $name();',
+					imports: `import $name from '$path'`,
+					functions: '  $name()',
 				},
 				//needed so that relative paths are able to be generated properly
 				dest: dest,
