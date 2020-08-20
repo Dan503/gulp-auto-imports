@@ -7,7 +7,7 @@ module.exports = function create_file(inspirationFile, opt, newContent) {
 	//Sets the new file name
 	newFile.path = join([inspirationFile.base, opt.fileName])
 
-	newFile.contents = new Buffer(newContent, 'utf-8')
+	newFile.contents = new Buffer.from(newContent, 'utf-8')
 
 	return newFile
 }
