@@ -7,7 +7,7 @@ var header = `
 
 module.exports = {
   format: '@import "$path";',
-  fileName: 'file-loader.scss',
+  fileName: "file-loader.scss",
   retainOrder: true,
   header: header,
 };
