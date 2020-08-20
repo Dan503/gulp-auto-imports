@@ -1,31 +1,31 @@
-# Gulp File Loader
+# Gulp Auto Imports
 
 _Auto generate import-only files for any file type. SCSS, JS, Pug, whatever you want._
 
-[![Supported Node version](https://img.shields.io/node/v/gulp-file-loader.svg?style=for-the-badge)](https://nodejs.org/en/)
+[![Supported Node version](https://img.shields.io/node/v/gulp-auto-imports.svg?style=for-the-badge)](https://nodejs.org/en/)
 
 Are you sick of having to manually manage files that are purely just a bunch of import statements?
 
 Wouldn't it be awesome if Gulp could just look at your file system and manage this busy work for you?
 
-That is where Gulp File Loader comes in. Gulp File Loader will automatically manage these import-only files for you giving you more time to worry about the important stuff.
+That is where Gulp Auto Imports comes in. Gulp Auto Imports will automatically manage these import-only files for you giving you more time to worry about the important stuff.
 
-Due to it's high level of customization, Gulp File Loader is able to generate any import file you can imagine. SCSS, JS, Pug, PHP, you name it, it can create an import file for it (assuming the language supports import functionality in some way).
+Due to it's high level of customization, Gulp Auto Imports is able to generate any import file you can imagine. SCSS, JS, Pug, PHP, you name it, it can create an import file for it (assuming the language supports import functionality in some way).
 
-Gulp File Loader also has the ability to remember the order that imports are declared in. If you have ever had any experience with glob-loading SCSS files, you will know the pain of trying to get `alpha.scss` to override styles in `beta.scss`. With Gulp File Loader, simply rearrange the import statements and you're done!
+Gulp Auto Imports also has the ability to remember the order that imports are declared in. If you have ever had any experience with glob-loading SCSS files, you will know the pain of trying to get `alpha.scss` to override styles in `beta.scss`. With Gulp Auto Imports, simply rearrange the import statements and you're done!
 
-> **Note:** if using Gulp File Loader with Sass files, it is best used [*in combination*](#use-in-combination-with-gulp-sass-glob) with [Gulp Sass Glob](https://www.npmjs.com/package/gulp-sass-glob), not as a complete replacement for it.
+> **Note:** if using Gulp Auto Imports with Sass files, it is best used [_in combination_](#use-in-combination-with-gulp-sass-glob) with [Gulp Sass Glob](https://www.npmjs.com/package/gulp-sass-glob), not as a complete replacement for it.
 
 ## Contents <!-- omit in toc -->
 
-- [Before and after Gulp File Loader](#before-and-after-gulp-file-loader)
+- [Before and after Gulp Auto Imports](#before-and-after-gulp-auto-imports)
   - [SCSS Before](#scss-before)
   - [SCSS After](#scss-after)
   - [JS before](#js-before)
   - [JS after](#js-after)
 - [Install](#install)
 - [Using the SCSS preset](#using-the-scss-preset)
-- [Use in *combination* with Gulp Sass Glob](#use-in-combination-with-gulp-sass-glob)
+- [Use in _combination_ with Gulp Sass Glob](#use-in-combination-with-gulp-sass-glob)
   - [Gulp 3 combination](#gulp-3-combination)
   - [Gulp 4 combination](#gulp-4-combination)
   - [Using a combination inside main.scss](#using-a-combination-inside-mainscss)
@@ -48,35 +48,35 @@ Gulp File Loader also has the ability to remember the order that imports are dec
 - [Settings reference guide](#settings-reference-guide)
 - [Change Log](#change-log)
 
-
-## Before and after Gulp File Loader
+## Before and after Gulp Auto Imports
 
 ### SCSS Before
 
 ```scss
 // main.scss (manually edited)
 
-@import "../components/component-A/A.scss";
-@import "../components/component-B/B.scss";
-@import "../components/component-C/C.scss";
-@import "../components/component-D/D.scss";
+@import '../components/component-A/A.scss';
+@import '../components/component-B/B.scss';
+@import '../components/component-C/C.scss';
+@import '../components/component-D/D.scss';
 ```
 
 ### SCSS After
+
 ```scss
 // main.scss (manually edited)
 
-@import "./file-loader.scss";
+@import './file-loader.scss';
 ```
 
 ```scss
 // file-loader.scss (auto-generated)
 // retains the order that imports are declared in if edited manually
 
-@import "../components/component-A/A.scss";
-@import "../components/component-B/B.scss";
-@import "../components/component-C/C.scss";
-@import "../components/component-D/D.scss";
+@import '../components/component-A/A.scss';
+@import '../components/component-B/B.scss';
+@import '../components/component-C/C.scss';
+@import '../components/component-D/D.scss';
 ```
 
 ### JS before
@@ -84,18 +84,18 @@ Gulp File Loader also has the ability to remember the order that imports are dec
 ```js
 // main.js (manually edited)
 
-import $ from 'jquery';
+import $ from 'jquery'
 
-import A from "../components/component-A/A.js";
-import B from "../components/component-B/B.js";
-import C from "../components/component-C/C.js";
-import D from "../components/component-D/D.js";
+import A from '../components/component-A/A.js'
+import B from '../components/component-B/B.js'
+import C from '../components/component-C/C.js'
+import D from '../components/component-D/D.js'
 
 $(() => {
-  A();
-  B();
-  C();
-  D();
+	A()
+	B()
+	C()
+	D()
 })
 ```
 
@@ -104,12 +104,12 @@ $(() => {
 ```js
 // main.js (manually edited)
 
-import $ from 'jquery';
+import $ from 'jquery'
 
-import fileLoader from "./file-loader.js";
+import fileLoader from './file-loader.js'
 
 $(() => {
-  fileLoader();
+	fileLoader()
 })
 ```
 
@@ -131,10 +131,10 @@ export default function() {
 
 ## Install
 
-Install Gulp File Loader using the following command:
+Install Gulp Auto Imports using the following command:
 
 ```
-npm install gulp-file-loader --save-dev
+npm install gulp-auto-imports --save-dev
 ```
 
 For my examples, I am assuming that the project folder structure looks like this:
@@ -168,19 +168,22 @@ For my examples, I am assuming that the project folder structure looks like this
 Writing out all of the required settings manually for this plugin can be a bit tiresome. As of version 2.0.0 I've included some common preset settings that you can use as defaults. All you need to do for a basic SCSS set up is the following. You will need the `gulp-sass` plugin for this to fully work. `npm i gulp-sass -D`).
 
 ```js
-var gulp = require('gulp');
-var fileLoader = require('gulp-file-loader');
-var sass = require('gulp-sass');
+var gulp = require('gulp')
+var fileLoader = require('gulp-auto-imports')
+var sass = require('gulp-sass')
 
-// Preset SCSS gulp-file-loader task
-gulp.task('sass:load', function(){
-  // Always relative to gulpfile.js even if this code is inside a folder
-  var dest = 'source/scss';
-  // Do not leave off the "return", it is vital!
-  return gulp.src('./source/components/**/*.scss')
-    // Using the "scss" preset ("dest" must be provided here as well)
-    .pipe(fileLoader({ preset: 'scss', dest: dest }))
-    .pipe(gulp.dest(dest));
+// Preset SCSS gulp-auto-imports task
+gulp.task('sass:load', function () {
+	// Always relative to gulpfile.js even if this code is inside a folder
+	var dest = 'source/scss'
+	// Do not leave off the "return", it is vital!
+	return (
+		gulp
+			.src('./source/components/**/*.scss')
+			// Using the "scss" preset ("dest" must be provided here as well)
+			.pipe(fileLoader({ preset: 'scss', dest: dest }))
+			.pipe(gulp.dest(dest))
+	)
 })
 
 /************\
@@ -188,20 +191,20 @@ gulp.task('sass:load', function(){
 \************/
 
 // Define a separate compile task
-gulp.task('sass:compile', function(){
-  return gulp
-    .src('source/scss/main.scss')
-    .pipe(sass())
-    .pipe(gulp.dest('build/assets/css'));
+gulp.task('sass:compile', function () {
+	return gulp
+		.src('source/scss/main.scss')
+		.pipe(sass())
+		.pipe(gulp.dest('build/assets/css'))
 })
 
 // make "sass:load" run before "sass:compile" when "sass" is run
-gulp.task('sass', gulp.series('sass:load', 'sass:compile'));
+gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
 
 // Watch for changes
-gulp.task('watch', function(done){
-  gulp.watch('source/**/*.scss', gulp.series('sass'));
-  done();
+gulp.task('watch', function (done) {
+	gulp.watch('source/**/*.scss', gulp.series('sass'))
+	done()
 })
 
 /************\
@@ -209,16 +212,16 @@ gulp.task('watch', function(done){
 \************/
 
 // Make "sass" dependent on "sass:load"
-gulp.task('sass', ['sass:load'], function(){
-  return gulp
-    .src('source/scss/main.scss')
-    .pipe(sass())
-    .pipe(gulp.dest('build/assets/css'));
+gulp.task('sass', ['sass:load'], function () {
+	return gulp
+		.src('source/scss/main.scss')
+		.pipe(sass())
+		.pipe(gulp.dest('build/assets/css'))
 })
 
 // Watch for changes
-gulp.task('watch', function(){
-  gulp.watch('source/**/*.scss', ['sass']);
+gulp.task('watch', function () {
+	gulp.watch('source/**/*.scss', ['sass'])
 })
 ```
 
@@ -231,7 +234,7 @@ The `scss` preset will apply the following default settings:
   fileName: 'file-loader.scss',
   retainOrder: true,
   header: `
-// This file is generated by gulp-file-loader.
+// This file is generated by gulp-auto-imports.
 // Save this file into source control.
 // You may rearrange the order of the imports however you like.
 // You may NOT make any other alterations to this file.
@@ -242,56 +245,55 @@ The `scss` preset will apply the following default settings:
 The output of the example `'sass:load'` task will look something like this:
 
 ```scss
-// This file is generated by gulp-file-loader.
+// This file is generated by gulp-auto-imports.
 // Save this file into source control.
 // You may rearrange the order of the imports however you like.
 // You may NOT make any other alterations to this file.
 
-@import "../components/A/A.scss";
-@import "../components/B/B.scss";
-@import "../components/C/C.scss";
-@import "../components/D/D.scss";
+@import '../components/A/A.scss';
+@import '../components/B/B.scss';
+@import '../components/C/C.scss';
+@import '../components/D/D.scss';
 ```
 
-Due to the [`retainOrder: true` setting](#the-retainorder-setting), you can rearrange the output. Gulp File Loader will preserve the order when it recompiles.
+Due to the [`retainOrder: true` setting](#the-retainorder-setting), you can rearrange the output. Gulp Auto Imports will preserve the order when it recompiles.
 
 ```scss
-// Rearrange the output and Gulp File Loader will preserve it
+// Rearrange the output and Gulp Auto Imports will preserve it
 // (Requires the `retainOrder` setting to be enabled)
 
-@import "../components/D/D.scss";
-@import "../components/A/A.scss";
-@import "../components/C/C.scss";
-@import "../components/B/B.scss";
+@import '../components/D/D.scss';
+@import '../components/A/A.scss';
+@import '../components/C/C.scss';
+@import '../components/B/B.scss';
 ```
 
-If you add a new file to the system (eg. a `../components/A/A-two.scss` file) gulp-file-loader will aim to group it with the other files found in the same folder.
+If you add a new file to the system (eg. a `../components/A/A-two.scss` file) gulp-auto-imports will aim to group it with the other files found in the same folder.
 
 ```scss
-// gulp-file-loader will aim to group new files with files found in the same folder
+// gulp-auto-imports will aim to group new files with files found in the same folder
 
-@import "../components/D/D.scss";
-@import "../components/A/A.scss";
-@import "../components/A/A-two.scss"; // New file added
-@import "../components/C/C.scss";
-@import "../components/B/B.scss";
+@import '../components/D/D.scss';
+@import '../components/A/A.scss';
+@import '../components/A/A-two.scss'; // New file added
+@import '../components/C/C.scss';
+@import '../components/B/B.scss';
 ```
 
 Add this line to your main scss file to auto-loaded your component styles:
 
 ```scss
 // Import the file-loader.scss file from main.scss
-@import "./file-loader.scss";
+@import './file-loader.scss';
 ```
 
 You can now auto-load all of you're component scss files while still retaining full control over CSS source order! 😃
 
+## Use in _combination_ with [Gulp Sass Glob](https://www.npmjs.com/package/gulp-sass-glob)
 
-## Use in *combination* with [Gulp Sass Glob](https://www.npmjs.com/package/gulp-sass-glob)
+If you are using Gulp Auto Imports to load scss files, it works best as a method used for loading your component files since those tend to require a specific order to work correctly.
 
-If you are using Gulp File Loader to load scss files, it works best as a method used for loading your component files since those tend to require a specific order to work correctly.
-
-Most of the time, your config files (files that hold nothing but Sass variables) and helper files (mixins, utility classes etc.) don't need to retain their order. It is both easier and cleaner to use [Gulp Sass Glob](https://www.npmjs.com/package/gulp-sass-glob) to auto-load these types of files than it is to set up individual Gulp File Loader tasks for each of them.
+Most of the time, your config files (files that hold nothing but Sass variables) and helper files (mixins, utility classes etc.) don't need to retain their order. It is both easier and cleaner to use [Gulp Sass Glob](https://www.npmjs.com/package/gulp-sass-glob) to auto-load these types of files than it is to set up individual Gulp Auto Imports tasks for each of them.
 
 ```
 npm install gulp-sass-glob --save-dev
@@ -300,60 +302,62 @@ npm install gulp-sass-glob --save-dev
 ### Gulp 3 combination
 
 ```js
-// Using Gulp File Loader in combination with Gulp Sass Glob in Gulp 3
+// Using Gulp Auto Imports in combination with Gulp Sass Glob in Gulp 3
 
-var gulp = require('gulp');
-var fileLoader = require('gulp-file-loader');
-var sass = require('gulp-sass');
-var sassGlob = require('gulp-sass-glob');
+var gulp = require('gulp')
+var fileLoader = require('gulp-auto-imports')
+var sass = require('gulp-sass')
+var sassGlob = require('gulp-sass-glob')
 
-// Gulp File Loader task
-gulp.task('sass:load', function(){
-  var dest = 'source/scss';
-  return gulp.src('./source/components/**/*.scss')
-    .pipe(fileLoader({ preset: 'scss', dest: dest }))
-    .pipe(gulp.dest(dest));
+// Gulp Auto Imports task
+gulp.task('sass:load', function () {
+	var dest = 'source/scss'
+	return gulp
+		.src('./source/components/**/*.scss')
+		.pipe(fileLoader({ preset: 'scss', dest: dest }))
+		.pipe(gulp.dest(dest))
 })
 
 // Sass compile task (depends on 'sass:load' task)
-gulp.task('sass', ['sass:load'], function(){
-  return gulp
-    .src('source/scss/main.scss')
-    .pipe(sassGlob())// Sass Glob
-    .pipe(sass())
-    .pipe(gulp.dest('build/assets/css'));
+gulp.task('sass', ['sass:load'], function () {
+	return gulp
+		.src('source/scss/main.scss')
+		.pipe(sassGlob()) // Sass Glob
+		.pipe(sass())
+		.pipe(gulp.dest('build/assets/css'))
 })
 ```
 
 ### Gulp 4 combination
 
 ```js
-// Using Gulp File Loader in combination with Gulp Sass Glob in Gulp 4
+// Using Gulp Auto Imports in combination with Gulp Sass Glob in Gulp 4
 
-var gulp = require('gulp');
-var fileLoader = require('gulp-file-loader');
-var sass = require('gulp-sass');
-var sassGlob = require('gulp-sass-glob');
+var gulp = require('gulp')
+var fileLoader = require('gulp-auto-imports')
+var sass = require('gulp-sass')
+var sassGlob = require('gulp-sass-glob')
 
-// Gulp File Loader task
-gulp.task('sass:load', function(){
-  var dest = 'source/scss';
-  return gulp.src('./source/components/**/*.scss')
-    .pipe(fileLoader({ preset: 'scss', dest: dest }))
-    .pipe(gulp.dest(dest));
+// Gulp Auto Imports task
+gulp.task('sass:load', function () {
+	var dest = 'source/scss'
+	return gulp
+		.src('./source/components/**/*.scss')
+		.pipe(fileLoader({ preset: 'scss', dest: dest }))
+		.pipe(gulp.dest(dest))
 })
 
 // Sass compile task
-gulp.task('sass:compile', function(){
-  return gulp
-    .src('source/scss/main.scss')
-    .pipe(sassGlob())// Sass Glob
-    .pipe(sass())
-    .pipe(gulp.dest('build/assets/css'));
+gulp.task('sass:compile', function () {
+	return gulp
+		.src('source/scss/main.scss')
+		.pipe(sassGlob()) // Sass Glob
+		.pipe(sass())
+		.pipe(gulp.dest('build/assets/css'))
 })
 
 // Combined sass compile task
-gulp.task('sass', gulp.series('sass:load', 'sass:compile'));
+gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
 ```
 
 ### Using a combination inside main.scss
@@ -364,11 +368,11 @@ gulp.task('sass', gulp.series('sass:load', 'sass:compile'));
 \**********************/
 
 // Use Gulp Sass Glob to load config and helper files
-@import "vars/**/*.scss";
-@import "mixins/**/*.scss";
+@import 'vars/**/*.scss';
+@import 'mixins/**/*.scss';
 
-// Use the output from Gulp File Loader to load component files
-@import "file-loader.scss";
+// Use the output from Gulp Auto Imports to load component files
+@import 'file-loader.scss';
 ```
 
 ```scss
@@ -377,44 +381,44 @@ gulp.task('sass', gulp.series('sass:load', 'sass:compile'));
   (automatically generated)
 \***************************/
 
-@import "../components/one/one.scss";
-@import "../components/two/two.scss";
-@import "../components/three/three.scss";
-@import "../components/four/four.scss";
+@import '../components/one/one.scss';
+@import '../components/two/two.scss';
+@import '../components/three/three.scss';
+@import '../components/four/four.scss';
 ```
 
 ## All available presets
 
 <dl>
-  <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/es6.js">es6</a></dt>
+  <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es6.js">es6</a></dt>
   <dd>JavaScript imports that use the modern import syntax (<code>import thing from './file.js';</code>).</dd>
 
-  <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/es5.js">es5</a></dt>
+  <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es5.js">es5</a></dt>
   <dd>JavaScript imports that use the old CommonJS syntax (<code>var thing = require('./file.js');</code>).</dd>
 
-  <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/pug.js">pug</a></dt>
+  <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/pug.js">pug</a></dt>
   <dd>Intended for use with builds that use <a href="https://pugjs.org/api/getting-started.html">Pug</a> as the templating language (<code>include ./file.pug</code>).</dd>
 
-  <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/jade.js">jade</a></dt>
+  <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/jade.js">jade</a></dt>
   <dd>For use on projects that haven't upgraded their old <a href="http://jade-lang.com/">Jade</a> powered projects to <a href="https://pugjs.org/api/getting-started.html">Pug</a> yet (<code>include ./file.jade</code>).</dd>
 
-  <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/scss.js">scss</a></dt>
+  <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/scss.js">scss</a></dt>
   <dd>Sass import statements that use the <a href="https://sass-lang.com/guide">newer SCSS style syntax</a> (<code>@import "./file.scss";</code>).</dd>
 
-  <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/sass.js">sass</a></dt>
+  <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/sass.js">sass</a></dt>
   <dd>Sass import statements that use the <a href="http://sass-lang.com/documentation/file.INDENTED_SYNTAX.html">older indented style syntax</a> (<code>@import ./file.sass</code>).</dd>
 
-  <dt><a href="https://github.com/Dan503/gulp-file-loader/blob/master/presets/stylus.js">stylus</a></dt>
+  <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/stylus.js">stylus</a></dt>
   <dd>Intended for use with the <a href="http://stylus-lang.com/">Stylus</a> CSS generation language (<code>@import "./file.styl"</code>).</dd>
 </dl>
 
-You can browse the available presets and see what their settings look like in [the `presets` folder](https://github.com/Dan503/gulp-file-loader/tree/master/presets). The presets are named after the file names in that folder.
+You can browse the available presets and see what their settings look like in [the `presets` folder](https://github.com/Dan503/gulp-auto-imports/tree/master/presets). The presets are named after the file names in that folder.
 
-If you would like other presets to be added, you can [log an issue](https://github.com/Dan503/gulp-file-loader/issues/new) to request for a new preset to be added, or you can make a pull request to add one yourself.
+If you would like other presets to be added, you can [log an issue](https://github.com/Dan503/gulp-auto-imports/issues/new) to request for a new preset to be added, or you can make a pull request to add one yourself.
 
 ### Overriding a preset
 
-The preset setting just tells Gulp File Loader what to use as the default settings.
+The preset setting just tells Gulp Auto Imports what to use as the default settings.
 
 You can override any of the preset settings by providing your own alternative setting. For example, to change the output file name, you can do this:
 
@@ -441,7 +445,7 @@ Running `gulp start` will run the file loader, compile the JS, and then start wa
 'use strict';
 
 // Import file loader plugin
-var fileLoader = require('gulp-file-loader');
+var fileLoader = require('gulp-auto-imports');
 
 var gulp = require('gulp');
 var rollup = require('rollup-stream');
@@ -498,61 +502,66 @@ gulp.task('start', gulp.series('js', 'js:watch'));
 #### Rollup in Gulp 3
 
 ```js
-'use strict';
+'use strict'
 
 // Import file loader plugin
-var fileLoader = require('gulp-file-loader');
+var fileLoader = require('gulp-auto-imports')
 
-var gulp = require('gulp');
-var rollup = require('rollup-stream');
-var sourcemaps = require('gulp-sourcemaps');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
+var gulp = require('gulp')
+var rollup = require('rollup-stream')
+var sourcemaps = require('gulp-sourcemaps')
+var source = require('vinyl-source-stream')
+var buffer = require('vinyl-buffer')
 
-gulp.task('js:load', function(){
-  const dest = './source/js';
-  return gulp.src([
-    './source/components/**/*.js',
-    // exclude files and folders starting with an underscore
-    '!./source/components/{**/\_*,**/\_*/**}',
-  ])
-    // Run the file loader
-    .pipe(fileLoader({ preset: 'es6', dest }))
-    .pipe(gulp.dest(dest));
+gulp.task('js:load', function () {
+	const dest = './source/js'
+	return (
+		gulp
+			.src([
+				'./source/components/**/*.js',
+				// exclude files and folders starting with an underscore
+				'!./source/components/{**/_*,**/_*/**}',
+			])
+			// Run the file loader
+			.pipe(fileLoader({ preset: 'es6', dest }))
+			.pipe(gulp.dest(dest))
+	)
 })
 
-var cache;
-gulp.task('js', ['js:load'], function() {
-  return rollup({
-      // point to the entry file.
-      input: './source/js/main.js',
-      sourcemap: true,
-      // use cache for better performance
-      cache: cache,
-      // Intended for use with browsers
-      format: 'iife',
-    })
-    .on('bundle', function(bundle) {
-      cache = bundle;
-    })
-    // point to the entry file.
-    .pipe(source('main.js', './source/js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./build/assets/js'));
-});
-
-gulp.task('js:watch', function(){
-  gulp.watch(['./source/**/*.js'], ['js']);
+var cache
+gulp.task('js', ['js:load'], function () {
+	return (
+		rollup({
+			// point to the entry file.
+			input: './source/js/main.js',
+			sourcemap: true,
+			// use cache for better performance
+			cache: cache,
+			// Intended for use with browsers
+			format: 'iife',
+		})
+			.on('bundle', function (bundle) {
+				cache = bundle
+			})
+			// point to the entry file.
+			.pipe(source('main.js', './source/js'))
+			.pipe(buffer())
+			.pipe(sourcemaps.init({ loadMaps: true }))
+			.pipe(sourcemaps.write('.'))
+			.pipe(gulp.dest('./build/assets/js'))
+	)
 })
 
-gulp.task('start', ['js', 'js:watch']);
+gulp.task('js:watch', function () {
+	gulp.watch(['./source/**/*.js'], ['js'])
+})
+
+gulp.task('start', ['js', 'js:watch'])
 ```
 
 ### Browserify
 
-Below is a modified version of the of the [Gulp browserify + watchify recipe](https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md) that has Gulp File Loader installed.
+Below is a modified version of the of the [Gulp browserify + watchify recipe](https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md) that has Gulp Auto Imports installed.
 
 Browserify gets around performance issues by using a special "Watchify" JS library instead of `gulp.watch()`. You specify an entry file. Watchify watches for any changes to files that are imported from that entry file. It will also watch for changes to files imported from those imported files (and so on and so on forever).
 
@@ -561,78 +570,80 @@ The code below will generate a new `file-loader.js` file when it detects a JS fi
 Most of the code below works in both both Gulp 3 and Gulp 4.
 
 ```js
-'use strict';
+'use strict'
 
 // Import file loader plugin
-var fileLoader = require('gulp-file-loader');
+var fileLoader = require('gulp-auto-imports')
 
-var watchify = require('watchify');
-var browserify = require('browserify');
-var gulp = require('gulp');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var log = require('gulplog');
-var sourcemaps = require('gulp-sourcemaps');
+var watchify = require('watchify')
+var browserify = require('browserify')
+var gulp = require('gulp')
+var source = require('vinyl-source-stream')
+var buffer = require('vinyl-buffer')
+var log = require('gulplog')
+var sourcemaps = require('gulp-sourcemaps')
 
 var customOpts = {
-  // entry file defined here
-  entries: ['./source/js/main.js'],
-  debug: true
-};
-var opts = Object.assign({}, watchify.args, customOpts);
+	// entry file defined here
+	entries: ['./source/js/main.js'],
+	debug: true,
+}
+var opts = Object.assign({}, watchify.args, customOpts)
 
 // Watch for changes then bundle
-var b = watchify(browserify(opts));
+var b = watchify(browserify(opts))
 
-b.on('update', bundle); // on any dep update, runs the bundler
-b.on('log', log.info); // output build logs to terminal
+b.on('update', bundle) // on any dep update, runs the bundler
+b.on('log', log.info) // output build logs to terminal
 
 function bundle() {
-  // Then bundle the code
-  return b.bundle()
-    .on('error', log.error.bind(log, 'Browserify Error'))
-    .pipe(source('main.js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./build/assets/js'));
+	// Then bundle the code
+	return b
+		.bundle()
+		.on('error', log.error.bind(log, 'Browserify Error'))
+		.pipe(source('main.js'))
+		.pipe(buffer())
+		.pipe(sourcemaps.init({ loadMaps: true }))
+		.pipe(sourcemaps.write('./'))
+		.pipe(gulp.dest('./build/assets/js'))
 }
 
 // File loader Gulp task
-gulp.task('js:load', function(){
-  const dest = './source/js';
-  return gulp.src([
-    './source/components/**/*.js',
-    // exclude files and folders starting with an underscore
-    '!./source/components/{**/\_*,**/\_*/**}',
-  ])
-    // Run the file loader
-    .pipe(fileLoader({preset: 'es5', dest }))
-    .pipe(gulp.dest(dest));
+gulp.task('js:load', function () {
+	const dest = './source/js'
+	return (
+		gulp
+			.src([
+				'./source/components/**/*.js',
+				// exclude files and folders starting with an underscore
+				'!./source/components/{**/_*,**/_*/**}',
+			])
+			// Run the file loader
+			.pipe(fileLoader({ preset: 'es5', dest }))
+			.pipe(gulp.dest(dest))
+	)
 })
-
 
 ///////////////////////////
 // Gulp 3 specific code //
 /////////////////////////
-gulp.task('js', ['js:load'], bundle); // so you can run `gulp js` to build the file
-gulp.task('watch', function() {
-  // Gulp 3 can't distinguish between 'add','unlink', and 'change' events
-  // so it also has to run on file changes
-  gulp.watch('./source/components/**/*.js', ['js:load']);
+gulp.task('js', ['js:load'], bundle) // so you can run `gulp js` to build the file
+gulp.task('watch', function () {
+	// Gulp 3 can't distinguish between 'add','unlink', and 'change' events
+	// so it also has to run on file changes
+	gulp.watch('./source/components/**/*.js', ['js:load'])
 })
-
 
 ///////////////////////////
 // Gulp 4 specific code //
 /////////////////////////
-gulp.task('js', gulp.series('js:load', bundle)); // so you can run `gulp js` to build the file
-gulp.task('watch', function(done) {
-  var watcher = gulp.watch('./source/components/**/*.js');
-  //Gulp 4 has the advantage of only running when a file is added/removed, not changed
-  watcher.on('add', gulp.series('js:load'));
-  watcher.on('unlink', gulp.series('js:load'));
-  done();
+gulp.task('js', gulp.series('js:load', bundle)) // so you can run `gulp js` to build the file
+gulp.task('watch', function (done) {
+	var watcher = gulp.watch('./source/components/**/*.js')
+	//Gulp 4 has the advantage of only running when a file is added/removed, not changed
+	watcher.on('add', gulp.series('js:load'))
+	watcher.on('unlink', gulp.series('js:load'))
+	done()
 })
 ```
 
@@ -642,13 +653,13 @@ Now that Gulp is set up to build a file-loader JS file for you, import your gene
 
 ```js
 // Import file-loader.js inside main.js
-import fileLoader from './file-loader.js'; // ES6
-var fileLoader = require('./file-loader.js'); // ES5
+import fileLoader from './file-loader.js' // ES6
+var fileLoader = require('./file-loader.js') // ES5
 
-document.addEventListener("DOMContentLoaded", function() {
-  // Run the file-loader code on page load
-  fileLoader();
-});
+document.addEventListener('DOMContentLoaded', function () {
+	// Run the file-loader code on page load
+	fileLoader()
+})
 ```
 
 Note that a typical component js file will need to export a function by default for this configuration to work.
@@ -656,20 +667,20 @@ Note that a typical component js file will need to export a function by default 
 ```js
 // component js file example
 
-  /////////
- // ES6 //
+/////////
+// ES6 //
 /////////
 export default function on_page_load() {
-  // Place code here that you wish to run
-  // when the `fileLoader()` function is called
+	// Place code here that you wish to run
+	// when the `fileLoader()` function is called
 }
 
-  /////////
- // ES5 //
+/////////
+// ES5 //
 /////////
 module.exports = function on_page_load() {
-  // Place code here that you wish to run
-  // when the `fileLoader()` function is called
+	// Place code here that you wish to run
+	// when the `fileLoader()` function is called
 }
 ```
 
@@ -684,47 +695,49 @@ I'll use SCSS as an example first because it is both simple and popular.
 Create a gulp task that looks like this:
 
 ```js
-// Typical SCSS gulp-file-loader task
+// Typical SCSS gulp-auto-imports task
 
-var gulp = require('gulp');
-var fileLoader = require('gulp-file-loader');
+var gulp = require('gulp')
+var fileLoader = require('gulp-auto-imports')
 
-gulp.task('sass:load', function(){
+gulp.task('sass:load', function () {
+	// Always relative to gulpfile.js even if this code is inside a folder
+	var dest = 'source/scss'
 
-  // Always relative to gulpfile.js even if this code is inside a folder
-  var dest = 'source/scss';
-
-  // Do not leave off the "return", it is vital!
-  return gulp.src([
-    // These paths are always relative to gulpfile.js
-    './source/components/**/*.scss',
-    // Ignore files & folders that start with underscores
-    '!./source/{**/\_*,**/\_*/**}',
-  ])
-    .pipe(fileLoader({
-      // "$path" is replaced with a relative file path
-      format: '@import "$path";',
-      // destination folder (must match gulp.dest)
-      dest: dest,
-      // name of the output file
-      fileName: 'file-loader.scss',
-      // Don't change the order that imports are currently in
-      retainOrder: true,
-      // Add a message to the top of the file
-      header: "// output from gulp-file-loader",
-    }))
-    .pipe(gulp.dest(dest));
+	// Do not leave off the "return", it is vital!
+	return gulp
+		.src([
+			// These paths are always relative to gulpfile.js
+			'./source/components/**/*.scss',
+			// Ignore files & folders that start with underscores
+			'!./source/{**/_*,**/_*/**}',
+		])
+		.pipe(
+			fileLoader({
+				// "$path" is replaced with a relative file path
+				format: '@import "$path";',
+				// destination folder (must match gulp.dest)
+				dest: dest,
+				// name of the output file
+				fileName: 'file-loader.scss',
+				// Don't change the order that imports are currently in
+				retainOrder: true,
+				// Add a message to the top of the file
+				header: '// output from gulp-auto-imports',
+			}),
+		)
+		.pipe(gulp.dest(dest))
 })
 ```
 
 The output of this Gulp task will look something like this:
 
 ```scss
-// output from gulp-file-loader
-@import "../components/A/A.scss";
-@import "../components/B/B.scss";
-@import "../components/C/C.scss";
-@import "../components/D/D.scss";
+// output from gulp-auto-imports
+@import '../components/A/A.scss';
+@import '../components/B/B.scss';
+@import '../components/C/C.scss';
+@import '../components/D/D.scss';
 ```
 
 ### Manual JS set up
@@ -732,10 +745,10 @@ The output of this Gulp task will look something like this:
 JS is slightly more complicated.
 
 ```js
-// Typical JS gulp-file-loader task
+// Typical JS gulp-auto-imports task
 
-var gulp = require('gulp');
-var fileLoader = require('gulp-file-loader');
+var gulp = require('gulp')
+var fileLoader = require('gulp-auto-imports')
 
 // Use an ES6 template literal for defining the template
 // Node has supported them natively ever since v4.0.0
@@ -745,32 +758,33 @@ $format[imports]
 export default function(){
 $format[functions]
 }
-`;
+`
 
-gulp.task('js:load', function(){
+gulp.task('js:load', function () {
+	var dest = 'source/js'
 
-  var dest = 'source/js';
-
-  return gulp.src([
-    './source/components/**/*.js',
-    // Ignore files & folders that start with underscores
-    '!./source/{**/\_*,**/\_*/**}'
-  ])
-    .pipe(fileLoader({
-      // Format is now split into an object holding named format strings
-      format: {
-        // "$name" is replaced with the name of the file
-        // "$path" is replaced with a relative path to the file
-        imports: 'import $name from "$path";',
-        // The indent is added here, not in the template
-        functions: '  $name();'
-      },
-      dest: dest,
-      fileName: 'file-loader.js',
-      template: template
-    }))
-    .pipe(gulp.dest(dest));
-
+	return gulp
+		.src([
+			'./source/components/**/*.js',
+			// Ignore files & folders that start with underscores
+			'!./source/{**/_*,**/_*/**}',
+		])
+		.pipe(
+			fileLoader({
+				// Format is now split into an object holding named format strings
+				format: {
+					// "$name" is replaced with the name of the file
+					// "$path" is replaced with a relative path to the file
+					imports: 'import $name from "$path";',
+					// The indent is added here, not in the template
+					functions: '  $name();',
+				},
+				dest: dest,
+				fileName: 'file-loader.js',
+				template: template,
+			}),
+		)
+		.pipe(gulp.dest(dest))
 })
 ```
 
@@ -779,16 +793,16 @@ The output from this task will look something like this:
 ```js
 // Generated file-loader.js file
 
-import one from "../components/one/one.js";
-import two from "../components/two/two.js";
-import three from "../components/three/three.js";
-import four from "../components/four/four.js";
+import one from '../components/one/one.js'
+import two from '../components/two/two.js'
+import three from '../components/three/three.js'
+import four from '../components/four/four.js'
 
-export default function(){
-  one();
-  two();
-  three();
-  four();
+export default function () {
+	one()
+	two()
+	three()
+	four()
 }
 ```
 
@@ -807,7 +821,7 @@ If the `format` setting is provided as a string, the `template` setting is ignor
 The `$name` placeholder in the `format` setting is replaced with the file name of the file. Any non-alphabetic and non-numeric characters are converted to underscores to prevent possible syntax errors.
 
 ```
-./folder/path/gulp-file-loader-is-awesome!123.js
+./folder/path/gulp-auto-imports-is-awesome!123.js
 
  === converts to the $name ===
 
@@ -856,8 +870,7 @@ export default function(){
     // Notice the indent here
     $format[functions]
 }
-`;
-
+`
 ```
 
 You will end up with a JS file that looks like this:
@@ -865,17 +878,17 @@ You will end up with a JS file that looks like this:
 ```js
 // The result of incorrect indentation
 
-import one from "../components/one/one.js";
-import two from "../components/two/two.js";
-import three from "../components/three/three.js";
-import four from "../components/four/four.js";
+import one from '../components/one/one.js'
+import two from '../components/two/two.js'
+import three from '../components/three/three.js'
+import four from '../components/four/four.js'
 
-export default function(){
-    // Notice the indent here
-    one();
-two();
-three();
-four();
+export default function () {
+	// Notice the indent here
+	one()
+	two()
+	three()
+	four()
 }
 ```
 
@@ -912,17 +925,17 @@ That will produce the desired output:
 ```js
 // The result of correct indenting
 
-import one from "../components/one/one.js";
-import two from "../components/two/two.js";
-import three from "../components/three/three.js";
-import four from "../components/four/four.js";
+import one from '../components/one/one.js'
+import two from '../components/two/two.js'
+import three from '../components/three/three.js'
+import four from '../components/four/four.js'
 
-export default function(){
-    // Notice the indent here
-    one();
-    two();
-    three();
-    four();
+export default function () {
+	// Notice the indent here
+	one()
+	two()
+	three()
+	four()
 }
 ```
 
@@ -932,13 +945,13 @@ I briefly touched on the `retainOrder` setting earlier, however there is a bit m
 
 In CSS, the order that styles are written in matters significantly. It is important that you are able to alter the order that files are loaded in if you wish to have full control over your CSS specificity.
 
-Other globing methods (eg. `@import "../path/to/components/**/*.scss";`) do not give you the ability to alter the order that the files are loaded in. You are generally restricted to loading files in alphabetical order. Gulp File Loader gives you back the ability to control the order that your CSS loads in with it's `retainOrder` setting (introduced in v2.0.0).
+Other globing methods (eg. `@import "../path/to/components/**/*.scss";`) do not give you the ability to alter the order that the files are loaded in. You are generally restricted to loading files in alphabetical order. Gulp Auto Imports gives you back the ability to control the order that your CSS loads in with it's `retainOrder` setting (introduced in v2.0.0).
 
-By default `retainOrder` is set to `false`. When `retainOrder` is set to `true`, Gulp File Loader will not alter the order of the existing import paths if you manually edit them yourself. Make sure that if you enable the `retainOrder` setting you **save the output file into source control**. This will ensure that your co-workers don't end up with a CSS file that is in a different order to yours.
+By default `retainOrder` is set to `false`. When `retainOrder` is set to `true`, Gulp Auto Imports will not alter the order of the existing import paths if you manually edit them yourself. Make sure that if you enable the `retainOrder` setting you **save the output file into source control**. This will ensure that your co-workers don't end up with a CSS file that is in a different order to yours.
 
-Gulp File Loader will still delete old files from the list that don't exist any more.
+Gulp Auto Imports will still delete old files from the list that don't exist any more.
 
-If it detects that a new file is added to the system, Gulp File Loader will aim to keep that new file grouped with other files found in the same folder. (Prior to v2.1.0 it just dumped it at the bottom of the file). This means that new scss config file imports will be placed at the top of the file-loader file with the other config files. This gives all your component files access to the new config settings without you having to make any alterations to the imports file.
+If it detects that a new file is added to the system, Gulp Auto Imports will aim to keep that new file grouped with other files found in the same folder. (Prior to v2.1.0 it just dumped it at the bottom of the file). This means that new scss config file imports will be placed at the top of the file-loader file with the other config files. This gives all your component files access to the new config settings without you having to make any alterations to the imports file.
 
 It will not retain any comments or other alterations to the file. It will only retain the order that the imports were announced in.
 
@@ -967,9 +980,9 @@ It will not retain any comments or other alterations to the file. It will only r
   <dd>This is set to <code>false</code> by default. When set to <code>true</code>, it will never alter the order that imports are loaded in. This gives you the ability to manually edit the output file to achieve the desired import order. Make sure to <strong>save the output file into source control</strong> so that your team mates end up with a file that is in the same order as yours.</dd>
 
   <dt>preset</dt>
-  <dd>Use a set of predefined default settings rather than configuring all of the settings yourself. You can view the available presets and the settings that they provide in <a href="https://github.com/Dan503/gulp-file-loader/tree/master/presets">the <code>presets</code> folder</a>.</dd>
+  <dd>Use a set of predefined default settings rather than configuring all of the settings yourself. You can view the available presets and the settings that they provide in <a href="https://github.com/Dan503/gulp-auto-imports/tree/master/presets">the <code>presets</code> folder</a>.</dd>
 </dl>
 
 ## Change Log
 
-The Change log can be viewed on the [Gulp File Loader GitHub releases](https://github.com/Dan503/gulp-file-loader/releases) page.
+The Change log can be viewed on the [Gulp Auto Imports GitHub releases](https://github.com/Dan503/gulp-auto-imports/releases) page.
