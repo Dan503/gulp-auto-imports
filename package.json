@@ -8,8 +8,8 @@
 		"through2": "^2.0.3"
 	},
 	"devDependencies": {
-		"gulp": "^3.9.1",
-		"gulp-sass": "^4.0.1"
+		"gulp": "^4.0.2",
+		"gulp-sass": "^4.1.0"
 	},
 	"main": "index.js",
 	"scripts": {

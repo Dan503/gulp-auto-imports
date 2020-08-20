@@ -37,14 +37,15 @@ gulp.task('js:load', function () {
 		.pipe(gulp.dest(dest))
 })
 
-gulp.task('js', ['js:load'])
+gulp.task('js', gulp.series('js:load'))
 
-gulp.task('js:watch', function () {
+gulp.task('js:watch', function (done) {
 	gulp.watch(
 		[
 			'./tests/test/js/js-input/**/*.js',
 			'./tests/other-test-folder/js/**/*.js',
 		],
-		['js'],
+		gulp.series('js'),
 	)
+	done()
 })

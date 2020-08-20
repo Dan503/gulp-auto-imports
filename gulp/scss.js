@@ -10,7 +10,7 @@ var header = `
 // You may NOT make any other alterations to this file.
 `
 
-gulp.task('sass', ['sass:load'], function () {
+gulp.task('sass:compile', function () {
 	return gulp
 		.src('./tests/test/scss/main.scss')
 		.pipe(sass().on('error', sass.logError))
@@ -41,14 +41,17 @@ gulp.task('sass:load', function () {
 		.pipe(gulp.dest(dest))
 })
 
-gulp.task('sass:watch', function () {
+gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
+
+gulp.task('sass:watch', function (done) {
 	gulp.watch(
 		[
 			'./tests/test/scss/scss-input/**/*.scss',
 			'./tests/other-test-folder/scss/**/*.scss',
 		],
-		['sass'],
+		gulp.series('sass'),
 	)
+	done()
 })
 
 var sassDest = 'tests/multi-output-result'
@@ -72,4 +75,4 @@ scssFolders.forEach((folderName, i) => {
 	})
 })
 
-gulp.task('multi-output-test', scssLoadTasks)
+gulp.task('multi-output-test', gulp.parallel(...scssLoadTasks))
