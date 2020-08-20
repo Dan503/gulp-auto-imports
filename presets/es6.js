@@ -6,15 +6,15 @@ var header = `
 var template = `
 $format[imports]
 
-export default function(){
+export default function () {
 $format[functions]
 }
 `
 
 module.exports = {
 	format: {
-		imports: 'import $name from "$path";',
-		functions: '  $name();',
+		imports: `import $name from '$path'`,
+		functions: '  $name()',
 	},
 	fileName: 'auto-imports.js',
 	header: header,

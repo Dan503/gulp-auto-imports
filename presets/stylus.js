@@ -6,7 +6,7 @@ var header = `
 `
 
 module.exports = {
-	format: '@import "$path"',
+	format: `@import '$path'`,
 	fileName: 'auto-imports.styl',
 	retainOrder: true,
 	header: header,
