@@ -1,2 +1,1 @@
-
-module.exports = string => typeof string === 'string';
+module.exports = (string) => typeof string === "string";
