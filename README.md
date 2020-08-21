@@ -391,7 +391,7 @@ gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
 
 <dl>
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es6.js">es6</a></dt>
-  <dd>Import a set of functions using ES6 <code>import</code> syntax and then call them on page load (<code>import fileName from '../relative/path/fileName.js'</code>).</dd>
+  <dd>Import a set of functions using ES6 <code>import</code> syntax and then call them on page load (<code>import fileName from '../relative/path/fileName.js'</code>; then after DOM load: <code>fileName()</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es6_default_exports.js">es6_default_exports</a></dt>
   <dd>Import a bunch of ES6 JavaScript <em>default</em> exports and then export them all from one file (<code>export { default as fileName } from '../relative/path/fileName.js'</code>).</dd>
@@ -400,7 +400,7 @@ gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
   <dd>Import a bunch of ES6 JavaScript <em>named</em> exports and then export them all from one file (<code>export { fileName } from '../relative/path/fileName.js'</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es5.js">es5</a></dt>
-  <dd>Import a set of functions using <code>require()</code> and then call them on page load (<code>var fileName = require('../relative/path/fileName.js')</code>).</dd>
+  <dd>Import a set of functions using <code>require()</code> and then call them on page load (<code>var fileName = require('../relative/path/fileName.js')</code>; then after DOM load: <code>fileName()</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es5_default_exports.js">es5_default_exports</a></dt>
   <dd>Import a bunch of CommonJS <em>default</em> exports and then export them all from one file (<code>exports.fileName = require('../relative/path/fileName.js')</code>).</dd>
