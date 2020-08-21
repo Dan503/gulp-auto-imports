@@ -391,37 +391,37 @@ gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
 
 <dl>
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es6.js">es6</a></dt>
-  <dd>JavaScript imports that use the modern import syntax (<code>import thing from './file.js'</code>).</dd>
+  <dd>Import a set of functions using ES6 <code>import</code> syntax and then call them on page load (<code>import fileName from '../relative/path/fileName.js'</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es6_default_exports.js">es6_default_exports</a></dt>
-  <dd>Import a bunch of ES6 JavaScript <em>default</em> exports and then export them all from one file (<code>export { default as thing } from './file.js'</code>).</dd>
+  <dd>Import a bunch of ES6 JavaScript <em>default</em> exports and then export them all from one file (<code>export { default as fileName } from '../relative/path/fileName.js'</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es6_named_exports.js">es6_named_exports</a></dt>
-  <dd>Import a bunch of ES6 JavaScript <em>named</em> exports and then export them all from one file (<code>export { thing } from './file.js'</code>).</dd>
+  <dd>Import a bunch of ES6 JavaScript <em>named</em> exports and then export them all from one file (<code>export { fileName } from '../relative/path/fileName.js'</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es5.js">es5</a></dt>
-  <dd>JavaScript imports that use the old CommonJS syntax (<code>var thing = require('./file.js')</code>).</dd>
+  <dd>Import a set of functions using <code>require()</code> and then call them on page load (<code>var fileName = require('../relative/path/fileName.js')</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es5_default_exports.js">es5_default_exports</a></dt>
-  <dd>Import a bunch of CommonJS <em>default</em> exports and then export them all from one file (<code>exports.thing = require('./file.js')</code>).</dd>
+  <dd>Import a bunch of CommonJS <em>default</em> exports and then export them all from one file (<code>exports.fileName = require('../relative/path/fileName.js')</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es5_named_exports.js">es5_named_exports</a></dt>
-  <dd>Import a bunch of CommonJS <em>named</em> exports and then export them all from one file (<code>exports.thing = require('./file.js').thing</code>).</dd>
+  <dd>Import a bunch of CommonJS <em>named</em> exports and then export them all from one file (<code>exports.fileName = require('../relative/path/fileName.js').fileName</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/pug.js">pug</a></dt>
-  <dd>Intended for use with builds that use <a href="https://pugjs.org/api/getting-started.html">Pug</a> as the templating language (<code>include ./file.pug</code>).</dd>
+  <dd>Intended for use with builds that use <a href="https://pugjs.org/api/getting-started.html">Pug</a> as the templating language (<code>include ../relative/path/fileName.pug</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/jade.js">jade</a></dt>
-  <dd>For use on projects that haven't upgraded their old <a href="http://jade-lang.com/">Jade</a> powered projects to <a href="https://pugjs.org/api/getting-started.html">Pug</a> yet (<code>include ./file.jade</code>).</dd>
+  <dd>For use on projects that haven't upgraded their old <a href="http://jade-lang.com/">Jade</a> powered projects to <a href="https://pugjs.org/api/getting-started.html">Pug</a> yet (<code>include ../relative/path/fileName.jade</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/scss.js">scss</a></dt>
-  <dd>Sass import statements that use the <a href="https://sass-lang.com/guide">newer SCSS style syntax</a> (<code>@import "./file.scss";</code>).</dd>
+  <dd>Sass import statements that use the <a href="https://sass-lang.com/guide">newer SCSS style syntax</a> (<code>@import '../relative/path/fileName.scss';</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/sass.js">sass</a></dt>
-  <dd>Sass import statements that use the <a href="http://sass-lang.com/documentation/file.INDENTED_SYNTAX.html">older indented style syntax</a> (<code>@import ./file.sass</code>).</dd>
+  <dd>Sass import statements that use the <a href="http://sass-lang.com/documentation/file.INDENTED_SYNTAX.html">older indented style syntax</a> (<code>@import ../relative/path/fileName.sass</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/stylus.js">stylus</a></dt>
-  <dd>Intended for use with the <a href="http://stylus-lang.com/">Stylus</a> CSS generation language (<code>@import "./file.styl"</code>).</dd>
+  <dd>Intended for use with the <a href="http://stylus-lang.com/">Stylus</a> CSS generation language (<code>@import '../relative/path/fileName.styl'</code>).</dd>
 </dl>
 
 You can browse the available presets and see what their settings look like in [the `presets` folder](https://github.com/Dan503/gulp-auto-imports/tree/master/presets). The presets are named after the file names in that folder.
