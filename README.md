@@ -448,7 +448,7 @@ Running `gulp start` will generate the auto imports, compile the JS, and then st
 var autoImports = require('gulp-auto-imports');
 
 var gulp = require('gulp');
-var rollup = require('rollup-stream');
+var rollup = require('@rollup/stream');
 var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
@@ -470,11 +470,19 @@ gulp.task('js:compile', function() {
   return rollup({
       // point to the entry file.
       input: './source/js/main.js',
-      sourcemap: true,
-      // use cache for better performance
+
+		// use cache for better performance
       cache: cache,
-      // Intended for use with browsers
-      format: 'iife',
+
+		// Note: these options are placed at the root level in older versions of Rollup
+      output: {
+        // Output bundle is intended for use in browsers
+        // (iife = "Immediately Invoked Function Expression")
+        format: 'iife',
+
+        // Show source code when debugging in browser
+        sourcemap: true
+      }
     })
     .on('bundle', function(bundle) {
       // update cache data after every bundle is created
@@ -508,7 +516,7 @@ gulp.task('start', gulp.series('js', 'js:watch'));
 var autoImports = require('gulp-auto-imports')
 
 var gulp = require('gulp')
-var rollup = require('rollup-stream')
+var rollup = require('@rollup/stream')
 var sourcemaps = require('gulp-sourcemaps')
 var source = require('vinyl-source-stream')
 var buffer = require('vinyl-buffer')
@@ -534,11 +542,19 @@ gulp.task('js', ['js:load'], function () {
 		rollup({
 			// point to the entry file.
 			input: './source/js/main.js',
-			sourcemap: true,
+
 			// use cache for better performance
 			cache: cache,
-			// Intended for use with browsers
-			format: 'iife',
+
+			// Note: these options are placed at the root level in older versions of Rollup
+			output: {
+				// Output bundle is intended for use in browsers
+				// (iife = "Immediately Invoked Function Expression")
+				format: 'iife',
+
+				// Show source code when debugging in browser
+				sourcemap: true
+			}
 		})
 			.on('bundle', function (bundle) {
 				cache = bundle
