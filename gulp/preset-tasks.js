@@ -19,6 +19,37 @@ gulp.task('preset:es5', function () {
 		.pipe(gulp.dest(dest))
 })
 
+gulp.task('preset:es5_default_exports', function () {
+	return gulp
+		.src([
+			'./tests/test/js/js-input/**/*.js',
+			'./tests/other-test-folder/js/**/*.js',
+		])
+		.pipe(
+			autoImports({
+				preset: 'es5_default_exports',
+				dest: dest,
+				fileName: 'preset-es5-default-exports.js',
+			}),
+		)
+		.pipe(gulp.dest(dest))
+})
+gulp.task('preset:es5_named_exports', function () {
+	return gulp
+		.src([
+			'./tests/test/js/js-input/**/*.js',
+			'./tests/other-test-folder/js/**/*.js',
+		])
+		.pipe(
+			autoImports({
+				preset: 'es5_named_exports',
+				dest: dest,
+				fileName: 'preset-es5-named-exports.js',
+			}),
+		)
+		.pipe(gulp.dest(dest))
+})
+
 gulp.task('preset:es6', function () {
 	return gulp
 		.src([
@@ -30,6 +61,37 @@ gulp.task('preset:es6', function () {
 				preset: 'es6',
 				dest: dest,
 				fileName: 'preset-es6.js',
+			}),
+		)
+		.pipe(gulp.dest(dest))
+})
+
+gulp.task('preset:es6_default_exports', function () {
+	return gulp
+		.src([
+			'./tests/test/js/js-input/**/*.js',
+			'./tests/other-test-folder/js/**/*.js',
+		])
+		.pipe(
+			autoImports({
+				preset: 'es6_default_exports',
+				dest: dest,
+				fileName: 'preset-es6-default-exports.js',
+			}),
+		)
+		.pipe(gulp.dest(dest))
+})
+gulp.task('preset:es6_named_exports', function () {
+	return gulp
+		.src([
+			'./tests/test/js/js-input/**/*.js',
+			'./tests/other-test-folder/js/**/*.js',
+		])
+		.pipe(
+			autoImports({
+				preset: 'es6_named_exports',
+				dest: dest,
+				fileName: 'preset-es6-named-exports.js',
 			}),
 		)
 		.pipe(gulp.dest(dest))
@@ -115,7 +177,11 @@ gulp.task(
 	'presets',
 	gulp.parallel(
 		'preset:es5',
+		'preset:es5_default_exports',
+		'preset:es5_named_exports',
 		'preset:es6',
+		'preset:es6_default_exports',
+		'preset:es6_named_exports',
 		'preset:jade',
 		'preset:pug',
 		'preset:sass',
