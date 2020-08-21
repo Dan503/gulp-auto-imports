@@ -1,5 +1,5 @@
 var gulp = require('gulp')
-var fileLoader = require('../')
+var autoImports = require('../')
 
 var dest = 'tests/preset-outputs'
 
@@ -10,7 +10,7 @@ gulp.task('preset:es5', function () {
 			'./tests/other-test-folder/js/**/*.js',
 		])
 		.pipe(
-			fileLoader({
+			autoImports({
 				preset: 'es5',
 				dest: dest,
 				fileName: 'preset-es5.js',
@@ -26,7 +26,7 @@ gulp.task('preset:es6', function () {
 			'./tests/other-test-folder/js/**/*.js',
 		])
 		.pipe(
-			fileLoader({
+			autoImports({
 				preset: 'es6',
 				dest: dest,
 				fileName: 'preset-es6.js',
@@ -42,7 +42,11 @@ gulp.task('preset:jade', function () {
 			'./tests/other-test-folder/jade/**/*.jade',
 		])
 		.pipe(
-			fileLoader({ preset: 'jade', dest: dest, fileName: 'preset.jade' }),
+			autoImports({
+				preset: 'jade',
+				dest: dest,
+				fileName: 'preset.jade',
+			}),
 		)
 		.pipe(gulp.dest(dest))
 })
@@ -53,7 +57,9 @@ gulp.task('preset:pug', function () {
 			'./tests/test/pug/pug-input/**/*.pug',
 			'./tests/other-test-folder/pug/**/*.pug',
 		])
-		.pipe(fileLoader({ preset: 'pug', dest: dest, fileName: 'preset.pug' }))
+		.pipe(
+			autoImports({ preset: 'pug', dest: dest, fileName: 'preset.pug' }),
+		)
 		.pipe(gulp.dest(dest))
 })
 
@@ -64,7 +70,11 @@ gulp.task('preset:sass', function () {
 			'./tests/other-test-folder/sass/**/*.sass',
 		])
 		.pipe(
-			fileLoader({ preset: 'sass', dest: dest, fileName: 'preset.sass' }),
+			autoImports({
+				preset: 'sass',
+				dest: dest,
+				fileName: 'preset.sass',
+			}),
 		)
 		.pipe(gulp.dest(dest))
 })
@@ -76,7 +86,11 @@ gulp.task('preset:scss', function () {
 			'./tests/other-test-folder/scss/**/*.scss',
 		])
 		.pipe(
-			fileLoader({ preset: 'scss', dest: dest, fileName: 'preset.scss' }),
+			autoImports({
+				preset: 'scss',
+				dest: dest,
+				fileName: 'preset.scss',
+			}),
 		)
 		.pipe(gulp.dest(dest))
 })
@@ -88,7 +102,7 @@ gulp.task('preset:stylus', function () {
 			'./tests/other-test-folder/stylus/**/*.styl',
 		])
 		.pipe(
-			fileLoader({
+			autoImports({
 				preset: 'stylus',
 				dest: dest,
 				fileName: 'preset.styl',

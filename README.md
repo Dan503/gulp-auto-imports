@@ -18,35 +18,35 @@ Gulp Auto Imports also has the ability to remember the order that imports are de
 
 ## Contents <!-- omit in toc -->
 
--   [Before and after Gulp Auto Imports](#before-and-after-gulp-auto-imports)
-    -   [SCSS Before](#scss-before)
-    -   [SCSS After](#scss-after)
-    -   [JS before](#js-before)
-    -   [JS after](#js-after)
--   [Install](#install)
--   [Using the SCSS preset](#using-the-scss-preset)
--   [Use in _combination_ with Gulp Sass Glob](#use-in-combination-with-gulp-sass-glob)
-    -   [Gulp 3 combination](#gulp-3-combination)
-    -   [Gulp 4 combination](#gulp-4-combination)
-    -   [Using a combination inside main.scss](#using-a-combination-inside-mainscss)
--   [All available presets](#all-available-presets)
-    -   [Overriding a preset](#overriding-a-preset)
--   [JS configuration examples](#js-configuration-examples)
-    -   [Rollup](#rollup)
-        -   [Rollup in Gulp 4](#rollup-in-gulp-4)
-        -   [Rollup in Gulp 3](#rollup-in-gulp-3)
-    -   [Browserify](#browserify)
-    -   [Making use of the generated JS file](#making-use-of-the-generated-js-file)
--   [How to do custom configurations](#how-to-do-custom-configurations)
-    -   [Manual SCSS set up](#manual-scss-set-up)
-    -   [Manual JS set up](#manual-js-set-up)
--   [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
-    -   [The `$name` placeholder](#the-name-placeholder)
-    -   [The `$path` placeholder](#the-path-placeholder)
-    -   [Using indents](#using-indents)
--   [The `retainOrder` setting](#the-retainorder-setting)
--   [Settings reference guide](#settings-reference-guide)
--   [Change Log](#change-log)
+- [Before and after Gulp Auto Imports](#before-and-after-gulp-auto-imports)
+	- [SCSS Before](#scss-before)
+	- [SCSS After](#scss-after)
+	- [JS before](#js-before)
+	- [JS after](#js-after)
+- [Install](#install)
+- [Using the SCSS preset](#using-the-scss-preset)
+- [Use in _combination_ with Gulp Sass Glob](#use-in-combination-with-gulp-sass-glob)
+	- [Gulp 3 combination](#gulp-3-combination)
+	- [Gulp 4 combination](#gulp-4-combination)
+	- [Using a combination inside main.scss](#using-a-combination-inside-mainscss)
+- [All available presets](#all-available-presets)
+	- [Overriding a preset](#overriding-a-preset)
+- [JS configuration examples](#js-configuration-examples)
+	- [Rollup](#rollup)
+		- [Rollup in Gulp 4](#rollup-in-gulp-4)
+		- [Rollup in Gulp 3](#rollup-in-gulp-3)
+	- [Browserify](#browserify)
+	- [Making use of the generated JS file](#making-use-of-the-generated-js-file)
+- [How to do custom configurations](#how-to-do-custom-configurations)
+	- [Manual SCSS set up](#manual-scss-set-up)
+	- [Manual JS set up](#manual-js-set-up)
+- [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
+	- [The `$name` placeholder](#the-name-placeholder)
+	- [The `$path` placeholder](#the-path-placeholder)
+	- [Using indents](#using-indents)
+- [The `retainOrder` setting](#the-retainorder-setting)
+- [Settings reference guide](#settings-reference-guide)
+- [Change Log](#change-log)
 
 ## Before and after Gulp Auto Imports
 
@@ -106,10 +106,10 @@ $(() => {
 
 import $ from 'jquery'
 
-import fileLoader from './auto-imports.js'
+import autoImports from './auto-imports.js'
 
 $(() => {
-	fileLoader()
+	autoImports()
 })
 ```
 
@@ -169,7 +169,7 @@ Writing out all of the required settings manually for this plugin can be a bit t
 
 ```js
 var gulp = require('gulp')
-var fileLoader = require('gulp-auto-imports')
+var autoImports = require('gulp-auto-imports')
 var sass = require('gulp-sass')
 
 // Preset SCSS gulp-auto-imports task
@@ -181,7 +181,7 @@ gulp.task('sass:load', function () {
 		gulp
 			.src('./source/components/**/*.scss')
 			// Using the "scss" preset ("dest" must be provided here as well)
-			.pipe(fileLoader({ preset: 'scss', dest: dest }))
+			.pipe(autoImports({ preset: 'scss', dest: dest }))
 			.pipe(gulp.dest(dest))
 	)
 })
@@ -305,7 +305,7 @@ npm install gulp-sass-glob --save-dev
 // Using Gulp Auto Imports in combination with Gulp Sass Glob in Gulp 3
 
 var gulp = require('gulp')
-var fileLoader = require('gulp-auto-imports')
+var autoImports = require('gulp-auto-imports')
 var sass = require('gulp-sass')
 var sassGlob = require('gulp-sass-glob')
 
@@ -314,7 +314,7 @@ gulp.task('sass:load', function () {
 	var dest = 'source/scss'
 	return gulp
 		.src('./source/components/**/*.scss')
-		.pipe(fileLoader({ preset: 'scss', dest: dest }))
+		.pipe(autoImports({ preset: 'scss', dest: dest }))
 		.pipe(gulp.dest(dest))
 })
 
@@ -334,7 +334,7 @@ gulp.task('sass', ['sass:load'], function () {
 // Using Gulp Auto Imports in combination with Gulp Sass Glob in Gulp 4
 
 var gulp = require('gulp')
-var fileLoader = require('gulp-auto-imports')
+var autoImports = require('gulp-auto-imports')
 var sass = require('gulp-sass')
 var sassGlob = require('gulp-sass-glob')
 
@@ -343,7 +343,7 @@ gulp.task('sass:load', function () {
 	var dest = 'source/scss'
 	return gulp
 		.src('./source/components/**/*.scss')
-		.pipe(fileLoader({ preset: 'scss', dest: dest }))
+		.pipe(autoImports({ preset: 'scss', dest: dest }))
 		.pipe(gulp.dest(dest))
 })
 
@@ -424,7 +424,7 @@ You can override any of the preset settings by providing your own alternative se
 
 ```js
 // Overriding the default preset setting for "fileName"
-.pipe(fileLoader({ preset: 'es6', fileName: 'different-file-name.js', dest: 'path/to/dest' }))
+.pipe(autoImports({ preset: 'es6', fileName: 'different-file-name.js', dest: 'path/to/dest' }))
 ```
 
 ## JS configuration examples
@@ -435,7 +435,7 @@ Adding this functionality to your JS compiler can be tricky since JS compilers g
 
 Rollup has a pretty straight forward integration. It is very similar to the Sass set up. It gets around the performance issues by allowing you to cache the last bundle that was generated.
 
-Running `gulp start` will run the file loader, compile the JS, and then start watching files.
+Running `gulp start` will generate the auto imports, compile the JS, and then start watching files for changes.
 
 (Rollup by default does not bundle CommonJS `require()` statements).
 
@@ -444,8 +444,8 @@ Running `gulp start` will run the file loader, compile the JS, and then start wa
 ```js
 'use strict';
 
-// Import file loader plugin
-var fileLoader = require('gulp-auto-imports');
+// Import the auto imports plugin
+var autoImports = require('gulp-auto-imports');
 
 var gulp = require('gulp');
 var rollup = require('rollup-stream');
@@ -460,8 +460,8 @@ gulp.task('js:load', function(){
     // exclude files and folders starting with an underscore
     '!./source/components/{**/\_*,**/\_*/**}',
   ])
-    // Run the file loader
-    .pipe(fileLoader({ preset: 'es6', dest }))
+    // Run the auto imports
+    .pipe(autoImports({ preset: 'es6', dest }))
     .pipe(gulp.dest(dest));
 })
 
@@ -504,8 +504,8 @@ gulp.task('start', gulp.series('js', 'js:watch'));
 ```js
 'use strict'
 
-// Import file loader plugin
-var fileLoader = require('gulp-auto-imports')
+// Import the auto imports plugin
+var autoImports = require('gulp-auto-imports')
 
 var gulp = require('gulp')
 var rollup = require('rollup-stream')
@@ -522,8 +522,8 @@ gulp.task('js:load', function () {
 				// exclude files and folders starting with an underscore
 				'!./source/components/{**/_*,**/_*/**}',
 			])
-			// Run the file loader
-			.pipe(fileLoader({ preset: 'es6', dest }))
+			// Run the auto imports
+			.pipe(autoImports({ preset: 'es6', dest }))
 			.pipe(gulp.dest(dest))
 	)
 })
@@ -572,8 +572,8 @@ Most of the code below works in both both Gulp 3 and Gulp 4.
 ```js
 'use strict'
 
-// Import file loader plugin
-var fileLoader = require('gulp-auto-imports')
+// Import the auto imports plugin
+var autoImports = require('gulp-auto-imports')
 
 var watchify = require('watchify')
 var browserify = require('browserify')
@@ -618,8 +618,8 @@ gulp.task('js:load', function () {
 				// exclude files and folders starting with an underscore
 				'!./source/components/{**/_*,**/_*/**}',
 			])
-			// Run the file loader
-			.pipe(fileLoader({ preset: 'es5', dest }))
+			// Run the auto imports
+			.pipe(autoImports({ preset: 'es5', dest }))
 			.pipe(gulp.dest(dest))
 	)
 })
@@ -653,12 +653,12 @@ Now that Gulp is set up to build a auto-imports JS file for you, import your gen
 
 ```js
 // Import auto-imports.js inside main.js
-import fileLoader from './auto-imports.js' // ES6
-var fileLoader = require('./auto-imports.js') // ES5
+import autoImports from './auto-imports.js' // ES6
+var autoImports = require('./auto-imports.js') // ES5
 
 document.addEventListener('DOMContentLoaded', function () {
 	// Run the auto-imports code on page load
-	fileLoader()
+	autoImports()
 })
 ```
 
@@ -672,7 +672,7 @@ Note that a typical component js file will need to export a function by default 
 /////////
 export default function on_page_load() {
 	// Place code here that you wish to run
-	// when the `fileLoader()` function is called
+	// when the `autoImports()` function is called
 }
 
 /////////
@@ -680,7 +680,7 @@ export default function on_page_load() {
 /////////
 module.exports = function on_page_load() {
 	// Place code here that you wish to run
-	// when the `fileLoader()` function is called
+	// when the `autoImports()` function is called
 }
 ```
 
@@ -698,7 +698,7 @@ Create a gulp task that looks like this:
 // Typical SCSS gulp-auto-imports task
 
 var gulp = require('gulp')
-var fileLoader = require('gulp-auto-imports')
+var autoImports = require('gulp-auto-imports')
 
 gulp.task('sass:load', function () {
 	// Always relative to gulpfile.js even if this code is inside a folder
@@ -713,7 +713,7 @@ gulp.task('sass:load', function () {
 			'!./source/{**/_*,**/_*/**}',
 		])
 		.pipe(
-			fileLoader({
+			autoImports({
 				// "$path" is replaced with a relative file path
 				format: '@import "$path";',
 				// destination folder (must match gulp.dest)
@@ -748,7 +748,7 @@ JS is slightly more complicated.
 // Typical JS gulp-auto-imports task
 
 var gulp = require('gulp')
-var fileLoader = require('gulp-auto-imports')
+var autoImports = require('gulp-auto-imports')
 
 // Use an ES6 template literal for defining the template
 // Node has supported them natively ever since v4.0.0
@@ -770,7 +770,7 @@ gulp.task('js:load', function () {
 			'!./source/{**/_*,**/_*/**}',
 		])
 		.pipe(
-			fileLoader({
+			autoImports({
 				// Format is now split into an object holding named format strings
 				format: {
 					// "$name" is replaced with the name of the file
@@ -908,7 +908,7 @@ $format[functions]
 
 // ... other Gulp code ...
 
-.pipe(fileLoader({
+.pipe(autoImports({
   format: {
     imports: 'import $name from "$path";',
     // The indent is added here, not in the template
