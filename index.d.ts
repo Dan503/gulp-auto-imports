@@ -1,5 +1,5 @@
 /** Auto generate import-only files for any file type. SCSS, JS, Pug, whatever you want. */
-const autoImports = (options: {
+declare const autoImports = (options: {
 	/**
 	 * Determines where the output file is sent after processing.
 	 *
@@ -47,6 +47,9 @@ const autoImports = (options: {
 	| 'es6'
 	| 'es6_default_exports'
 	| 'es6_named_exports'
+	| 'ts'
+	| 'ts_default_exports'
+	| 'ts_named_exports'
 	| 'jade'
 	| 'pug'
 	| 'sass'

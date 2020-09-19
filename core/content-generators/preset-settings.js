@@ -14,6 +14,9 @@ var presets = {
   sass: require("../../presets/sass.js"),
   scss: require("../../presets/scss.js"),
   stylus: require("../../presets/stylus.js"),
+  ts: require("../../presets/ts.js"),
+  ts_default_exports: require("../../presets/ts_default_exports.js"),
+  ts_named_exports: require("../../presets/ts_named_exports.js"),
 }
 
 module.exports = presets;
