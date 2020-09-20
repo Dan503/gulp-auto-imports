@@ -1,6 +1,6 @@
 var path = require('path')
 var err = require('../helpers/err')
-var { $pathError, $noExtPathError } = require('../error-messages/$path')
+var pathError = require('../error-messages/$path')
 
 module.exports = function formatPath(filePath, format) {
 	var pathObj = path.parse(filePath)
@@ -8,11 +8,13 @@ module.exports = function formatPath(filePath, format) {
 
 	var pathRegEx = /\$path/g
 	var noExtPathRegEx = /\$noExtPath/g
+	var dirRegEx = /\$dir/g
 	var pathCount = (format.match(pathRegEx) || []).length
 	var noExtPathCount = (format.match(noExtPathRegEx) || []).length
-	err(pathCount > 1, $pathError)
-	err(noExtPathCount > 1, $noExtPathError)
+	var dirCount = (format.match(dirRegEx) || []).length
+	err(pathCount + noExtPathCount + dirCount > 1, pathError)
 	return format
 		.replace(pathRegEx, filePath)
 		.replace(noExtPathRegEx, noExtPath)
+		.replace(dirRegEx, pathObj.dir)
 }
