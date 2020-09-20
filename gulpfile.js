@@ -9,14 +9,7 @@ require('./gulp/preset-tasks')
 gulp.task(
 	'default',
 	gulp.series(
-		gulp.parallel(
-			'js',
-			'sass',
-			'pug',
-			'preset-loader',
-			'preset-types-generator',
-			'multi-output-test',
-		),
+		gulp.parallel('js', 'sass', 'pug', 'multi-output-test'),
 		'presets',
 	),
 )
