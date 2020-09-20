@@ -3,14 +3,14 @@ var format_paths = require("./format_paths");
 
 var template_error = require("../error-messages/template");
 
-module.exports = function format_template(relativePaths, formats, template) {
+module.exports = function format_template(relativePaths, formats, template, formatReplace) {
   err(!template, template_error);
 
   var newTemplate = template;
 
   for (var type in formats) {
     var format = formats[type];
-    var formatSet = format_paths(relativePaths, format);
+    var formatSet = format_paths(relativePaths, format, formatReplace);
     var placeholder = new RegExp(`\\$format\\[${type}\\]`, "g");
     newTemplate = newTemplate.replace(placeholder, formatSet);
   }
