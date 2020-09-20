@@ -13,11 +13,10 @@ $format[functions]
 
 module.exports = {
 	format: {
-		imports: `import $name from '$path'`,
+		imports: `import $name from '$noExtPath'`,
 		functions: '  $name()',
 	},
-	fileName: 'auto-imports.js',
+	fileName: 'auto-imports.ts',
 	header: header,
 	template: template,
-	replace: (currentOutput) => currentOutput.replace(/\.tsx?/g, ''),
 }
