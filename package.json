@@ -1,6 +1,6 @@
 {
 	"name": "gulp-auto-imports",
-	"version": "3.1.1",
+	"version": "3.2.0",
 	"description": "Auto generate import-only files for any file type. SCSS, JS, Pug, whatever you want.",
 	"dependencies": {
 		"chalk": "^2.4.1",
