@@ -1,3 +1,4 @@
+// This file auto-generates the types definition for the `preset` setting in index.d.ts
 var gulp = require('gulp')
 var autoImports = require('../../../index')
 var { header } = require('../common')

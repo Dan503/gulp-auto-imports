@@ -1,3 +1,4 @@
+// Stage 1 prepares a gulp file that stage 2 is able to run
 var gulp = require('gulp')
 var autoImports = require('../../index')
 var { header } = require('./common')
