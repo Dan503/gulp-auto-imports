@@ -1,5 +1,10 @@
-var c = require("chalk");
+var c = require('chalk')
 
-module.exports = `"${c.cyan(
-  "$path"
-)}" can only be declared once per format rule.`;
+module.exports = {
+	$pathError: `"${c.cyan(
+		'$path',
+	)}" can only be declared once per format rule.`,
+	$noExtPathError: `"${c.cyan(
+		'$noExtPath',
+	)}" can only be declared once per format rule.`,
+}
