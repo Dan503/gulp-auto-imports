@@ -120,7 +120,7 @@ gulp.task('preset:jade', function () {
 			autoImports({
 				preset: 'jade',
 				dest: dest,
-				fileName: 'preset-jade.js',
+				fileName: 'preset-jade.jade',
 			}),
 		)
 		.pipe(gulp.dest(dest))
@@ -137,7 +137,7 @@ gulp.task('preset:pug', function () {
 			autoImports({
 				preset: 'pug',
 				dest: dest,
-				fileName: 'preset-pug.js',
+				fileName: 'preset-pug.pug',
 			}),
 		)
 		.pipe(gulp.dest(dest))
@@ -154,7 +154,7 @@ gulp.task('preset:sass', function () {
 			autoImports({
 				preset: 'sass',
 				dest: dest,
-				fileName: 'preset-sass.js',
+				fileName: 'preset-sass.sass',
 			}),
 		)
 		.pipe(gulp.dest(dest))
@@ -171,7 +171,7 @@ gulp.task('preset:scss', function () {
 			autoImports({
 				preset: 'scss',
 				dest: dest,
-				fileName: 'preset-scss.js',
+				fileName: 'preset-scss.scss',
 			}),
 		)
 		.pipe(gulp.dest(dest))
@@ -188,7 +188,7 @@ gulp.task('preset:stylus', function () {
 			autoImports({
 				preset: 'stylus',
 				dest: dest,
-				fileName: 'preset-stylus.js',
+				fileName: 'preset-stylus.styl',
 			}),
 		)
 		.pipe(gulp.dest(dest))
@@ -205,7 +205,7 @@ gulp.task('preset:ts', function () {
 			autoImports({
 				preset: 'ts',
 				dest: dest,
-				fileName: 'preset-ts.js',
+				fileName: 'preset-ts.ts',
 			}),
 		)
 		.pipe(gulp.dest(dest))
@@ -222,7 +222,7 @@ gulp.task('preset:ts_default_exports', function () {
 			autoImports({
 				preset: 'ts_default_exports',
 				dest: dest,
-				fileName: 'preset-ts_default_exports.js',
+				fileName: 'preset-ts_default_exports.ts',
 			}),
 		)
 		.pipe(gulp.dest(dest))
@@ -239,7 +239,7 @@ gulp.task('preset:ts_named_exports', function () {
 			autoImports({
 				preset: 'ts_named_exports',
 				dest: dest,
-				fileName: 'preset-ts_named_exports.js',
+				fileName: 'preset-ts_named_exports.ts',
 			}),
 		)
 		.pipe(gulp.dest(dest))

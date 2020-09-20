@@ -26,12 +26,25 @@ gulp.task('preset:$name', function () {
 			autoImports({
 				preset: '$name',
 				dest: dest,
-				fileName: 'preset-$name.js',
+				fileName: 'preset-$name.{ext}',
 			}),
 		)
 		.pipe(gulp.dest(dest))
 })
 `
+
+var getExtension = (fileName) => {
+	if (/^es5/.test(fileName) || /^es6/.test(fileName)) {
+		return 'js'
+	}
+	if (/^ts/.test(fileName)) {
+		return 'ts'
+	}
+	if (fileName === 'stylus') {
+		return 'styl'
+	}
+	return fileName
+}
 
 gulp.task('preset_test_tasks_generator', function () {
 	var dest = './output'
@@ -48,6 +61,9 @@ gulp.task('preset_test_tasks_generator', function () {
 				fileName: 'preset-test-tasks.js',
 				template,
 				header,
+				formatReplace: ({ output, path }) => {
+					return output.replace(/{ext}/g, getExtension(path.name))
+				},
 			}),
 		)
 		.pipe(gulp.dest(dest))
