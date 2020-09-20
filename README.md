@@ -43,6 +43,9 @@ Gulp Auto Imports also has the ability to remember the order that imports are de
 - [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
   - [The `$name` placeholder](#the-name-placeholder)
   - [The `$path` placeholder](#the-path-placeholder)
+  - [The `$noExtPath` placeholder](#the-noextpath-placeholder)
+  - [The `$dir` placeholder](#the-dir-placeholder)
+  - [The `$ext` placeholder](#the-ext-placeholder)
   - [Using indents](#using-indents)
 - [The `retainOrder` setting](#the-retainorder-setting)
 - [Settings reference guide](#settings-reference-guide)
@@ -407,6 +410,15 @@ gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/es5_named_exports.js">es5_named_exports</a></dt>
   <dd>Import a bunch of CommonJS <em>named</em> exports and then export them all from one file (<code>exports.fileName = require('../relative/path/fileName.js').fileName</code>).</dd>
+
+  <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/ts.js">ts</a></dt>
+  <dd>Import a set of functions using TypeScript <code>import</code> syntax and then call them on page load (<code>import fileName from '../relative/path/fileName'</code>; then after DOM load: <code>fileName()</code>).</dd>
+
+  <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/ts_default_exports.js">ts_default_exports</a></dt>
+  <dd>Import a bunch of TypeScript <em>default</em> exports and then export them all from one file (<code>export { default as fileName } from '../relative/path/fileName'</code>).</dd>
+
+  <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/ts_named_exports.js">ts_named_exports</a></dt>
+  <dd>Import a bunch of TypeScript <em>named</em> exports and then export them all from one file (<code>export { fileName } from '../relative/path/fileName'</code>).</dd>
 
   <dt><a href="https://github.com/Dan503/gulp-auto-imports/blob/master/presets/pug.js">pug</a></dt>
   <dd>Intended for use with builds that use <a href="https://pugjs.org/api/getting-started.html">Pug</a> as the templating language (<code>include ../relative/path/fileName.pug</code>).</dd>
@@ -880,7 +892,37 @@ The `$path` placeholder in the `format` setting is replaced with a relative path
 $path = ./path/to/file.ext
 ```
 
-`$path` can only be declared once per format rule.
+Note: only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
+
+### The `$noExtPath` placeholder
+
+The `$noExtPath` placeholder in the `format` setting is exactly the same as `$path` except it will not add the file extension to the end.
+
+```
+$noExtPath = ./path/to/file
+```
+
+Note: only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
+
+### The `$dir` placeholder
+
+The `$dir` placeholder in the `format` setting stands for "directory" and is essentially the same as `$path` except it does not include the file name or the extension.
+
+```
+// Assuming the full path is "./path/to/file.ext"
+$dir = ./path/to
+```
+
+Note: only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
+
+### The `$ext` placeholder
+
+The `$ext` placeholder in the `format` setting holds the file extension.
+
+```
+// Assuming the full path is "./path/to/file.ext"
+$ext = ext
+```
 
 ### Using indents
 
