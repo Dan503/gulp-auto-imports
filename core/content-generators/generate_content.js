@@ -13,23 +13,23 @@ module.exports = function generate_content({ pathsArray, opt }) {
   warn(formatIsString && opt.template, template_warning);
 
   var output = formatIsString
-    ? format_paths(pathsArray, opt.format, opt.formatReplace)
-    : format_template(
-        pathsArray,
-        opt.format,
-        opt.template,
-        opt.formatReplace,
-      )
+		? format_paths({
+				relativePaths: pathsArray,
+				format: opt.format,
+				formatReplace: opt.formatReplace,
+		  })
+		: format_template({
+        relativePaths: pathsArray,
+				formats: opt.format,
+				template: opt.template,
+				formatReplace: opt.formatReplace,
+				templateReplace: opt.templateReplace,
+		  })
 
   var defaultHeadFoot = formatIsString ? "\n" : "";
 
   var header = opt.header ? `${opt.header}\n` : defaultHeadFoot;
   var footer = opt.footer ? `\n${opt.footer}` : defaultHeadFoot;
-
-  if (opt.templateReplace) {
-    var paths = pathsArray.map(createPathObj)
-    output = opt.templateReplace({ output, paths })
-  }
 
   return header + output + footer;
 };

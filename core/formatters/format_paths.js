@@ -3,7 +3,7 @@ var formatName = require("./formatName");
 var Unique_Set = require("../helpers/Unique_Set");
 var createPathObj = require("../helpers/createPathObj")
 
-module.exports = function format_paths(relativePaths, format, formatReplace) {
+module.exports = function format_paths({ relativePaths, format, formatReplace, formatKey }) {
   var uniqueSet = new Unique_Set();
   var formattedPaths = relativePaths.map((filePath) => {
     var step_1_pathFormatted = formatPath(filePath, format);
@@ -13,7 +13,7 @@ module.exports = function format_paths(relativePaths, format, formatReplace) {
       uniqueSet
     );
     if (formatReplace) {
-      return formatReplace({ output: step_2_nameFormatted, format, path: createPathObj(filePath) })
+      return formatReplace({ output: step_2_nameFormatted, format, formatKey, path: createPathObj(filePath) })
     }
     return step_2_nameFormatted;
   });
