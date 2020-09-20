@@ -3,8 +3,7 @@ var gulp = require('gulp')
 require('./gulp/js')
 require('./gulp/scss')
 require('./gulp/pug')
-require('./gulp/generate-preset-loader')
-require('./gulp/preset-tasks')
+require('./gulp/taskGenerators/output/preset-test-tasks')
 
 gulp.task(
 	'default',
