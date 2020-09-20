@@ -19,8 +19,8 @@ var taskFormat = `
 gulp.task('preset:$name', function () {
 	return gulp
 		.src([
-			'./tests/input/test/$name/**/*',
-			'./tests/input/other-test-folder/$name/**/*',
+			'./tests/input/test/{ext}/**/*',
+			'./tests/input/other-test-folder/{ext}/**/*',
 		])
 		.pipe(
 			autoImports({

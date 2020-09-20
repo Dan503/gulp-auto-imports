@@ -11,8 +11,8 @@ var dest = 'tests/output/preset-outputs'
 gulp.task('preset:es5', function () {
 	return gulp
 		.src([
-			'./tests/input/test/es5/**/*',
-			'./tests/input/other-test-folder/es5/**/*',
+			'./tests/input/test/js/**/*',
+			'./tests/input/other-test-folder/js/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -28,8 +28,8 @@ gulp.task('preset:es5', function () {
 gulp.task('preset:es5_default_exports', function () {
 	return gulp
 		.src([
-			'./tests/input/test/es5_default_exports/**/*',
-			'./tests/input/other-test-folder/es5_default_exports/**/*',
+			'./tests/input/test/js/**/*',
+			'./tests/input/other-test-folder/js/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -45,8 +45,8 @@ gulp.task('preset:es5_default_exports', function () {
 gulp.task('preset:es5_named_exports', function () {
 	return gulp
 		.src([
-			'./tests/input/test/es5_named_exports/**/*',
-			'./tests/input/other-test-folder/es5_named_exports/**/*',
+			'./tests/input/test/js/**/*',
+			'./tests/input/other-test-folder/js/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -62,8 +62,8 @@ gulp.task('preset:es5_named_exports', function () {
 gulp.task('preset:es6', function () {
 	return gulp
 		.src([
-			'./tests/input/test/es6/**/*',
-			'./tests/input/other-test-folder/es6/**/*',
+			'./tests/input/test/js/**/*',
+			'./tests/input/other-test-folder/js/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -79,8 +79,8 @@ gulp.task('preset:es6', function () {
 gulp.task('preset:es6_default_exports', function () {
 	return gulp
 		.src([
-			'./tests/input/test/es6_default_exports/**/*',
-			'./tests/input/other-test-folder/es6_default_exports/**/*',
+			'./tests/input/test/js/**/*',
+			'./tests/input/other-test-folder/js/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -96,8 +96,8 @@ gulp.task('preset:es6_default_exports', function () {
 gulp.task('preset:es6_named_exports', function () {
 	return gulp
 		.src([
-			'./tests/input/test/es6_named_exports/**/*',
-			'./tests/input/other-test-folder/es6_named_exports/**/*',
+			'./tests/input/test/js/**/*',
+			'./tests/input/other-test-folder/js/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -181,8 +181,8 @@ gulp.task('preset:scss', function () {
 gulp.task('preset:stylus', function () {
 	return gulp
 		.src([
-			'./tests/input/test/stylus/**/*',
-			'./tests/input/other-test-folder/stylus/**/*',
+			'./tests/input/test/styl/**/*',
+			'./tests/input/other-test-folder/styl/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -215,8 +215,8 @@ gulp.task('preset:ts', function () {
 gulp.task('preset:ts_default_exports', function () {
 	return gulp
 		.src([
-			'./tests/input/test/ts_default_exports/**/*',
-			'./tests/input/other-test-folder/ts_default_exports/**/*',
+			'./tests/input/test/ts/**/*',
+			'./tests/input/other-test-folder/ts/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -232,8 +232,8 @@ gulp.task('preset:ts_default_exports', function () {
 gulp.task('preset:ts_named_exports', function () {
 	return gulp
 		.src([
-			'./tests/input/test/ts_named_exports/**/*',
-			'./tests/input/other-test-folder/ts_named_exports/**/*',
+			'./tests/input/test/ts/**/*',
+			'./tests/input/other-test-folder/ts/**/*',
 		])
 		.pipe(
 			autoImports({
