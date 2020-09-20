@@ -1,3 +1,4 @@
+import { ParsedPath } from 'path'
 import { preset } from './preset-types'
 
 interface options {
@@ -30,6 +31,12 @@ interface options {
 	 * @variation es6_default_exports - `export { default as $name } from '$path'`
 	 *
 	 * @variation es6_named_exports - `export { $name } from '$path'`
+	 *
+	 * @variation ts - Import a set of functions using TypeScript `import` syntax and then call them on page load
+	 *
+	 * @variation ts_default_exports - `export { default as $name } from '$path'`
+	 *
+	 * @variation ts_named_exports - `export { $name } from '$path'`
 	 *
 	 * @variation jade - `include $path` (outputs a .jade file)
 	 *
@@ -111,6 +118,41 @@ interface options {
 	 * This might be useful for calling a custom function at the bottom of the file after all the imports have been loaded.
 	 */
 	footer?: string
+
+	/** Return a replacement string for each file import statement that gets generated. */
+	formatReplace?: (params: FormatReplaceParams) => string
+
+	/** Return a replacement string for an overall template. */
+	templateReplace?: (params: TemplateReplaceParams) => string
+}
+
+interface PathObject extends ParsedPath {
+	/** The file extension (if any) such as 'js', note that the dot is not included. */
+	ext: string
+	/** The full relative path including the directory, file name, and extension such as '../path/to/file.js'. */
+	fullPath: string
+}
+
+interface FormatReplaceParams {
+	/** The current formatted import line that would normally get printed out to the file. */
+	output: string,
+	/** The format string being used to format the output. */
+	format: string,
+	/** If using a template, this is the key used to identify the formatter. */
+	formatKey?: string,
+	/** Information about the current import path. */
+	path: PathObject
+}
+
+interface TemplateReplaceParams {
+	/** The current output that would normally get printed out to the file */
+	output: string,
+	/** The formatting object used to format the template */
+	formats: string,
+	/** The template being used to format the output file */
+	template: string,
+	/** A list of all the relative paths being used to generate the file */
+	paths: Array<PathObject>
 }
 
 type AutoImports = (options: options) => NodeJS.ReadWriteStream
