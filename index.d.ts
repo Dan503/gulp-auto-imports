@@ -1,3 +1,5 @@
+import { preset } from './preset-types'
+
 interface options {
 	/**
 	 * Determines where the output file is sent after processing.
@@ -39,21 +41,7 @@ interface options {
 	 *
 	 * @variation stylus - `@import '$path'` (outputs a .styl file)
 	 */
-	preset?:
-	| 'es5'
-	| 'es5_default_exports'
-	| 'es5_named_exports'
-	| 'es6'
-	| 'es6_default_exports'
-	| 'es6_named_exports'
-	| 'ts'
-	| 'ts_default_exports'
-	| 'ts_named_exports'
-	| 'jade'
-	| 'pug'
-	| 'sass'
-	| 'scss'
-	| 'stylus'
+	preset?: preset
 
 	/**
 	 * The format setting dictates the format of each import line in the generated file.

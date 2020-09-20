@@ -14,6 +14,7 @@ gulp.task(
 			'sass',
 			'pug',
 			'preset-loader',
+			'preset-types-generator',
 			'multi-output-test',
 		),
 		'presets',
