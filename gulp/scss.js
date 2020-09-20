@@ -12,22 +12,23 @@ var header = `
 
 gulp.task('sass:compile', function () {
 	return gulp
-		.src('./tests/test/scss/main.scss')
+		.src('./tests/compiler-input/scss/main.scss')
 		.pipe(sass().on('error', sass.logError))
-		.pipe(gulp.dest('./tests/test/css'))
+		.pipe(gulp.dest('./tests/compiler-output/css/'))
 })
 
 gulp.task('sass:load', function () {
-	var dest = 'tests/test/scss'
+	var dest = 'tests/compiler-output/scss'
+
+	'../tests/input/test/scss/'
 
 	return gulp
 		.src([
-			'./tests/test/scss/variables/**/*.scss',
-			'./tests/test/scss/mixins/**/*.scss',
-			'./tests/test/scss/components/**/*.scss',
-			'./tests/test/scss/pages/**/*.scss',
-			'./tests/test/scss/scss-input/**/*.scss',
-			'./tests/other-test-folder/scss/**/*.scss',
+			'./tests/compiler-input/scss/variables/**/*.scss',
+			'./tests/compiler-input/scss/mixins/**/*.scss',
+			'./tests/compiler-input/scss/components/**/*.scss',
+			'./tests/compiler-input/scss/pages/**/*.scss',
+			'./tests/input/test/scss/**/*.scss',
 		])
 		.pipe(
 			autoImports({
@@ -46,7 +47,7 @@ gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
 gulp.task('sass:watch', function (done) {
 	gulp.watch(
 		[
-			'./tests/test/scss/scss-input/**/*.scss',
+			'./tests/test/scss/**/*.scss',
 			'./tests/other-test-folder/scss/**/*.scss',
 		],
 		gulp.series('sass'),
@@ -54,7 +55,7 @@ gulp.task('sass:watch', function (done) {
 	done()
 })
 
-var sassDest = 'tests/multi-output-result'
+var sassDest = 'tests/compiler-output/scss/multi-output-result'
 
 function load_sass(folder) {
 	var dest = sassDest + '/' + folder

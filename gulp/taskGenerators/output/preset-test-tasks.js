@@ -12,7 +12,7 @@ gulp.task('preset:es5', function () {
 	return gulp
 		.src([
 			'./tests/input/test/es5/**/*',
-			'./tests/other-test-folder/es5/**/*',
+			'./tests/input/other-test-folder/es5/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -29,7 +29,7 @@ gulp.task('preset:es5_default_exports', function () {
 	return gulp
 		.src([
 			'./tests/input/test/es5_default_exports/**/*',
-			'./tests/other-test-folder/es5_default_exports/**/*',
+			'./tests/input/other-test-folder/es5_default_exports/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -46,7 +46,7 @@ gulp.task('preset:es5_named_exports', function () {
 	return gulp
 		.src([
 			'./tests/input/test/es5_named_exports/**/*',
-			'./tests/other-test-folder/es5_named_exports/**/*',
+			'./tests/input/other-test-folder/es5_named_exports/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -63,7 +63,7 @@ gulp.task('preset:es6', function () {
 	return gulp
 		.src([
 			'./tests/input/test/es6/**/*',
-			'./tests/other-test-folder/es6/**/*',
+			'./tests/input/other-test-folder/es6/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -80,7 +80,7 @@ gulp.task('preset:es6_default_exports', function () {
 	return gulp
 		.src([
 			'./tests/input/test/es6_default_exports/**/*',
-			'./tests/other-test-folder/es6_default_exports/**/*',
+			'./tests/input/other-test-folder/es6_default_exports/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -97,7 +97,7 @@ gulp.task('preset:es6_named_exports', function () {
 	return gulp
 		.src([
 			'./tests/input/test/es6_named_exports/**/*',
-			'./tests/other-test-folder/es6_named_exports/**/*',
+			'./tests/input/other-test-folder/es6_named_exports/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -114,7 +114,7 @@ gulp.task('preset:jade', function () {
 	return gulp
 		.src([
 			'./tests/input/test/jade/**/*',
-			'./tests/other-test-folder/jade/**/*',
+			'./tests/input/other-test-folder/jade/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -131,7 +131,7 @@ gulp.task('preset:pug', function () {
 	return gulp
 		.src([
 			'./tests/input/test/pug/**/*',
-			'./tests/other-test-folder/pug/**/*',
+			'./tests/input/other-test-folder/pug/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -148,7 +148,7 @@ gulp.task('preset:sass', function () {
 	return gulp
 		.src([
 			'./tests/input/test/sass/**/*',
-			'./tests/other-test-folder/sass/**/*',
+			'./tests/input/other-test-folder/sass/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -165,7 +165,7 @@ gulp.task('preset:scss', function () {
 	return gulp
 		.src([
 			'./tests/input/test/scss/**/*',
-			'./tests/other-test-folder/scss/**/*',
+			'./tests/input/other-test-folder/scss/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -182,7 +182,7 @@ gulp.task('preset:stylus', function () {
 	return gulp
 		.src([
 			'./tests/input/test/stylus/**/*',
-			'./tests/other-test-folder/stylus/**/*',
+			'./tests/input/other-test-folder/stylus/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -199,7 +199,7 @@ gulp.task('preset:ts', function () {
 	return gulp
 		.src([
 			'./tests/input/test/ts/**/*',
-			'./tests/other-test-folder/ts/**/*',
+			'./tests/input/other-test-folder/ts/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -216,7 +216,7 @@ gulp.task('preset:ts_default_exports', function () {
 	return gulp
 		.src([
 			'./tests/input/test/ts_default_exports/**/*',
-			'./tests/other-test-folder/ts_default_exports/**/*',
+			'./tests/input/other-test-folder/ts_default_exports/**/*',
 		])
 		.pipe(
 			autoImports({
@@ -233,7 +233,7 @@ gulp.task('preset:ts_named_exports', function () {
 	return gulp
 		.src([
 			'./tests/input/test/ts_named_exports/**/*',
-			'./tests/other-test-folder/ts_named_exports/**/*',
+			'./tests/input/other-test-folder/ts_named_exports/**/*',
 		])
 		.pipe(
 			autoImports({

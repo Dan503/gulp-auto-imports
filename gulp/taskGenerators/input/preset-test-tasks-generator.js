@@ -20,7 +20,7 @@ gulp.task('preset:$name', function () {
 	return gulp
 		.src([
 			'./tests/input/test/$name/**/*',
-			'./tests/other-test-folder/$name/**/*',
+			'./tests/input/other-test-folder/$name/**/*',
 		])
 		.pipe(
 			autoImports({

@@ -4,7 +4,7 @@
 // You may rearrange the order of the imports however you like.
 // You may NOT make any other alterations to this file.
 
-@import '../test/stylus/stylus-input/one.styl'
-@import '../test/stylus/stylus-input/two.styl'
-@import '../other-test-folder/stylus/one.styl'
-@import '../other-test-folder/stylus/two.styl'
+@import '../../input/other-test-folder/scss/two.scss';
+@import '../../input/test/scss/one.scss';
+@import '../../input/test/scss/two.scss';
+@import '../../input/other-test-folder/scss/one.scss';

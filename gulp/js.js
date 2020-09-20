@@ -18,7 +18,7 @@ gulp.task('js:load', function () {
 
 	return gulp
 		.src([
-			'./tests/test/js/js-input/**/*.js',
+			'./tests/test/js/**/*.js',
 			'./tests/other-test-folder/js/**/*.js',
 		])
 		.pipe(
@@ -41,10 +41,7 @@ gulp.task('js', gulp.series('js:load'))
 
 gulp.task('js:watch', function (done) {
 	gulp.watch(
-		[
-			'./tests/test/js/js-input/**/*.js',
-			'./tests/other-test-folder/js/**/*.js',
-		],
+		['./tests/test/js/**/*.js', './tests/other-test-folder/js/**/*.js'],
 		gulp.series('js'),
 	)
 	done()
