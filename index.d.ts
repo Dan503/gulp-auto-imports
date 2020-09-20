@@ -1,5 +1,4 @@
-/** Auto generate import-only files for any file type. SCSS, JS, Pug, whatever you want. */
-declare const autoImports = (options: {
+interface options {
 	/**
 	 * Determines where the output file is sent after processing.
 	 *
@@ -83,7 +82,7 @@ declare const autoImports = (options: {
 	 *
 	 * @example `
 		$format[imports]
-	
+
 		export default function () {
 		$format[functions]
 		}
@@ -109,7 +108,7 @@ declare const autoImports = (options: {
 	 *
 	 * Make sure to save the output file into source control so that your teammates end up with a file that is in the same order as yours.
 	 */
-	retainOrder?: boolean = false
+	retainOrder?: boolean
 
 	/**
 	 * A string of text that is added to the top of the output file when it is generated.
@@ -124,6 +123,10 @@ declare const autoImports = (options: {
 	 * This might be useful for calling a custom function at the bottom of the file after all the imports have been loaded.
 	 */
 	footer?: string
-}): NodeJS.ReadWriteStream => { }
+}
+
+type AutoImports = (options: options) => NodeJS.ReadWriteStream
+/** Auto generate import-only files for any file type. SCSS, JS, Pug, whatever you want. */
+declare const autoImports: AutoImports
 
 export default autoImports
