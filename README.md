@@ -42,10 +42,11 @@ Gulp Auto Imports also has the ability to remember the order that imports are de
   - [Manual JS set up](#manual-js-set-up)
 - [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
   - [The `$name` placeholder](#the-name-placeholder)
+  - [The `$fileName` placeholder](#the-filename-placeholder)
+  - [The `$ext` placeholder](#the-ext-placeholder)
   - [The `$path` placeholder](#the-path-placeholder)
   - [The `$noExtPath` placeholder](#the-noextpath-placeholder)
   - [The `$dir` placeholder](#the-dir-placeholder)
-  - [The `$ext` placeholder](#the-ext-placeholder)
   - [Using indents](#using-indents)
 - [The `retainOrder` setting](#the-retainorder-setting)
 - [Settings reference guide](#settings-reference-guide)
@@ -865,7 +866,7 @@ The `$name` placeholder in the `format` setting is replaced with the file name o
 
  === converts to the $name ===
 
-gulp_file_loader_is_awesome_123
+gulp_auto_imports_is_awesome_123
 ```
 
 If there are duplicate file names, a number is added to the end of the name based on how many duplicates it has found to ensure that each name is unique.
@@ -884,12 +885,38 @@ The `$name` placeholder is excellent for use cases where you need to assign an i
 
 You can use the `$name` placeholder as much as you like. That includes having the `$name` placeholder appear multiple times in a single format rule. The `$name` will always refer to the same import path.
 
+### The `$fileName` placeholder
+
+The `$fileName` placeholder in the `format` setting holds the file name (excluding the extension) exactly as it is written.
+
+```
+// Assuming the full path is "./path/to/file-name.ext"
+$fileName = file-name
+```
+
+### The `$ext` placeholder
+
+The `$ext` placeholder in the `format` setting holds the file extension.
+
+```
+// Assuming the full path is "./path/to/file-name.ext"
+$ext = ext
+```
+
+Note that you can get the full file name (including extension) by using this pattern in your `format` setting:
+
+```
+// Assuming the full path is "./path/to/file-name.ext"
+$fileName.$ext = file-name.ext
+```
+
+
 ### The `$path` placeholder
 
 The `$path` placeholder in the `format` setting is replaced with a relative path that goes from the auto-imports output file to the file that is being loaded in.
 
 ```
-$path = ./path/to/file.ext
+$path = ./path/to/file-name.ext
 ```
 
 **Note 1:** only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
@@ -901,7 +928,7 @@ $path = ./path/to/file.ext
 The `$noExtPath` placeholder in the `format` setting is exactly the same as `$path` except it will not add the file extension to the end.
 
 ```
-$noExtPath = ./path/to/file
+$noExtPath = ./path/to/file-name
 ```
 
 **Note 1:** only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
@@ -913,7 +940,7 @@ $noExtPath = ./path/to/file
 The `$dir` placeholder in the `format` setting stands for "directory" and is essentially the same as `$path` except it does not include the file name or the extension.
 
 ```
-// Assuming the full path is "./path/to/file.ext"
+// Assuming the full path is "./path/to/file-name.ext"
 $dir = ./path/to
 ```
 
@@ -921,14 +948,6 @@ $dir = ./path/to
 
 **Note 2:** The `retainOrder: true` setting is not compatible with the `$dir` placeholder.
 
-### The `$ext` placeholder
-
-The `$ext` placeholder in the `format` setting holds the file extension.
-
-```
-// Assuming the full path is "./path/to/file.ext"
-$ext = ext
-```
 
 ### Using indents
 
