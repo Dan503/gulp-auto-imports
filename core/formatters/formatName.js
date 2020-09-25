@@ -8,5 +8,6 @@ module.exports = function formatName(filePath, format, uniqueSet) {
 	var uniqueName = uniqueSet.add(safeName)
 	return format
 		.replace(/\$name/g, uniqueName)
+		.replace(/\$fileName/g, name)
 		.replace(/\$ext/g, ext.replace('.', ''))
 }
