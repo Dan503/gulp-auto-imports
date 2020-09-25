@@ -1,7 +1,7 @@
 import { ParsedPath } from 'path'
 import { preset } from './preset-types'
 
-interface options {
+export interface options {
 	/**
 	 * Determines where the output file is sent after processing.
 	 *
