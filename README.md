@@ -892,7 +892,9 @@ The `$path` placeholder in the `format` setting is replaced with a relative path
 $path = ./path/to/file.ext
 ```
 
-**Note:** only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
+**Note 1:** only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
+
+**Note 2:** The `retainOrder: true` setting only works with unaltered `$path` placeholders.
 
 ### The `$noExtPath` placeholder
 
@@ -915,7 +917,9 @@ The `$dir` placeholder in the `format` setting stands for "directory" and is ess
 $dir = ./path/to
 ```
 
-**Note:** only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
+**Note 1:** only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
+
+**Note 2:** The `retainOrder: true` setting is not compatible with the `$dir` placeholder.
 
 ### The `$ext` placeholder
 
@@ -1019,7 +1023,7 @@ In CSS, the order that styles are written in matters significantly. It is import
 
 Other globing methods (eg. `@import "../path/to/components/**/*.scss";`) do not give you the ability to alter the order that the files are loaded in. You are generally restricted to loading files in alphabetical order. Gulp Auto Imports gives you back the ability to control the order that your CSS loads in with it's `retainOrder` setting (introduced in v2.0.0).
 
-By default `retainOrder` is set to `false`. When `retainOrder` is set to `true`, Gulp Auto Imports will not alter the order of the existing import paths if you manually edit them yourself. Make sure that if you enable the `retainOrder` setting you **save the output file into source control**. This will ensure that your co-workers don't end up with a CSS file that is in a different order to yours.
+By default `retainOrder` is set to `false`. When `retainOrder` is set to `true`, Gulp Auto Imports will not alter the order of the existing `$path` placeholder import paths if you manually edit them yourself. Make sure that if you enable the `retainOrder` setting you **save the output file into source control**. This will ensure that your co-workers don't end up with a CSS file that is in a different order to yours.
 
 Gulp Auto Imports will still delete old files from the list that don't exist any more.
 
@@ -1027,7 +1031,7 @@ If it detects that a new file is added to the system, Gulp Auto Imports will aim
 
 It will not retain any comments or other alterations to the file. It will only retain the order that the imports were announced in.
 
-**Note:** The `retainOrder: true` setting is not compatible with the `$noExtPath` placeholder.
+**Note:** The `retainOrder: true` setting only works if you use an unaltered `$path` placeholder. `$noExtPath`, and `$dir` are not supported.
 
 ## Settings reference guide
 

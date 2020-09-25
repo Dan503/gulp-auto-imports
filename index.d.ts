@@ -97,11 +97,13 @@ interface options {
 	/**
 	 * `false` by default.
 	 *
-	 * When `true`, it will never alter the order that imports are loaded in.
+	 * When `true`, it will never alter the order that `$path` imports are loaded in.
 	 *
 	 * This gives you the ability to manually edit the output file to achieve the desired import order.
 	 *
 	 * Make sure to save the output file into source control so that your teammates end up with a file that is in the same order as yours.
+	 *
+	 * **Note:** Only compatible with the `$path` placeholder. `$noExtPath` and `$dir` placeholders are not supported.
 	 */
 	retainOrder?: boolean
 
