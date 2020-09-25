@@ -4,6 +4,19 @@ var pathError = require('../error-messages/$path')
 const warn = require('../helpers/warn')
 var c = require('chalk')
 
+const noExtPathWarning = ({ filePath, format, options }) => `
+\nThe ${c.yellow('$noExtPath')} placeholder does not support the ${c.cyan(
+	'retainOrder: true',
+)} setting.
+Order retention is being ignored.
+
+${c.bold('Format:')} ${format}
+
+${c.bold('Input path:')} "${filePath}"
+
+${c.bold('Output file:')} ${options.dest}/${options.fileName}\n
+`
+
 module.exports = function formatPath(filePath, format, options) {
 	var pathObj = path.parse(filePath)
 	var noExtPath = [pathObj.dir, pathObj.name].join('/')
@@ -18,13 +31,7 @@ module.exports = function formatPath(filePath, format, options) {
 
 	warn(
 		noExtPathCount > 0 && options.retainOrder,
-		`\n\nThe ${c.yellow(
-			'$noExtPath',
-		)} placeholder does not support the ${c.cyan(
-			'retainOrder: true',
-		)} setting\n\n${c.bold('Format:')} ${format}\n\n${c.bold(
-			'File path:',
-		)} ${filePath}\n\n`,
+		noExtPathWarning({ filePath, format, options }),
 	)
 
 	return format
