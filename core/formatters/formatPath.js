@@ -4,8 +4,8 @@ var pathError = require('../error-messages/$path')
 const warn = require('../helpers/warn')
 var c = require('chalk')
 
-const noExtPathWarning = ({ filePath, format, options }) => `
-\nThe ${c.yellow('$noExtPath')} placeholder does not support the ${c.cyan(
+const retainOrderWarning = ({ placeholder, filePath, format, options }) => `
+\nThe ${c.yellow(placeholder)} placeholder does not support the ${c.cyan(
 	'retainOrder: true',
 )} setting.
 Order retention is being ignored.
@@ -29,10 +29,26 @@ module.exports = function formatPath(filePath, format, options) {
 	var dirCount = (format.match(dirRegEx) || []).length
 	err(pathCount + noExtPathCount + dirCount > 1, pathError)
 
-	warn(
-		noExtPathCount > 0 && options.retainOrder,
-		noExtPathWarning({ filePath, format, options }),
-	)
+	if (options.retainOrder) {
+		warn(
+			noExtPathCount > 0,
+			retainOrderWarning({
+				placeholder: `$noExtPath`,
+				filePath,
+				format,
+				options,
+			}),
+		)
+		warn(
+			dirCount > 0,
+			retainOrderWarning({
+				placeholder: `$dir`,
+				filePath,
+				format,
+				options,
+			}),
+		)
+	}
 
 	return format
 		.replace(pathRegEx, filePath)
