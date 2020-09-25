@@ -15,14 +15,18 @@ module.exports = function formatPath(filePath, format, options) {
 	var noExtPathCount = (format.match(noExtPathRegEx) || []).length
 	var dirCount = (format.match(dirRegEx) || []).length
 	err(pathCount + noExtPathCount + dirCount > 1, pathError)
+
 	warn(
 		noExtPathCount > 0 && options.retainOrder,
-		`The ${c.yellow(
+		`\n\nThe ${c.yellow(
 			'$noExtPath',
 		)} placeholder does not support the ${c.cyan(
 			'retainOrder: true',
-		)} setting`,
+		)} setting\n\n${c.bold('Format:')} ${format}\n\n${c.bold(
+			'File path:',
+		)} ${filePath}\n\n`,
 	)
+
 	return format
 		.replace(pathRegEx, filePath)
 		.replace(noExtPathRegEx, noExtPath)
