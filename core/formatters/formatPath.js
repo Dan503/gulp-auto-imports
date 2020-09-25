@@ -1,8 +1,10 @@
 var path = require('path')
 var err = require('../helpers/err')
 var pathError = require('../error-messages/$path')
+const warn = require('../helpers/warn')
+var c = require('chalk')
 
-module.exports = function formatPath(filePath, format) {
+module.exports = function formatPath(filePath, format, options) {
 	var pathObj = path.parse(filePath)
 	var noExtPath = [pathObj.dir, pathObj.name].join('/')
 
@@ -13,6 +15,14 @@ module.exports = function formatPath(filePath, format) {
 	var noExtPathCount = (format.match(noExtPathRegEx) || []).length
 	var dirCount = (format.match(dirRegEx) || []).length
 	err(pathCount + noExtPathCount + dirCount > 1, pathError)
+	warn(
+		noExtPathCount > 0 && options.retainOrder,
+		`The ${c.yellow(
+			'$noExtPath',
+		)} placeholder does not support the ${c.cyan(
+			'retainOrder: true',
+		)} setting`,
+	)
 	return format
 		.replace(pathRegEx, filePath)
 		.replace(noExtPathRegEx, noExtPath)

@@ -5,7 +5,6 @@ var template_warning = require("../error-messages/warn-template");
 
 var format_paths = require("../formatters/format_paths");
 var format_template = require("../formatters/format_template");
-const createPathObj = require('../helpers/createPathObj');
 
 module.exports = function generate_content({ pathsArray, opt }) {
   var formatIsString = isString(opt.format);
@@ -17,6 +16,7 @@ module.exports = function generate_content({ pathsArray, opt }) {
 				relativePaths: pathsArray,
 				format: opt.format,
 				formatReplace: opt.formatReplace,
+				options: opt
 		  })
 		: format_template({
         relativePaths: pathsArray,
