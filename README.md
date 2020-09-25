@@ -892,7 +892,7 @@ The `$path` placeholder in the `format` setting is replaced with a relative path
 $path = ./path/to/file.ext
 ```
 
-Note: only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
+**Note:** only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
 
 ### The `$noExtPath` placeholder
 
@@ -902,7 +902,9 @@ The `$noExtPath` placeholder in the `format` setting is exactly the same as `$pa
 $noExtPath = ./path/to/file
 ```
 
-Note: only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
+**Note 1:** only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
+
+**Note 2:** The `retainOrder: true` setting is not compatible with the `$noExtPath` placeholder.
 
 ### The `$dir` placeholder
 
@@ -913,7 +915,7 @@ The `$dir` placeholder in the `format` setting stands for "directory" and is ess
 $dir = ./path/to
 ```
 
-Note: only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
+**Note:** only one out of `$path`, `$noExtPath`, and `$dir` can be declared in a single format rule and it can only be declared once.
 
 ### The `$ext` placeholder
 
@@ -1024,6 +1026,8 @@ Gulp Auto Imports will still delete old files from the list that don't exist any
 If it detects that a new file is added to the system, Gulp Auto Imports will aim to keep that new file grouped with other files found in the same folder. (Prior to v2.1.0 it just dumped it at the bottom of the file). This means that new scss config file imports will be placed at the top of the auto-imports file with the other config files. This gives all your component files access to the new config settings without you having to make any alterations to the imports file.
 
 It will not retain any comments or other alterations to the file. It will only retain the order that the imports were announced in.
+
+**Note:** The `retainOrder: true` setting is not compatible with the `$noExtPath` placeholder.
 
 ## Settings reference guide
 
