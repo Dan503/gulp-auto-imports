@@ -24,6 +24,7 @@ module.exports = function generate_content({ pathsArray, opt }) {
 				template: opt.template,
 				formatReplace: opt.formatReplace,
 				templateReplace: opt.templateReplace,
+				options: opt,
 		  })
 
 	var defaultHeadFoot = formatIsString ? '\n' : ''
