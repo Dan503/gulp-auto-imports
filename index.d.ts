@@ -62,7 +62,7 @@ export interface options {
 	},
 	 * @requires template (only if an object is provided)
 	 */
-	format: string | {
+	format?: string | {
 		[formatName: string]: string
 	}
 
@@ -139,7 +139,9 @@ interface FormatReplaceParams {
 	/** The current formatted import line that would normally get printed out to the file. */
 	output: string,
 	/** The format string being used to format the output. */
-	format: string,
+	format: string | {
+		[formatName: string]: string
+	},
 	/** If using a template, this is the key used to identify the formatter. */
 	formatKey?: string,
 	/** Information about the current import path. */
@@ -150,7 +152,9 @@ interface TemplateReplaceParams {
 	/** The current output that would normally get printed out to the file */
 	output: string,
 	/** The formatting object used to format the template */
-	formats: string,
+	formats: {
+		[formatName: string]: string
+	},
 	/** The template being used to format the output file */
 	template: string,
 	/** A list of all the relative paths being used to generate the file */
