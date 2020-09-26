@@ -1,7 +1,8 @@
 // This file auto-generates the types definition for the `preset` setting in index.d.ts
-var gulp = require('gulp')
-var autoImports = require('../../../index')
-var { header } = require('../common')
+import * as gulp from 'gulp'
+import autoImports from '../../../index'
+
+import { header } from '../common'
 
 var template = `
 export type preset =

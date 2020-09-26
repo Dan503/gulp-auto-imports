@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"target": "es5",
+		"module": "commonjs",
+		"lib": ["ESNext", "ES6"],
+		"baseUrl": "../node_modules"
+	},
+	"files": ["gulpfile.ts"]
+}

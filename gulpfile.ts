@@ -1,9 +1,9 @@
-var gulp = require('gulp')
+import * as gulp from 'gulp'
+import './gulp/js'
+import './gulp/scss'
 
-require('./gulp/js')
-require('./gulp/scss')
 // File is auto-generated
-require('./gulp/taskGenerators/output/preset-test-tasks')
+import './gulp/taskGenerators/output/preset-test-tasks'
 
 // Use `npm run start`, not `gulp`
 gulp.task(

@@ -62,7 +62,7 @@ export interface options {
 	},
 	 * @requires template (only if an object is provided)
 	 */
-	format: string | {
+	format?: string | {
 		[formatName: string]: string
 	}
 

@@ -1,7 +1,9 @@
 // Stage 1 prepares a gulp file that stage 2 is able to run
-var gulp = require('gulp')
-var autoImports = require('../../index')
-var { header } = require('./common')
+import * as gulp from 'gulp'
+import autoImports from '../../index'
+
+import { header } from './common'
+
 
 var template = `
 var gulp = require('gulp')
@@ -24,7 +26,7 @@ gulp.task('default', function () {
 					names: `  '$name',`,
 				},
 				dest,
-				fileName: 'generate-task.js',
+				fileName: 'generate-task.ts',
 				template,
 				header,
 			}),
