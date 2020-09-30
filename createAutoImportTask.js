@@ -23,7 +23,9 @@ const createWatcher = ({
 	taskName,
 }) => {
 	gulp.task(watchName, (done) => {
-		const watcher = gulp.watch(`${sourceFolder}/**/*${ext(fileExtension)}`)
+		const watcher = gulp.watch(
+			getSourceFiles({ sourceFolder, fileExtension }),
+		)
 		watcher.on('add', gulp.series(taskName))
 		watcher.on('unlink', gulp.series(taskName))
 		done()
