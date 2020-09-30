@@ -3,9 +3,9 @@ const gulp = require('gulp')
 /** last portion of sourceFolder after the last "/" */
 const getName = (sourceFolder) => /.*\/(.+)$/.exec(sourceFolder)[1]
 
-const getTaskNames = ({ fileExtension, name, hasWatcher }) => ({
-	taskName: `${fileExtension}:auto-exports:${name}`,
-	watchName: hasWatcher ? `${fileExtension}:watch:${name}` : undefined,
+const getTaskNames = ({ fileExtension, name }) => ({
+	taskName: `${fileExtension}:auto-imports:${name}`,
+	watchName: `${fileExtension}:watch-auto-imports:${name}`,
 })
 
 const ext = (fileExtension) => (fileExtension ? `.${fileExtension}` : '')
@@ -34,13 +34,11 @@ const createAutoImportTask = ({
 	sourceFolder,
 	fileExtension,
 	importerSettings,
-	hasWatcher = true,
 }) => {
 	const name = getName(sourceFolder)
 	const { taskName, watchName } = getTaskNames({
 		fileExtension,
 		name,
-		hasWatcher,
 	})
 
 	gulp.task(taskName, () => {
@@ -51,9 +49,7 @@ const createAutoImportTask = ({
 			.pipe(gulp.dest(settings.dest))
 	})
 
-	if (hasWatcher) {
-		createWatcher({ sourceFolder, fileExtension, watchName, taskName })
-	}
+	createWatcher({ sourceFolder, fileExtension, watchName, taskName })
 
 	return [taskName, watchName]
 }
