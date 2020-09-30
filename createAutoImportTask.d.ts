@@ -19,13 +19,6 @@ declare const createAutoImportTask: (props: {
 	 * into the `autoImports()` gulp plugin
 	 */
 	importerSettings: options
-	/**
-	 * `true` by default.
-	 *
-	 * Set to false to prevent a watch task from being generated
-	 * (alternatively, just don't use the watcher in your gulp build)
-	 */
-	hasWatcher?: boolean
 }) => returnValue
 
 /**
