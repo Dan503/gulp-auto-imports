@@ -1,7 +1,7 @@
 TO DO:
 
 -   Convert all the local gulp tasks to TypeScript (Dependent on [this issue](https://github.com/gulpjs/gulp/issues/2493) being fixed first)
--   Make tests for each format placeholder using the new `createAutoImportTask` function
+-   (Done but not 100% working yet) Make tests for each format placeholder using the new `createAutoImportTask` function
 -   Document how to use `createAutoImportTask` function in Readme.md
 
 # Gulp Auto Imports
