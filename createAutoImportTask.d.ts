@@ -1,6 +1,6 @@
 import { options } from './index'
 
-declare const createAutoImportsTask: (props: {
+declare const createAutoImportTask: (props: {
 	/**
 	 * The folder holding the files for this import task.
 	 *
@@ -25,7 +25,7 @@ declare const createAutoImportsTask: (props: {
 	 * Set to false to prevent a watch task from being generated
 	 * (alternatively, just don't use the watcher in your gulp build)
 	 */
-	hasWatcher: boolean
+	hasWatcher?: boolean
 }) => returnValue
 
 /**
@@ -51,4 +51,4 @@ type returnValue = [importerTaskName, watchTaskName]
 type importerTaskName = string
 type watchTaskName = string
 
-export default createAutoImportsTask
+export default createAutoImportTask
