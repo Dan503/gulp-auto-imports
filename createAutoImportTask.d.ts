@@ -20,6 +20,12 @@ declare const createAutoImportTask: (props: {
 	 */
 	ignoreCharacter?: string
 	/**
+	 * Provide a unique string for helping identify the task.
+	 *
+	 * Typically not needed as the file extension and source folder are usually enough on their own.
+	 */
+	taskPrefix?: string
+	/**
 	 * The exact same object that you would normally pass
 	 * into the `autoImports()` gulp plugin
 	 */

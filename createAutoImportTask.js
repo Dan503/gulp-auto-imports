@@ -4,10 +4,13 @@ const autoImports = require('./index')
 /** last portion of sourceFolder after the last "/" */
 const getName = (sourceFolder) => /.*\/(.+)$/.exec(sourceFolder)[1]
 
-const getTaskNames = ({ fileExtension = 'all-files', name }) => ({
-	taskName: `${fileExtension}:auto-imports:${name}`,
-	watchName: `${fileExtension}:watch-auto-imports:${name}`,
-})
+const getTaskNames = ({ fileExtension = 'all-files', name, taskPrefix }) => {
+	const prefix = (taskPrefix ? `${taskPrefix}:` : '') + fileExtension
+	return {
+		taskName: `${prefix}:auto-imports:${name}`,
+		watchName: `${prefix}:watch-auto-imports:${name}`,
+	}
+}
 
 const ext = (fileExtension) => (fileExtension ? `.${fileExtension}` : '')
 
@@ -39,6 +42,7 @@ const createWatcher = ({
 const createAutoImportTask = ({
 	sourceFolder,
 	fileExtension,
+	taskPrefix,
 	ignoreCharacter = '_',
 	importerSettings,
 }) => {
@@ -46,6 +50,7 @@ const createAutoImportTask = ({
 	const { taskName, watchName } = getTaskNames({
 		fileExtension,
 		name,
+		taskPrefix,
 	})
 
 	gulp.task(taskName, () => {
