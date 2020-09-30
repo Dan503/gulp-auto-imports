@@ -1,9 +1,10 @@
 const gulp = require('gulp')
+const autoImports = require('./index')
 
 /** last portion of sourceFolder after the last "/" */
 const getName = (sourceFolder) => /.*\/(.+)$/.exec(sourceFolder)[1]
 
-const getTaskNames = ({ fileExtension, name }) => ({
+const getTaskNames = ({ fileExtension = 'all-files', name }) => ({
 	taskName: `${fileExtension}:auto-imports:${name}`,
 	watchName: `${fileExtension}:watch-auto-imports:${name}`,
 })
@@ -58,7 +59,7 @@ const createAutoImportTask = ({
 				}),
 			)
 			.pipe(autoImports(importerSettings))
-			.pipe(gulp.dest(settings.dest))
+			.pipe(gulp.dest(importerSettings.dest))
 	})
 
 	createWatcher({
