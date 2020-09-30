@@ -4,16 +4,20 @@
 
 var gulp = require('gulp')
 var autoImports = require('../../../index')
+var getSourceFiles = require('../../../core/helpers/getSourceFiles')
 
 var dest = 'tests/output/preset-outputs'
 
 
 gulp.task('preset:es5', function () {
 	return gulp
-		.src([
-			'./tests/input/test/js/**/*',
-			'./tests/input/other-test-folder/js/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/js',
+				'./tests/input/other-test-folder/js',
+			],
+			fileExtension: 'js',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'es5',
@@ -27,10 +31,13 @@ gulp.task('preset:es5', function () {
 
 gulp.task('preset:es5_default_exports', function () {
 	return gulp
-		.src([
-			'./tests/input/test/js/**/*',
-			'./tests/input/other-test-folder/js/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/js',
+				'./tests/input/other-test-folder/js',
+			],
+			fileExtension: 'js',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'es5_default_exports',
@@ -44,10 +51,13 @@ gulp.task('preset:es5_default_exports', function () {
 
 gulp.task('preset:es5_named_exports', function () {
 	return gulp
-		.src([
-			'./tests/input/test/js/**/*',
-			'./tests/input/other-test-folder/js/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/js',
+				'./tests/input/other-test-folder/js',
+			],
+			fileExtension: 'js',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'es5_named_exports',
@@ -61,10 +71,13 @@ gulp.task('preset:es5_named_exports', function () {
 
 gulp.task('preset:es6', function () {
 	return gulp
-		.src([
-			'./tests/input/test/js/**/*',
-			'./tests/input/other-test-folder/js/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/js',
+				'./tests/input/other-test-folder/js',
+			],
+			fileExtension: 'js',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'es6',
@@ -78,10 +91,13 @@ gulp.task('preset:es6', function () {
 
 gulp.task('preset:es6_default_exports', function () {
 	return gulp
-		.src([
-			'./tests/input/test/js/**/*',
-			'./tests/input/other-test-folder/js/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/js',
+				'./tests/input/other-test-folder/js',
+			],
+			fileExtension: 'js',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'es6_default_exports',
@@ -95,10 +111,13 @@ gulp.task('preset:es6_default_exports', function () {
 
 gulp.task('preset:es6_named_exports', function () {
 	return gulp
-		.src([
-			'./tests/input/test/js/**/*',
-			'./tests/input/other-test-folder/js/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/js',
+				'./tests/input/other-test-folder/js',
+			],
+			fileExtension: 'js',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'es6_named_exports',
@@ -112,10 +131,13 @@ gulp.task('preset:es6_named_exports', function () {
 
 gulp.task('preset:jade', function () {
 	return gulp
-		.src([
-			'./tests/input/test/jade/**/*',
-			'./tests/input/other-test-folder/jade/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/jade',
+				'./tests/input/other-test-folder/jade',
+			],
+			fileExtension: 'jade',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'jade',
@@ -129,10 +151,13 @@ gulp.task('preset:jade', function () {
 
 gulp.task('preset:pug', function () {
 	return gulp
-		.src([
-			'./tests/input/test/pug/**/*',
-			'./tests/input/other-test-folder/pug/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/pug',
+				'./tests/input/other-test-folder/pug',
+			],
+			fileExtension: 'pug',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'pug',
@@ -146,10 +171,13 @@ gulp.task('preset:pug', function () {
 
 gulp.task('preset:sass', function () {
 	return gulp
-		.src([
-			'./tests/input/test/sass/**/*',
-			'./tests/input/other-test-folder/sass/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/sass',
+				'./tests/input/other-test-folder/sass',
+			],
+			fileExtension: 'sass',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'sass',
@@ -163,10 +191,13 @@ gulp.task('preset:sass', function () {
 
 gulp.task('preset:scss', function () {
 	return gulp
-		.src([
-			'./tests/input/test/scss/**/*',
-			'./tests/input/other-test-folder/scss/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/scss',
+				'./tests/input/other-test-folder/scss',
+			],
+			fileExtension: 'scss',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'scss',
@@ -180,10 +211,13 @@ gulp.task('preset:scss', function () {
 
 gulp.task('preset:stylus', function () {
 	return gulp
-		.src([
-			'./tests/input/test/styl/**/*',
-			'./tests/input/other-test-folder/styl/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/styl',
+				'./tests/input/other-test-folder/styl',
+			],
+			fileExtension: 'styl',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'stylus',
@@ -197,10 +231,13 @@ gulp.task('preset:stylus', function () {
 
 gulp.task('preset:ts', function () {
 	return gulp
-		.src([
-			'./tests/input/test/ts/**/*',
-			'./tests/input/other-test-folder/ts/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/ts',
+				'./tests/input/other-test-folder/ts',
+			],
+			fileExtension: 'ts',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'ts',
@@ -214,10 +251,13 @@ gulp.task('preset:ts', function () {
 
 gulp.task('preset:ts_default_exports', function () {
 	return gulp
-		.src([
-			'./tests/input/test/ts/**/*',
-			'./tests/input/other-test-folder/ts/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/ts',
+				'./tests/input/other-test-folder/ts',
+			],
+			fileExtension: 'ts',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'ts_default_exports',
@@ -231,10 +271,13 @@ gulp.task('preset:ts_default_exports', function () {
 
 gulp.task('preset:ts_named_exports', function () {
 	return gulp
-		.src([
-			'./tests/input/test/ts/**/*',
-			'./tests/input/other-test-folder/ts/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/ts',
+				'./tests/input/other-test-folder/ts',
+			],
+			fileExtension: 'ts',
+		}))
 		.pipe(
 			autoImports({
 				preset: 'ts_named_exports',

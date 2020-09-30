@@ -1,5 +1,6 @@
 // Stage 1 prepares a gulp file that stage 2 is able to run
 var gulp = require('gulp')
+const getSourceFiles = require('../../core/helpers/getSourceFiles')
 var autoImports = require('../../index')
 var { header } = require('./common')
 
@@ -16,7 +17,7 @@ gulp.task('default', function () {
 	var dest = 'output'
 
 	return gulp
-		.src('./input/*.js')
+		.src(getSourceFiles({ sourceFolder: './input', fileExtension: 'js' }))
 		.pipe(
 			autoImports({
 				format: {

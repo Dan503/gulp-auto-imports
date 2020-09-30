@@ -6,6 +6,7 @@ var { header } = require('../common')
 var template = `
 var gulp = require('gulp')
 var autoImports = require('../../../index')
+var getSourceFiles = require('../../../core/helpers/getSourceFiles')
 
 var dest = 'tests/output/preset-outputs'
 
@@ -19,10 +20,13 @@ $format[taskName]
 var taskFormat = `
 gulp.task('preset:$name', function () {
 	return gulp
-		.src([
-			'./tests/input/test/{ext}/**/*',
-			'./tests/input/other-test-folder/{ext}/**/*',
-		])
+		.src(getSourceFiles({
+			sourceFolder: [
+				'./tests/input/test/{ext}',
+				'./tests/input/other-test-folder/{ext}',
+			],
+			fileExtension: '{ext}',
+		}))
 		.pipe(
 			autoImports({
 				preset: '$name',

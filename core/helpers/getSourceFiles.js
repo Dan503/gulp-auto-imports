@@ -3,9 +3,13 @@ module.exports = function getSourceFiles({
 	fileExtension,
 	ignoreCharacter,
 }) {
+	const getSrc = (src) => `${src}/**/*${ext(fileExtension)}`
+	var source = Array.isArray(sourceFolder)
+		? sourceFolder.map(getSrc)
+		: [getSrc(sourceFolder)]
 	var ignoredCharacter = ignoreCharacter || '_'
 	return [
-		`${sourceFolder}/**/*${ext(fileExtension)}`,
+		...source,
 		// Ignore files and folders that start with an the ignore character
 		ignoredCharacter &&
 			`!${sourceFolder}/{**/${ignoredCharacter}*,**/${ignoredCharacter}*/**}`,
