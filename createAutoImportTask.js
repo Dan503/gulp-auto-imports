@@ -30,7 +30,7 @@ const createWatcher = ({
 	})
 }
 
-const createAutoImportsTask = ({
+const createAutoImportTask = ({
 	sourceFolder,
 	fileExtension,
 	importerSettings,
@@ -58,4 +58,4 @@ const createAutoImportsTask = ({
 	return [taskName, watchName]
 }
 
-module.exports = createAutoImportsTask
+module.exports = createAutoImportTask
