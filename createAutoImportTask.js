@@ -1,4 +1,5 @@
 const gulp = require('gulp')
+const getSourceFiles = require('./core/helpers/getSourceFiles')
 const autoImports = require('./index')
 
 /** last portion of sourceFolder after the last "/" */
@@ -11,16 +12,6 @@ const getTaskNames = ({ fileExtension = 'all-files', name, taskPrefix }) => {
 		watchName: `${prefix}:watch-auto-imports:${name}`,
 	}
 }
-
-const ext = (fileExtension) => (fileExtension ? `.${fileExtension}` : '')
-
-const getSourceFiles = ({ sourceFolder, fileExtension, ignoreCharacter }) =>
-	[
-		`${sourceFolder}/**/*${ext(fileExtension)}`,
-		// Ignore files and folders that start with an the ignore character
-		ignoreCharacter &&
-			`!${sourceFolder}/{**/${ignoreCharacter}*,**/${ignoreCharacter}*/**}`,
-	].filter(Boolean)
 
 const createWatcher = ({
 	watchName,
