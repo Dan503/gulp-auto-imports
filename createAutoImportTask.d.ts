@@ -15,6 +15,11 @@ declare const createAutoImportTask: (props: {
 	 */
 	fileExtension?: string
 	/**
+	 * Files and folders that start with this string will be ignored
+	 * @default "_"
+	 */
+	ignoreCharacter?: string
+	/**
 	 * The exact same object that you would normally pass
 	 * into the `autoImports()` gulp plugin
 	 */
@@ -34,8 +39,8 @@ declare const createAutoImportTask: (props: {
  * const [ jsAutoImports, jsAutoImportsWatcher ] = createAutoImportsTask({
  *  sourceFolder: './src/js-folder',
  *  fileExtension: 'js', // optional
+ *  ignoreCharacter: 'X_', // optional
  *  importerSettings: { preset: 'js', dest: 'build' }
- *  hasWatcher: true // optional
  * })
  * ```
  */
