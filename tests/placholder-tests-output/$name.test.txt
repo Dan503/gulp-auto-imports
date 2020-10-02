@@ -2,10 +2,10 @@
 main | main.css
 one | one.jade
 two | two.jade
-one_1 | one.pug
-two_1 | two.pug
-one_2 | one.js
-two_2 | two.js
+one_1 | one.js
+two_1 | two.js
+one_2 | one.pug
+two_2 | two.pug
 one_3 | one.sass
 two_3 | two.sass
 one_4 | one.scss

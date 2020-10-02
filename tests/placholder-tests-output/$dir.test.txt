@@ -2,10 +2,10 @@
 ../input/test/css | main.css
 ../input/test/jade | one.jade
 ../input/test/jade | two.jade
-../input/test/pug | one.pug
-../input/test/pug | two.pug
 ../input/test/js | one.js
 ../input/test/js | two.js
+../input/test/pug | one.pug
+../input/test/pug | two.pug
 ../input/test/sass | one.sass
 ../input/test/sass | two.sass
 ../input/test/scss | one.scss
