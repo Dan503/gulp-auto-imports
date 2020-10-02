@@ -14,6 +14,7 @@ const createPlaceholderTest = (placholder) => {
 }
 
 const [$name] = createPlaceholderTest('$name')
+const [$fileName] = createPlaceholderTest('$fileName')
 const [$ext] = createPlaceholderTest('$ext')
 const [$path] = createPlaceholderTest('$path')
 const [$noExtPath] = createPlaceholderTest('$noExtPath')
@@ -21,5 +22,5 @@ const [$dir] = createPlaceholderTest('$dir')
 
 gulp.task(
 	'placeholder-tests',
-	gulp.parallel($name, $ext, $path, $noExtPath, $dir),
+	gulp.parallel($name, $fileName, $ext, $path, $noExtPath, $dir),
 )
