@@ -26,6 +26,12 @@ declare const createAutoImportTask: (props: {
 	 */
 	taskPrefix?: string
 	/**
+	 * Specify if the output file should be ignored.
+	 * Useful if the output file is in the same directory as the input files.
+	 * @default true
+	 */
+	ignoreImporterFile?: boolean
+	/**
 	 * The exact same object that you would normally pass
 	 * into the `autoImports()` gulp plugin
 	 */
