@@ -13,4 +13,4 @@
 ../input/test/styl/one.styl | one.styl
 ../input/test/styl/two.styl | two.styl
 ../input/test/ts/one.ts | one.ts
-../input/test/ts/two.tsx | two.tsx
+../input/test/ts/two.ts | two.ts

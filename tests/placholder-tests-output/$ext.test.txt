@@ -13,4 +13,4 @@ scss | two.scss
 styl | one.styl
 styl | two.styl
 ts | one.ts
-tsx | two.tsx
+ts | two.ts
