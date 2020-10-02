@@ -3,6 +3,7 @@ var gulp = require('gulp')
 require('./gulp/js')
 require('./gulp/scss')
 require('./gulp/placeholder-tests')
+require('./gulp/same-folder-test')
 // File is auto-generated
 require('./gulp/taskGenerators/output/preset-test-tasks')
 
@@ -10,7 +11,13 @@ require('./gulp/taskGenerators/output/preset-test-tasks')
 gulp.task(
 	'default',
 	gulp.series(
-		gulp.parallel('js', 'sass', 'multi-output-test', 'placeholder-tests'),
+		gulp.parallel(
+			'js',
+			'sass',
+			'multi-output-test',
+			'placeholder-tests',
+			'same-folder-test',
+		),
 		'presets',
 	),
 )
