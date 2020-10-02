@@ -14,14 +14,15 @@ module.exports = function getSourceFiles({
 	const ignoredPaths = ignoreCharacter
 		? sourceDirs.map((src) => {
 				// Ignore files and folders that start with the ignore character
-				return `!${src}/{**/${ignoreCharacter}*,**/${ignoreCharacter}*/**}`
+				if (ignoreImporterFile) {
+					// Also ignores the file that ends up getting outputted by the plugin
+					return `!${src}/{**/${ignoreCharacter}*,**/${ignoreCharacter}*/**,**/${importerFile}}`
+				} else {
+					return `!${src}/{**/${ignoreCharacter}*,**/${ignoreCharacter}*/**}`
+				}
 		  })
 		: []
-	return [
-		...source,
-		...ignoredPaths,
-		ignoreImporterFile && `!${importerFile}`,
-	].filter(Boolean)
+	return [...source, ...ignoredPaths]
 }
 
 function ext(fileExtension) {
