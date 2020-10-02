@@ -34,7 +34,7 @@ const createAutoImportTask = ({
 	sourceFolder,
 	fileExtension,
 	taskPrefix,
-	ignoreCharacter = '_',
+	ignoreCharacter,
 	importerSettings,
 }) => {
 	const name = getName(sourceFolder)

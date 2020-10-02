@@ -16,7 +16,7 @@ declare const createAutoImportTask: (props: {
 	fileExtension?: string
 	/**
 	 * Files and folders that start with this string will be ignored
-	 * @default "_"
+	 * @default "#"
 	 */
 	ignoreCharacter?: string
 	/**

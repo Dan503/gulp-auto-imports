@@ -1,7 +1,7 @@
 module.exports = function getSourceFiles({
 	sourceFolder,
 	fileExtension,
-	ignoreCharacter = '_',
+	ignoreCharacter = '#',
 }) {
 	const getSrc = (src) => `${src}/**/*${ext(fileExtension)}`
 	const sourceIsArray = Array.isArray(sourceFolder)
