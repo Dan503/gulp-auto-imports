@@ -9,6 +9,10 @@ declare const createAutoImportTask: (props: {
 	 */
 	sourceFolder: string
 	/**
+	 * Set to `false` to prevent a watch task from being generated.
+	 */
+	watch?: boolean
+	/**
 	 * The file extension for the type of files you want to target.
 	 *
 	 * Leave undefined to target all files inside the source folder

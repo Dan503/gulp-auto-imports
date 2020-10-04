@@ -40,6 +40,7 @@ const createWatcher = ({
 
 const createAutoImportTask = ({
 	sourceFolder,
+	watch = true,
 	fileExtension,
 	taskPrefix,
 	ignoreCharacter,
@@ -78,17 +79,19 @@ const createAutoImportTask = ({
 			.pipe(gulp.dest(fullImporterSettings.dest))
 	})
 
-	createWatcher({
-		sourceFolder,
-		fileExtension,
-		watchName,
-		taskName,
-		ignoreCharacter,
-		ignoreImporterFile,
-		importerFile: fullImporterSettings.fileName,
-	})
+	if (watch) {
+		createWatcher({
+			sourceFolder,
+			fileExtension,
+			watchName,
+			taskName,
+			ignoreCharacter,
+			ignoreImporterFile,
+			importerFile: fullImporterSettings.fileName,
+		})
+	}
 
-	return [taskName, watchName]
+	return [taskName, watch && watchName].filter(Boolean)
 }
 
 module.exports = createAutoImportTask
