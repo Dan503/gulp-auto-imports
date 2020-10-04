@@ -3,6 +3,8 @@ import { preset } from './preset-types'
 
 export interface options {
 	/**
+	 * **REQUIRED** unless using the `createAutoImportTask` function (defaults to the `sourceFolder` setting).
+	 *
 	 * Determines where the output file is sent after processing.
 	 *
 	 * Should be identical to the setting used in `gulp.dest()`.
@@ -13,7 +15,7 @@ export interface options {
 	 *
 	 * @abstract The `gulp.dest()` setting is unavailable at the time the plugin is called, thus the setting needs to be provided explicitly.
 	 */
-	dest: string
+	dest?: string
 
 	/**
 	 * Use a set of predefined default settings rather than configuring all of the settings yourself.

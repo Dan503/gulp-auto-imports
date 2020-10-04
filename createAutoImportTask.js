@@ -51,6 +51,7 @@ const createAutoImportTask = ({
 		: {}
 
 	const fullImporterSettings = {
+		dest: sourceFolder,
 		...defaultSettings,
 		...importerSettings,
 	}
@@ -73,8 +74,8 @@ const createAutoImportTask = ({
 					importerFile: fullImporterSettings.fileName,
 				}),
 			)
-			.pipe(autoImports(importerSettings))
-			.pipe(gulp.dest(importerSettings.dest))
+			.pipe(autoImports(fullImporterSettings))
+			.pipe(gulp.dest(fullImporterSettings.dest))
 	})
 
 	createWatcher({

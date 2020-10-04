@@ -10,7 +10,6 @@ const [withFileExtensionSetting] = createAutoImportTask({
 	fileExtension: 'js',
 	taskPrefix: 'withExtension',
 	importerSettings: {
-		dest: sourceFolder,
 		preset,
 		fileName: `output-withFileExtensionSetting.test.js`,
 	},
@@ -19,7 +18,6 @@ const [noFileExtensionSetting] = createAutoImportTask({
 	sourceFolder,
 	taskPrefix: 'noExtension',
 	importerSettings: {
-		dest: sourceFolder,
 		preset,
 		fileName: `output-noFileExtensionSetting.test.js`,
 	},
@@ -28,7 +26,6 @@ const [defaultFileName] = createAutoImportTask({
 	sourceFolder,
 	taskPrefix: 'defaultFileName',
 	importerSettings: {
-		dest: sourceFolder,
 		preset,
 	},
 })
