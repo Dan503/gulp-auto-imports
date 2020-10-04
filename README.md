@@ -1,7 +1,6 @@
 TO DO:
 
 -   Convert all the local gulp tasks to TypeScript (Dependent on [this issue](https://github.com/gulpjs/gulp/issues/2493) being fixed first)
--   (Done but not 100% working yet) Make tests for each format placeholder using the new `createAutoImportTask` function
 -   Document how to use `createAutoImportTask` function in Readme.md
 
 # Gulp Auto Imports
@@ -31,6 +30,7 @@ Gulp Auto Imports also has the ability to remember the order that imports are de
   - [JS after](#js-after)
 - [Install](#install)
 - [Using the SCSS preset](#using-the-scss-preset)
+- [Using the Gulp task generator](#using-the-gulp-task-generator)
 - [Use in _combination_ with Gulp Sass Glob](#use-in-combination-with-gulp-sass-glob)
   - [Gulp 3 combination](#gulp-3-combination)
   - [Gulp 4 combination](#gulp-4-combination)
@@ -146,6 +146,8 @@ Install Gulp Auto Imports using the following command:
 ```
 npm install gulp-auto-imports --save-dev
 ```
+
+---
 
 For my examples, I am assuming that the project folder structure looks like this:
 
@@ -298,6 +300,78 @@ Add this line to your main scss file to auto-loaded your component styles:
 ```
 
 You can now auto-load all of you're component scss files while still retaining full control over CSS source order! 😃
+
+## Using the Gulp task generator
+
+Making a single auto-imports file is ok using the standard method, however when you start making more than one auto-import file, the process can become quite cumbersome. This is why Gulp Auto Imports also comes with a task generator to make generating multiple auto-import files super easy.
+
+For this example, we are going to generate three separate auto-import files. One for `vars`, one for `mixins`, and one for `components`.
+
+```js
+var gulp = require('gulp')
+var createAutoImportTask = require('gulp-auto-imports/createAutoImportTask')
+
+// Create a funciton for
+const createScssImporterTask = (sourceFolder) => createAutoImportTask({
+  sourceFolder,
+  // restrict imports to only cover `.scss` files
+  fileExtension: 'scss',
+  // Same settings object that you apply to the main gulp task
+  importerSettings: {
+    preset: 'scss',
+    // Note: `dest` will default to the source folder unless you define it here
+    // The generated output file will be ignored
+  },
+})
+
+const [scssVarsImporter, scssVarsImportWatcher] = createScssImporterTask('./source/scss/config/vars')
+const [scssMixinsImporter, scssMixinsImportWatcher] = createScssImporterTask('./source/scss/config/mixins')
+const [scssComponetsImporter, scssComponetsImportWatcher] = createScssImporterTask('./source/scss/config/mixins')
+
+// Gulp 4
+gulp.task('scss-auto-imports', gulp.parallel(
+  scssVarsImporter,
+  scssVarsImportWatcher,
+  scssMixinsImporter,
+  scssMixinsImportWatcher,
+  scssComponetsImporter,
+  scssComponetsImportWatcher,
+))
+
+// Gulp 3
+gulp.task('scss-auto-imports', [
+  scssVarsImporter,
+  scssVarsImportWatcher,
+  scssMixinsImporter,
+  scssMixinsImportWatcher,
+  scssComponetsImporter,
+  scssComponetsImportWatcher,
+])
+```
+
+If you don't want to write out all the task variables, you can also use destructuring as a shortcut.
+
+```js
+/**
+ * Use array destructuring as a shortcut
+ */
+
+// Gulp 4
+gulp.task('scss-auto-imports', gulp.parallel(
+  ...createScssImporterTask('./source/scss/config/vars'),
+  ...createScssImporterTask('./source/scss/config/mixins'),
+  ...createScssImporterTask('./source/scss/config/mixins')
+))
+
+// Gulp 3
+gulp.task('scss-auto-imports', [
+  ...createScssImporterTask('./source/scss/config/vars'),
+  ...createScssImporterTask('./source/scss/config/mixins'),
+  ...createScssImporterTask('./source/scss/config/mixins')
+])
+```
+
+If you don't want to
 
 ## Use in _combination_ with [Gulp Sass Glob](https://www.npmjs.com/package/gulp-sass-glob)
 
