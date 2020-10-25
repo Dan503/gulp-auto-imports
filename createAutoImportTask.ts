@@ -1,9 +1,10 @@
-const gulp = require('gulp')
-const getSourceFiles = require('./core/helpers/getSourceFiles')
-const autoImports = require('./index')
+import * as gulp from 'gulp'
+import getSourceFiles from './core/helpers/getSourceFiles'
+import { CreateAutoImportTaskProps, returnValue } from './createAutoImportTask.types'
+import autoImports from './index'
 
 /** last portion of sourceFolder after the last "/" */
-const getName = (sourceFolder) => /.*\/(.+)$/.exec(sourceFolder)[1]
+const getName = (sourceFolder: string): string => /.*\/(.+)$/.exec(sourceFolder)[1] || ''
 
 const getTaskNames = ({ fileExtension = 'all-files', name, taskPrefix }) => {
 	const prefix = (taskPrefix ? `${taskPrefix}:` : '') + fileExtension
@@ -46,7 +47,7 @@ const createAutoImportTask = ({
 	ignoreCharacter,
 	ignoreImporterFile,
 	importerSettings,
-}) => {
+}: CreateAutoImportTaskProps): returnValue => {
 	const defaultSettings = importerSettings.preset
 		? require(`./presets/${importerSettings.preset}`)
 		: {}
@@ -89,9 +90,11 @@ const createAutoImportTask = ({
 			ignoreImporterFile,
 			importerFile: fullImporterSettings.fileName,
 		})
-	}
 
-	return [taskName, watch && watchName].filter(Boolean)
+		return [taskName, watchName]
+	} else {
+		return taskName
+	}
 }
 
-module.exports = createAutoImportTask
+export default createAutoImportTask
