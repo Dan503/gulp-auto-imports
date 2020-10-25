@@ -4,26 +4,26 @@ import autoImports from '../../../index'
 
 import { header } from '../common'
 
-var template = `
+const template = `
 export type preset =
 $format[typeDefinitions]
 `
 
 gulp.task('preset_types_generator', function () {
-	var dest = '../../'
+	const dest = '../../'
 
 	return gulp
 		.src('../../presets/*.js')
 		.pipe(
 			autoImports({
 				format: {
-					typeDefinitions: "  | '$name'",
+					typeDefinitions: "	| '$name'",
 				},
 				dest,
 				fileName: 'preset-types.ts',
 				template,
 				header,
-			}),
+			})
 		)
 		.pipe(gulp.dest(dest))
 })

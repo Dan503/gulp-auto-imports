@@ -5,18 +5,20 @@ import autoImports from '../../index'
 
 import { header } from './common'
 
-
-var template = `
+const template = `
 var gulp = require('gulp')
 $format[imports]
 
-gulp.task('generate', gulp.parallel(
+gulp.task(
+	'generate',
+	gulp.parallel(
 $format[names]
-))
+	)
+)
 `
 
 export default function () {
-	var dest = 'output'
+	const dest = 'output'
 
 	return gulp
 		.src(getSourceFiles({ sourceFolder: './input', fileExtension: 'js' }))
@@ -24,13 +26,13 @@ export default function () {
 			autoImports({
 				format: {
 					imports: `require('$path')`,
-					names: `  '$name',`,
+					names: `		'$name',`,
 				},
 				dest,
 				fileName: 'generate-task.ts',
 				template,
 				header,
-			}),
+			})
 		)
 		.pipe(gulp.dest(dest))
 }

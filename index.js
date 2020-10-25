@@ -68,16 +68,11 @@ module.exports.default = function (opt) {
 			return done()
 		}
 
-		var new_content = () =>
-			generate_content({ pathsArray: relativePaths, opt })
+		var new_content = () => generate_content({ pathsArray: relativePaths, opt })
 
-		var generate_file = (content) => {
+		var generate_file = content => {
 			var newFile = create_file(lastFile, opt, content)
-			log(
-				`Generated ${c.magenta(
-					join([opt.dest, c.yellow(opt.fileName)]),
-				)}`,
-			)
+			log(`Generated ${c.magenta(join([opt.dest, c.yellow(opt.fileName)]))}`)
 			this.push(newFile)
 			done()
 		}
@@ -85,7 +80,7 @@ module.exports.default = function (opt) {
 		fileExists(generatedFilePath, (error, exists) => {
 			err(error, error)
 			if (exists) {
-				read_file(generatedFilePath).then((oldContent) => {
+				read_file(generatedFilePath).then(oldContent => {
 					var orderedContent = opt.retainOrder
 						? order_content({
 								oldContent,

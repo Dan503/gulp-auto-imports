@@ -18,10 +18,10 @@ gulp.task(
 			'sass',
 			'multi-output-test',
 			'placeholder-tests',
-			'same-folder-test',
+			'same-folder-test'
 		),
-		'presets',
-	),
+		'presets'
+	)
 )
 
 gulp.task('watch', gulp.parallel('default', 'js:watch', 'sass:watch'))

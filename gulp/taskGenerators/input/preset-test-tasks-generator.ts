@@ -4,7 +4,7 @@ import autoImports from '../../../index'
 
 import { header } from '../common'
 
-var template = `
+const template = `
 import * as gulp from 'gulp'
 import autoImports from '../../../index'
 import getSourceFiles from '../../../core/helpers/getSourceFiles'
@@ -18,7 +18,7 @@ $format[taskName]
 ))
 `
 
-var taskFormat = `
+const taskFormat = `
 gulp.task('preset:$name', function () {
 	return gulp
 		.src(getSourceFiles({
@@ -39,7 +39,7 @@ gulp.task('preset:$name', function () {
 })
 `
 
-var getExtension = (fileName: string) => {
+let getExtension = (fileName: string) => {
 	if (/^es5/.test(fileName) || /^es6/.test(fileName)) {
 		return 'js'
 	}
@@ -53,7 +53,7 @@ var getExtension = (fileName: string) => {
 }
 
 gulp.task('preset_test_tasks_generator', function () {
-	var dest = './output'
+	let dest = './output'
 
 	return gulp
 		.src('../../presets/*.js')
@@ -70,7 +70,7 @@ gulp.task('preset_test_tasks_generator', function () {
 				formatReplace: ({ output, path }) => {
 					return output.replace(/{ext}/g, getExtension(path.name))
 				},
-			}),
+			})
 		)
 		.pipe(gulp.dest(dest))
 })

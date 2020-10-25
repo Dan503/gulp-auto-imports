@@ -1,3 +1,3 @@
-export default () => { }
-export const one = () => { }
-export const one_1 = () => { }
+export default () => {}
+export const one = () => {}
+export const one_1 = () => {}

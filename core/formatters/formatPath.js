@@ -6,7 +6,7 @@ var c = require('chalk')
 
 const retainOrderWarning = ({ placeholder, filePath, format, options }) => `
 \nThe ${c.yellow(placeholder)} placeholder does not support the ${c.cyan(
-	'retainOrder: true',
+	'retainOrder: true'
 )} setting.
 Order retention is being ignored.
 
@@ -37,7 +37,7 @@ module.exports = function formatPath(filePath, format, options) {
 				filePath,
 				format,
 				options,
-			}),
+			})
 		)
 		warn(
 			dirCount > 0,
@@ -46,7 +46,7 @@ module.exports = function formatPath(filePath, format, options) {
 				filePath,
 				format,
 				options,
-			}),
+			})
 		)
 	}
 

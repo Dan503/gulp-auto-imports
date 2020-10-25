@@ -64,9 +64,11 @@ export interface options {
 	},
 	 * @requires template (only if an object is provided)
 	 */
-	format?: string | {
-		[formatName: string]: string
-	}
+	format?:
+		| string
+		| {
+				[formatName: string]: string
+		  }
 
 	/**
 	 * The template setting holds a string that dictates the overall structure of the generated file.
@@ -139,26 +141,28 @@ interface PathObject extends ParsedPath {
 
 interface FormatReplaceParams {
 	/** The current formatted import line that would normally get printed out to the file. */
-	output: string,
+	output: string
 	/** The format string being used to format the output. */
-	format: string | {
-		[formatName: string]: string
-	},
+	format:
+		| string
+		| {
+				[formatName: string]: string
+		  }
 	/** If using a template, this is the key used to identify the formatter. */
-	formatKey?: string,
+	formatKey?: string
 	/** Information about the current import path. */
 	path: PathObject
 }
 
 interface TemplateReplaceParams {
 	/** The current output that would normally get printed out to the file */
-	output: string,
+	output: string
 	/** The formatting object used to format the template */
 	formats: {
 		[formatName: string]: string
-	},
+	}
 	/** The template being used to format the output file */
-	template: string,
+	template: string
 	/** A list of all the relative paths being used to generate the file */
 	paths: Array<PathObject>
 }

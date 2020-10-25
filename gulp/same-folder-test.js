@@ -32,9 +32,5 @@ const [defaultFileName] = createAutoImportTask({
 
 gulp.task(
 	'same-folder-test',
-	gulp.series(
-		withFileExtensionSetting,
-		noFileExtensionSetting,
-		defaultFileName,
-	),
+	gulp.series(withFileExtensionSetting, noFileExtensionSetting, defaultFileName)
 )
