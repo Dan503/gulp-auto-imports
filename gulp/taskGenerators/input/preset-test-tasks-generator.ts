@@ -1,14 +1,15 @@
 // This file is used to generate the gulp tasks that test that the presets are working
-var gulp = require('gulp')
-var autoImports = require('../../../index')
-var { header } = require('../common')
+import * as gulp from 'gulp'
+import autoImports from '../../../index'
+
+import { header } from '../common'
 
 var template = `
-var gulp = require('gulp')
-var autoImports = require('../../../index')
-var getSourceFiles = require('../../../core/helpers/getSourceFiles')
+import * as gulp from 'gulp'
+import autoImports from '../../../index'
+import getSourceFiles from '../../../core/helpers/getSourceFiles'
 
-var dest = 'tests/output/preset-outputs'
+const dest = 'tests/output/preset-outputs'
 
 $format[gulpTask]
 
@@ -38,7 +39,7 @@ gulp.task('preset:$name', function () {
 })
 `
 
-var getExtension = (fileName) => {
+var getExtension = (fileName: string) => {
 	if (/^es5/.test(fileName) || /^es6/.test(fileName)) {
 		return 'js'
 	}
@@ -63,7 +64,7 @@ gulp.task('preset_test_tasks_generator', function () {
 					taskName: `  'preset:$name',`,
 				},
 				dest,
-				fileName: 'preset-test-tasks.js',
+				fileName: 'preset-test-tasks.ts',
 				template,
 				header,
 				formatReplace: ({ output, path }) => {

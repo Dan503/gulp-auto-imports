@@ -1,8 +1,9 @@
 // Generates the file that holds the js object full of js preset data
 // This gulp task essentially teaches the gulp plugin how to handle the `preset` setting
-var gulp = require('gulp')
-var autoImports = require('../../../index')
-var { header } = require('../common')
+import * as gulp from 'gulp'
+import autoImports from '../../../index'
+
+import { header } from '../common'
 
 var template = `
 var presets = {

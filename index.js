@@ -26,7 +26,7 @@ var dest_error = require('./core/error-messages/dest')
 var format_error = require('./core/error-messages/format')
 var fileName_error = require('./core/error-messages/fileName')
 
-module.exports = function (opt) {
+module.exports.default = function (opt) {
 	if (opt.preset) {
 		opt = Object.assign({}, presets[opt.preset], opt)
 	}

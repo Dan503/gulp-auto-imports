@@ -8,13 +8,17 @@
 		"through2": "^2.0.3"
 	},
 	"devDependencies": {
+		"@types/gulp": "^4.0.6",
+		"@types/gulp-sass": "^4.0.0",
 		"gulp": "^4.0.2",
-		"gulp-sass": "^4.1.0"
+		"gulp-sass": "^4.1.0",
+		"ts-node": "^9.0.0",
+		"typescript": "^4.0.3"
 	},
 	"main": "index.js",
 	"scripts": {
 		"start": "npm run generate && gulp",
-		"generate": "gulp --gulpfile gulp/taskGenerators/gulpfile.stage1.js && gulp --gulpfile gulp/taskGenerators/gulpfile.stage2.js",
+		"generate": "npx gulp --gulpfile gulp/taskGenerators/gulpfile-stage1.ts default && npx gulp --gulpfile gulp/taskGenerators/gulpfile-stage2.ts default",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {

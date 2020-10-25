@@ -1,8 +1,10 @@
 // Stage 1 prepares a gulp file that stage 2 is able to run
-var gulp = require('gulp')
-const getSourceFiles = require('../../core/helpers/getSourceFiles')
-var autoImports = require('../../index')
-var { header } = require('./common')
+import * as gulp from 'gulp'
+import getSourceFiles from '../../core/helpers/getSourceFiles'
+import autoImports from '../../index'
+
+import { header } from './common'
+
 
 var template = `
 var gulp = require('gulp')
@@ -13,7 +15,7 @@ $format[names]
 ))
 `
 
-gulp.task('default', function () {
+export default function () {
 	var dest = 'output'
 
 	return gulp
@@ -25,10 +27,10 @@ gulp.task('default', function () {
 					names: `  '$name',`,
 				},
 				dest,
-				fileName: 'generate-task.js',
+				fileName: 'generate-task.ts',
 				template,
 				header,
 			}),
 		)
 		.pipe(gulp.dest(dest))
-})
+}
