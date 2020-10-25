@@ -4,4 +4,6 @@ import * as gulp from 'gulp'
 
 import './output/generate-task'
 
-gulp.task('default', gulp.series('generate'))
+export default function (done: any) {
+	return gulp.series('generate')(done)
+}

@@ -14,7 +14,7 @@ $format[names]
 ))
 `
 
-gulp.task('default', function () {
+export default function () {
 	var dest = 'output'
 
 	return gulp
@@ -32,4 +32,4 @@ gulp.task('default', function () {
 			}),
 		)
 		.pipe(gulp.dest(dest))
-})
+}
