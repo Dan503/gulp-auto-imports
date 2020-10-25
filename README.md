@@ -1,6 +1,7 @@
 TO DO:
 
--   Convert all the local gulp tasks to TypeScript (Dependent on [this issue](https://github.com/gulpjs/gulp/issues/2493) being fixed first)
+-   Convert all js files to TypeScript
+-   Make "prepublishOnly" npm script for converting the TS files into .js + .d.ts files
 -   Document how to use `createAutoImportTask` function in Readme.md
 
 # Gulp Auto Imports
