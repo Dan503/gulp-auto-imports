@@ -4,7 +4,8 @@
 		"target": "es5",
 		"module": "commonjs",
 		"lib": ["ESNext", "ES6"],
-		"baseUrl": "../node_modules"
+		"baseUrl": "../node_modules",
+		"noImplicitReturns": true
 	},
-	"files": ["gulpfile.ts"]
+	"include": ["*.ts"]
 }
