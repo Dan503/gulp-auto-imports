@@ -2,10 +2,10 @@ import * as gulp from 'gulp'
 import getSourceFiles from './core/helpers/getSourceFiles'
 import {
 	CreateAutoImportTaskProps,
+	CreateWatcherProps,
 	GetTaskNamesProps,
 	GetTaskNamesReturn,
-	GulpTask,
-	WatchTask,
+	returnValue,
 } from './createAutoImportTask.types'
 import autoImports from './index'
 
@@ -27,14 +27,40 @@ const getTaskNames = ({
 	}
 }
 
+const createWatcher = ({
+	watchName,
+	sourceFolder,
+	fileExtension,
+	taskName,
+	ignoreCharacter,
+	ignoreImporterFile,
+	importerFile,
+}: CreateWatcherProps): void => {
+	return gulp.task(watchName, done => {
+		const watcher = gulp.watch(
+			getSourceFiles({
+				sourceFolder,
+				fileExtension,
+				ignoreCharacter,
+				ignoreImporterFile,
+				importerFile,
+			})
+		)
+		watcher.on('add', gulp.series(taskName))
+		watcher.on('unlink', gulp.series(taskName))
+		done()
+	})
+}
+
 export const createAutoImportTask = ({
 	sourceFolder,
+	watch = true,
 	fileExtension,
 	taskPrefix,
 	ignoreCharacter,
 	ignoreImporterFile,
 	importerSettings,
-}: CreateAutoImportTaskProps): [GulpTask, WatchTask] => {
+}: CreateAutoImportTaskProps): returnValue => {
 	const defaultSettings = importerSettings.preset
 		? require(`./presets/${importerSettings.preset}`)
 		: {}
@@ -52,40 +78,34 @@ export const createAutoImportTask = ({
 		taskPrefix,
 	})
 
-	interface Tasks {
-		[taskName: string]: GulpTask | WatchTask
-	}
+	gulp.task(taskName, () => {
+		return gulp
+			.src(
+				getSourceFiles({
+					sourceFolder,
+					fileExtension,
+					ignoreCharacter,
+					ignoreImporterFile,
+					importerFile: fullImporterSettings.fileName,
+				})
+			)
+			.pipe(autoImports(fullImporterSettings))
+			.pipe(gulp.dest(fullImporterSettings.dest))
+	})
 
-	const tasks: Tasks = {
-		[taskName]: (): NodeJS.ReadWriteStream =>
-			gulp
-				.src(
-					getSourceFiles({
-						sourceFolder,
-						fileExtension,
-						ignoreCharacter,
-						ignoreImporterFile,
-						importerFile: fullImporterSettings.fileName,
-					})
-				)
-				.pipe(autoImports(fullImporterSettings))
-				.pipe(gulp.dest(fullImporterSettings.dest)),
-	}
+	if (watch) {
+		createWatcher({
+			sourceFolder,
+			fileExtension,
+			watchName,
+			taskName,
+			ignoreCharacter,
+			ignoreImporterFile,
+			importerFile: fullImporterSettings.fileName,
+		})
 
-	tasks[watchName] = (done: () => void): void => {
-		const watcher = gulp.watch(
-			getSourceFiles({
-				sourceFolder,
-				fileExtension,
-				ignoreCharacter,
-				ignoreImporterFile,
-				importerFile: fullImporterSettings.fileName,
-			})
-		)
-		watcher.on('add', gulp.series(tasks[taskName]))
-		watcher.on('unlink', gulp.series(tasks[taskName]))
-		done()
+		return [taskName, watchName]
+	} else {
+		return taskName
 	}
-
-	return [tasks[taskName] as GulpTask, tasks[watchName] as WatchTask]
 }

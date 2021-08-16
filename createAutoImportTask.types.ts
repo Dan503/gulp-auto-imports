@@ -1,3 +1,4 @@
+import { GetSourceFilesProps } from './core/helpers/getSourceFiles'
 import { options } from './index'
 
 export interface CreateAutoImportTaskProps {
@@ -8,6 +9,14 @@ export interface CreateAutoImportTaskProps {
 	 * for each folder or target a shared common folder instead.
 	 */
 	sourceFolder: string
+	/**
+	 * Set to `false` to prevent a watch task from being generated.
+	 *
+	 * If false, a single string will be returned instead of an array of strings.
+	 *
+	 * @default true
+	 */
+	watch?: boolean
 	/**
 	 * The file extension for the type of files you want to target.
 	 *
@@ -39,11 +48,16 @@ export interface CreateAutoImportTaskProps {
 }
 
 /**
- * The return value will return either an array of two gulp task functions.
+ * The return value will return either an array of two strings or a single string
+ * depending on if `watch` is true or not.
  *
- * The first gulp task will be the task for generating the auto-imports file.
+ * **If `watch` is `true`** (default)
  *
- * The second gulp task will be the auto-imports watch task.
+ * An array with two strings will be returned.
+ *
+ * The first value will be the name of the main gulp auto-imports task.
+ *
+ * The second value will be the name of the import task watcher.
  *
  * Use this pattern when creating your task names:
  *
@@ -54,12 +68,24 @@ export interface CreateAutoImportTaskProps {
  *  ignoreCharacter: 'X_', // optional
  *  importerSettings: { preset: 'js', dest: 'build' }
  * })
- *
- * gulp.task('default', gulp.parallel(jsAutoImports, jsAutoImportsWatcher))
  * ```
  *
+ * **If `watch` is `false`**
+ *
+ * Only the main gulp auto-imports task name will be returned as a single string.
+ *
+ * Use like this:
+ * ```js
+ * const jsAutoImports = createAutoImportsTask({
+ *  watch: false,
+ *  sourceFolder: './src/js-folder',
+ *  fileExtension: 'js', // optional
+ *  ignoreCharacter: 'X_', // optional
+ *  importerSettings: { preset: 'js', dest: 'build' }
+ * })
+ * ```
  */
-export type CreateAutoImportTaskReturn = [GulpTask, GulpTask]
+export type returnValue = importerTaskName | [importerTaskName, watchTaskName]
 
 export interface GetTaskNamesProps {
 	name: string
@@ -71,5 +97,10 @@ export interface GetTaskNamesReturn {
 	watchName: string
 }
 
-export type GulpTask = (done: () => void) => NodeJS.ReadWriteStream
-export type WatchTask = (done: () => void) => void
+export interface CreateWatcherProps extends GetSourceFilesProps {
+	watchName: string
+	taskName: string
+}
+
+type importerTaskName = string
+type watchTaskName = string
