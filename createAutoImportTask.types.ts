@@ -10,14 +10,6 @@ export interface CreateAutoImportTaskProps {
 	 */
 	sourceFolder: string
 	/**
-	 * Set to `false` to prevent a watch task from being generated.
-	 *
-	 * If false, a single string will be returned instead of an array of strings.
-	 *
-	 * @default true
-	 */
-	watch?: boolean
-	/**
 	 * The file extension for the type of files you want to target.
 	 *
 	 * Leave undefined to target all files inside the source folder
@@ -48,44 +40,29 @@ export interface CreateAutoImportTaskProps {
 }
 
 /**
- * The return value will return either an array of two strings or a single string
- * depending on if `watch` is true or not.
+ * The return value will return an array of two strings.
  *
- * **If `watch` is `true`** (default)
+ * The first string will be the name of the main gulp auto-imports task.
  *
- * An array with two strings will be returned.
+ * The second string will be the name of the import task watcher.
  *
- * The first value will be the name of the main gulp auto-imports task.
- *
- * The second value will be the name of the import task watcher.
- *
- * Use this pattern when creating your task names:
+ * Use this pattern when creating your gulp tasks:
  *
  * ```js
- * const [ jsAutoImports, jsAutoImportsWatcher ] = createAutoImportsTask({
+ * const [ jsAutoImportsTask, jsAutoImportsWatcher ] = createAutoImportsTask({
  *  sourceFolder: './src/js-folder',
  *  fileExtension: 'js', // optional
  *  ignoreCharacter: 'X_', // optional
  *  importerSettings: { preset: 'js', dest: 'build' }
  * })
- * ```
  *
- * **If `watch` is `false`**
- *
- * Only the main gulp auto-imports task name will be returned as a single string.
- *
- * Use like this:
- * ```js
- * const jsAutoImports = createAutoImportsTask({
- *  watch: false,
- *  sourceFolder: './src/js-folder',
- *  fileExtension: 'js', // optional
- *  ignoreCharacter: 'X_', // optional
- *  importerSettings: { preset: 'js', dest: 'build' }
- * })
+ * gulp.task('default', gulp.parallel(jsAutoImportsTask, jsAutoImportsWatcher))
  * ```
  */
-export type returnValue = importerTaskName | [importerTaskName, watchTaskName]
+export type CreateAutoImportTaskReturn = [importerTaskName, watchTaskName]
+
+type importerTaskName = string
+type watchTaskName = string
 
 export interface GetTaskNamesProps {
 	name: string
@@ -96,11 +73,3 @@ export interface GetTaskNamesReturn {
 	taskName: string
 	watchName: string
 }
-
-export interface CreateWatcherProps extends GetSourceFilesProps {
-	watchName: string
-	taskName: string
-}
-
-type importerTaskName = string
-type watchTaskName = string

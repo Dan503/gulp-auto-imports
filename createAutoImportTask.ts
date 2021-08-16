@@ -2,10 +2,9 @@ import * as gulp from 'gulp'
 import getSourceFiles from './core/helpers/getSourceFiles'
 import {
 	CreateAutoImportTaskProps,
-	CreateWatcherProps,
 	GetTaskNamesProps,
 	GetTaskNamesReturn,
-	returnValue,
+	CreateAutoImportTaskReturn,
 } from './createAutoImportTask.types'
 import autoImports from './index'
 
@@ -27,40 +26,14 @@ const getTaskNames = ({
 	}
 }
 
-const createWatcher = ({
-	watchName,
-	sourceFolder,
-	fileExtension,
-	taskName,
-	ignoreCharacter,
-	ignoreImporterFile,
-	importerFile,
-}: CreateWatcherProps): void => {
-	return gulp.task(watchName, done => {
-		const watcher = gulp.watch(
-			getSourceFiles({
-				sourceFolder,
-				fileExtension,
-				ignoreCharacter,
-				ignoreImporterFile,
-				importerFile,
-			})
-		)
-		watcher.on('add', gulp.series(taskName))
-		watcher.on('unlink', gulp.series(taskName))
-		done()
-	})
-}
-
 export const createAutoImportTask = ({
 	sourceFolder,
-	watch = true,
 	fileExtension,
 	taskPrefix,
 	ignoreCharacter,
 	ignoreImporterFile,
 	importerSettings,
-}: CreateAutoImportTaskProps): returnValue => {
+}: CreateAutoImportTaskProps): CreateAutoImportTaskReturn => {
 	const defaultSettings = importerSettings.preset
 		? require(`./presets/${importerSettings.preset}`)
 		: {}
@@ -78,8 +51,8 @@ export const createAutoImportTask = ({
 		taskPrefix,
 	})
 
-	gulp.task(taskName, () => {
-		return gulp
+	gulp.task(taskName, () =>
+		gulp
 			.src(
 				getSourceFiles({
 					sourceFolder,
@@ -91,21 +64,22 @@ export const createAutoImportTask = ({
 			)
 			.pipe(autoImports(fullImporterSettings))
 			.pipe(gulp.dest(fullImporterSettings.dest))
+	)
+
+	gulp.task(watchName, done => {
+		const watcher = gulp.watch(
+			getSourceFiles({
+				sourceFolder,
+				fileExtension,
+				ignoreCharacter,
+				ignoreImporterFile,
+				importerFile: fullImporterSettings.fileName,
+			})
+		)
+		watcher.on('add', gulp.series(taskName))
+		watcher.on('unlink', gulp.series(taskName))
+		done()
 	})
 
-	if (watch) {
-		createWatcher({
-			sourceFolder,
-			fileExtension,
-			watchName,
-			taskName,
-			ignoreCharacter,
-			ignoreImporterFile,
-			importerFile: fullImporterSettings.fileName,
-		})
-
-		return [taskName, watchName]
-	} else {
-		return taskName
-	}
+	return [taskName, watchName]
 }
