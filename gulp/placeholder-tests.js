@@ -4,7 +4,7 @@ var { createAutoImportTask } = require('../createAutoImportTask')
 const createPlaceholderTest = placholder => {
 	return createAutoImportTask({
 		sourceFolder: 'tests/input/test',
-		taskPrefix: `${placholder}-placeholder`,
+		taskPrefix: `${placholder}`,
 		importerSettings: {
 			dest: 'tests/placholder-tests-output',
 			format: `${placholder} | $fileName.$ext`,
@@ -13,14 +13,14 @@ const createPlaceholderTest = placholder => {
 	})
 }
 
-const [$name] = createPlaceholderTest('$name')
-const [$fileName] = createPlaceholderTest('$fileName')
-const [$ext] = createPlaceholderTest('$ext')
-const [$path] = createPlaceholderTest('$path')
-const [$noExtPath] = createPlaceholderTest('$noExtPath')
-const [$dir] = createPlaceholderTest('$dir')
-
 gulp.task(
 	'placeholder-tests',
-	gulp.parallel($name, $fileName, $ext, $path, $noExtPath, $dir)
+	gulp.series(
+		createPlaceholderTest('$name')[0],
+		createPlaceholderTest('$fileName')[0],
+		createPlaceholderTest('$ext')[0],
+		createPlaceholderTest('$path')[0],
+		createPlaceholderTest('$noExtPath')[0],
+		createPlaceholderTest('$dir')[0]
+	)
 )
