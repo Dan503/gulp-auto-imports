@@ -2,16 +2,24 @@ import * as gulp from 'gulp'
 import getSourceFiles from './core/helpers/getSourceFiles'
 import {
 	CreateAutoImportTaskProps,
+	CreateWatcherProps,
+	GetTaskNamesProps,
+	GetTaskNamesReturn,
 	returnValue,
 } from './createAutoImportTask.types'
 import autoImports from './index'
 
 /** last portion of sourceFolder after the last "/" */
 const getName = (sourceFolder: string): string => {
-	return /.*\/(.+)$/.exec(sourceFolder)[1] || ''
+	const regexMatch = /.*\/(.+)$/.exec(sourceFolder) || []
+	return regexMatch[1] || ''
 }
 
-const getTaskNames = ({ fileExtension = 'all-files', name, taskPrefix }) => {
+const getTaskNames = ({
+	fileExtension = 'all-files',
+	name,
+	taskPrefix,
+}: GetTaskNamesProps): GetTaskNamesReturn => {
 	const prefix = (taskPrefix ? `${taskPrefix}:` : '') + fileExtension
 	return {
 		taskName: `${prefix}:auto-imports:${name}`,
@@ -27,8 +35,8 @@ const createWatcher = ({
 	ignoreCharacter,
 	ignoreImporterFile,
 	importerFile,
-}) => {
-	gulp.task(watchName, done => {
+}: CreateWatcherProps): void => {
+	return gulp.task(watchName, done => {
 		const watcher = gulp.watch(
 			getSourceFiles({
 				sourceFolder,
@@ -44,7 +52,7 @@ const createWatcher = ({
 	})
 }
 
-const createAutoImportTask = ({
+export const createAutoImportTask = ({
 	sourceFolder,
 	watch = true,
 	fileExtension,
@@ -101,5 +109,3 @@ const createAutoImportTask = ({
 		return taskName
 	}
 }
-
-export default createAutoImportTask

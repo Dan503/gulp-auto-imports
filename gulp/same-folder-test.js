@@ -1,5 +1,5 @@
 var gulp = require('gulp')
-var createAutoImportTask = require('../createAutoImportTask')
+var { createAutoImportTask } = require('../createAutoImportTask')
 
 const sourceFolder = 'tests/same-folder-test'
 

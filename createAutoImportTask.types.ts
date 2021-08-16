@@ -1,3 +1,4 @@
+import { GetSourceFilesProps } from './core/helpers/getSourceFiles'
 import { options } from './index'
 
 export interface CreateAutoImportTaskProps {
@@ -85,6 +86,21 @@ export interface CreateAutoImportTaskProps {
  * ```
  */
 export type returnValue = importerTaskName | [importerTaskName, watchTaskName]
+
+export interface GetTaskNamesProps {
+	name: string
+	fileExtension?: string
+	taskPrefix?: string
+}
+export interface GetTaskNamesReturn {
+	taskName: string
+	watchName: string
+}
+
+export interface CreateWatcherProps extends GetSourceFilesProps {
+	watchName: string
+	taskName: string
+}
 
 type importerTaskName = string
 type watchTaskName = string

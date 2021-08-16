@@ -1,7 +1,7 @@
 const ext = (fileExtension?: string) =>
 	fileExtension ? `.${fileExtension}` : ''
 
-interface getSourceFilesProps {
+export interface GetSourceFilesProps {
 	sourceFolder: string | Array<string>
 	fileExtension?: string
 	ignoreCharacter?: string
@@ -15,7 +15,7 @@ export default function getSourceFiles({
 	ignoreCharacter = '#',
 	ignoreImporterFile = true,
 	importerFile = `auto-imports.${fileExtension}`,
-}: getSourceFilesProps): Array<string> {
+}: GetSourceFilesProps): Array<string> {
 	const getSrc = (src: string) => `${src}/**/*${ext(fileExtension)}`
 	const source = Array.isArray(sourceFolder)
 		? sourceFolder.map(getSrc)
