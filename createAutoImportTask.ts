@@ -32,7 +32,7 @@ export const createAutoImportTask = ({
 	taskPrefix,
 	ignoreCharacter,
 	ignoreImporterFile,
-	importerSettings,
+	importerSettings = {},
 }: CreateAutoImportTaskProps): CreateAutoImportTaskReturn => {
 	const defaultSettings = importerSettings.preset
 		? require(`./presets/${importerSettings.preset}`)
