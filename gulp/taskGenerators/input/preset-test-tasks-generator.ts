@@ -1,6 +1,6 @@
 // This file is used to generate the gulp tasks that test that the presets are working
 import * as gulp from 'gulp'
-import autoImports from '../../../index'
+import { createAutoImportTask } from '../../../createAutoImportTask'
 
 import { header } from '../common'
 
@@ -52,25 +52,22 @@ let getExtension = (fileName: string) => {
 	return fileName
 }
 
-gulp.task('preset_test_tasks_generator', function () {
-	let dest = './output'
-
-	return gulp
-		.src('../../presets/*.js')
-		.pipe(
-			autoImports({
-				format: {
-					gulpTask: taskFormat,
-					taskName: `  'preset:$name',`,
-				},
-				dest,
-				fileName: 'preset-test-tasks.ts',
-				template,
-				header,
-				formatReplace: ({ output, path }) => {
-					return output.replace(/{ext}/g, getExtension(path.name))
-				},
-			})
-		)
-		.pipe(gulp.dest(dest))
+const [autoImportTask] = createAutoImportTask({
+	sourceFolder: '../../presets',
+	fileExtension: 'js',
+	importerSettings: {
+		format: {
+			gulpTask: taskFormat,
+			taskName: `  'preset:$name',`,
+		},
+		dest: './output',
+		fileName: 'preset-test-tasks.ts',
+		template,
+		header,
+		formatReplace: ({ output, path }) => {
+			return output.replace(/{ext}/g, getExtension(path.name))
+		},
+	},
 })
+
+gulp.task('preset_test_tasks_generator', gulp.series(autoImportTask))

@@ -1,4 +1,3 @@
-import { GetSourceFilesProps } from './core/helpers/getSourceFiles'
 import { options } from './index'
 
 export interface CreateAutoImportTaskProps {
