@@ -25,7 +25,8 @@
 	"scripts": {
 		"start": "npm run generate && gulp",
 		"generate": "npx gulp --gulpfile gulp/taskGenerators/gulpfile-stage1.ts default && npx gulp --gulpfile gulp/taskGenerators/gulpfile-stage2.ts default",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"prepare": "npm run generate"
 	},
 	"repository": {
 		"type": "git",
