@@ -306,7 +306,7 @@ Here is the full code:
 
 ```js
 var gulp = require('gulp')
-var createAutoImportTask = require('gulp-auto-imports/createAutoImportTask')
+var { createAutoImportTask } = require('gulp-auto-imports')
 
 // Create a function for generating auto-import gulp tasks
 const createScssImporterTask = sourceFolder =>
