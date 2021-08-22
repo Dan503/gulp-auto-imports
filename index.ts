@@ -1,5 +1,9 @@
 'use strict'
 import type { Options } from './index.types'
+
+export * from './index.types'
+export * from './createAutoImportTask'
+
 /*
   Loosely based on the code used in Gulp Concat
   https://github.com/gulp-community/gulp-concat/blob/master/index.js

@@ -8,6 +8,8 @@ import {
 } from './createAutoImportTask.types'
 import autoImports from './index'
 
+export * from './createAutoImportTask.types'
+
 /** last portion of sourceFolder after the last "/" */
 const getName = (sourceFolder: string): string => {
 	const regexMatch = /.*\/(.+)$/.exec(sourceFolder) || []

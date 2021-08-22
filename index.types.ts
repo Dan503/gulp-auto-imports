@@ -139,15 +139,15 @@ export interface PathObject extends ParsedPath {
 	fullPath: string
 }
 
+export interface Format {
+	[formatName: string]: string
+}
+
 export interface FormatReplaceParams {
 	/** The current formatted import line that would normally get printed out to the file. */
 	output: string
 	/** The format string being used to format the output. */
-	format:
-	| string
-	| {
-		[formatName: string]: string
-	}
+	format: string | Format
 	/** If using a template, this is the key used to identify the formatter. */
 	formatKey?: string
 	/** Information about the current import path. */
