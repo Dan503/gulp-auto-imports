@@ -10,5 +10,5 @@
 		"esModuleInterop": true,
 		"noImplicitThis": false
 	},
-	"include": ["createAutoImportTask.ts"]
+	"include": ["createAutoImportTask.ts", "index.ts"]
 }
