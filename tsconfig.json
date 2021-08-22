@@ -6,7 +6,8 @@
 		"lib": ["ESNext", "ES6"],
 		"baseUrl": "../node_modules",
 		"noImplicitReturns": true,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"noImplicitThis": false
 	},
 	"include": ["*.ts"]
 }

@@ -1,4 +1,4 @@
-import { options } from './index'
+import { Options } from './index.types'
 
 export interface CreateAutoImportTaskProps {
 	/**
@@ -35,7 +35,7 @@ export interface CreateAutoImportTaskProps {
 	 * The exact same object that you would normally pass
 	 * into the `autoImports()` gulp plugin
 	 */
-	importerSettings?: options
+	importerSettings?: Options
 }
 
 /**

@@ -1,7 +1,7 @@
 import { ParsedPath } from 'path'
 import { preset } from './preset-types'
 
-export interface options {
+export interface Options {
 	/**
 	 * **REQUIRED** unless using the `createAutoImportTask` function (defaults to the `sourceFolder` setting).
 	 *
@@ -65,10 +65,10 @@ export interface options {
 	 * @requires template (only if an object is provided)
 	 */
 	format?:
-		| string
-		| {
-				[formatName: string]: string
-		  }
+	| string
+	| {
+		[formatName: string]: string
+	}
 
 	/**
 	 * The template setting holds a string that dictates the overall structure of the generated file.
@@ -132,29 +132,29 @@ export interface options {
 	templateReplace?: (params: TemplateReplaceParams) => string
 }
 
-interface PathObject extends ParsedPath {
+export interface PathObject extends ParsedPath {
 	/** The file extension (if any) such as 'js', note that the dot is not included. */
 	ext: string
 	/** The full relative path including the directory, file name, and extension such as '../path/to/file.js'. */
 	fullPath: string
 }
 
-interface FormatReplaceParams {
+export interface FormatReplaceParams {
 	/** The current formatted import line that would normally get printed out to the file. */
 	output: string
 	/** The format string being used to format the output. */
 	format:
-		| string
-		| {
-				[formatName: string]: string
-		  }
+	| string
+	| {
+		[formatName: string]: string
+	}
 	/** If using a template, this is the key used to identify the formatter. */
 	formatKey?: string
 	/** Information about the current import path. */
 	path: PathObject
 }
 
-interface TemplateReplaceParams {
+export interface TemplateReplaceParams {
 	/** The current output that would normally get printed out to the file */
 	output: string
 	/** The formatting object used to format the template */
@@ -167,8 +167,4 @@ interface TemplateReplaceParams {
 	paths: Array<PathObject>
 }
 
-type AutoImports = (options: options) => NodeJS.ReadWriteStream
-/** Auto generate import-only files for any file type. SCSS, JS, Pug, whatever you want. */
-declare const autoImports: AutoImports
-
-export default autoImports
+export type AutoImports = (options: Options) => NodeJS.ReadWriteStream

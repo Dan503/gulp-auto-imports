@@ -6,7 +6,9 @@
 		"lib": ["ESNext", "ES6"],
 		"baseUrl": "../node_modules",
 		"noImplicitReturns": true,
-		"declaration": true
+		"declaration": true,
+		"esModuleInterop": true,
+		"noImplicitThis": false
 	},
 	"include": ["createAutoImportTask.ts"]
 }

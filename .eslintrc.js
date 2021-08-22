@@ -24,16 +24,8 @@ module.exports = {
 	rules: {
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
+		'@typescript-eslint/no-var-requires': 'off',
 		'prefer-const': 'off',
 		'prettier/prettier': 'warn',
 	},
-	overrides: [
-		// Override some TypeScript rules just for .js files
-		{
-			files: ['*.js'],
-			rules: {
-				'@typescript-eslint/no-var-requires': 'off', //
-			},
-		},
-	],
 }

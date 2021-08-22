@@ -12,7 +12,7 @@ const header = `
 gulp.task('sass:compile', function () {
 	return gulp
 		.src('./tests/compiler-input/scss/main.scss')
-		.pipe(sass().on('error', sass.logError))
+		.pipe(sass.sync().on('error', sass.logError))
 		.pipe(gulp.dest('./tests/compiler-output/css/'))
 })
 
