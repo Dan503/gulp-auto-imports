@@ -12,11 +12,11 @@ $format[functions]
 `
 
 module.exports = {
-	format: {
-		imports: `var $name = require('$path')`,
-		functions: '  $name()',
-	},
-	fileName: 'auto-imports.js',
-	header: header,
-	template: template,
+   format: {
+      imports: `var $name = require('$path')`,
+      functions: '  $name()',
+   },
+   fileName: 'auto-imports.js',
+   header: header,
+   template: template,
 }

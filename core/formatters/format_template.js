@@ -5,38 +5,38 @@ var template_error = require('../error-messages/template')
 var createPathObj = require('../helpers/createPathObj')
 
 module.exports = function format_template({
-	relativePaths,
-	formats,
-	template,
-	formatReplace,
-	templateReplace,
-	options,
+   relativePaths,
+   formats,
+   template,
+   formatReplace,
+   templateReplace,
+   options,
 }) {
-	err(!template, template_error)
+   err(!template, template_error)
 
-	var newTemplate = template
+   var newTemplate = template
 
-	for (var formatKey in formats) {
-		var format = formats[formatKey]
-		var formatSet = format_paths({
-			relativePaths,
-			format,
-			formatReplace,
-			formatKey,
-			options,
-		})
-		var placeholder = new RegExp(`\\$format\\[${formatKey}\\]`, 'g')
-		newTemplate = newTemplate.replace(placeholder, formatSet)
-	}
+   for (var formatKey in formats) {
+      var format = formats[formatKey]
+      var formatSet = format_paths({
+         relativePaths,
+         format,
+         formatReplace,
+         formatKey,
+         options,
+      })
+      var placeholder = new RegExp(`\\$format\\[${formatKey}\\]`, 'g')
+      newTemplate = newTemplate.replace(placeholder, formatSet)
+   }
 
-	if (templateReplace) {
-		return templateReplace({
-			output: newTemplate,
-			formats,
-			template,
-			paths: relativePaths.map(createPathObj),
-		})
-	}
+   if (templateReplace) {
+      return templateReplace({
+         output: newTemplate,
+         formats,
+         template,
+         paths: relativePaths.map(createPathObj),
+      })
+   }
 
-	return newTemplate
+   return newTemplate
 }

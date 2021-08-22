@@ -14,20 +14,20 @@ module.exports = presets
 `
 
 gulp.task('preset_imports_generator', function () {
-	const dest = '../../core/content-generators'
+   const dest = '../../core/content-generators'
 
-	return gulp
-		.src('../../presets/*.js')
-		.pipe(
-			autoImports({
-				format: {
-					names: `	$name: require('$path'),`,
-				},
-				dest,
-				fileName: 'preset-settings.js',
-				template,
-				header,
-			})
-		)
-		.pipe(gulp.dest(dest))
+   return gulp
+      .src('../../presets/*.js')
+      .pipe(
+         autoImports({
+            format: {
+               names: `	$name: require('$path'),`,
+            },
+            dest,
+            fileName: 'preset-settings.js',
+            template,
+            header,
+         })
+      )
+      .pipe(gulp.dest(dest))
 })

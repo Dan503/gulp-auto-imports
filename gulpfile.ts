@@ -11,17 +11,17 @@ import './gulp/taskGenerators/output/preset-test-tasks'
 
 // Use `npm run start`, not `gulp`
 gulp.task(
-	'default',
-	gulp.series(
-		gulp.parallel(
-			'js',
-			'sass',
-			'multi-output-test',
-			'placeholder-tests',
-			'same-folder-test'
-		),
-		'presets'
-	)
+   'default',
+   gulp.series(
+      gulp.parallel(
+         'js',
+         'sass',
+         'multi-output-test',
+         'placeholder-tests',
+         'same-folder-test'
+      ),
+      'presets'
+   )
 )
 
 gulp.task('watch', gulp.parallel('default', 'js:watch', 'sass:watch'))

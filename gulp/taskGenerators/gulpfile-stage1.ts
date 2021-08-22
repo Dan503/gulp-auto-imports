@@ -18,21 +18,21 @@ $format[names]
 `
 
 export default function () {
-	const dest = 'output'
+   const dest = 'output'
 
-	return gulp
-		.src(getSourceFiles({ sourceFolder: './input', fileExtension: 'js' }))
-		.pipe(
-			autoImports({
-				format: {
-					imports: `require('$path')`,
-					names: `		'$name',`,
-				},
-				dest,
-				fileName: 'generate-task.ts',
-				template,
-				header,
-			})
-		)
-		.pipe(gulp.dest(dest))
+   return gulp
+      .src(getSourceFiles({ sourceFolder: './input', fileExtension: 'js' }))
+      .pipe(
+         autoImports({
+            format: {
+               imports: `require('$path')`,
+               names: `		'$name',`,
+            },
+            dest,
+            fileName: 'generate-task.ts',
+            template,
+            header,
+         })
+      )
+      .pipe(gulp.dest(dest))
 }

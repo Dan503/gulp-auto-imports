@@ -12,11 +12,11 @@ $format[functions]
 `
 
 module.exports = {
-	format: {
-		imports: `import $name from '$noExtPath'`,
-		functions: '  $name()',
-	},
-	fileName: 'auto-imports.ts',
-	header: header,
-	template: template,
+   format: {
+      imports: `import $name from '$noExtPath'`,
+      functions: '  $name()',
+   },
+   fileName: 'auto-imports.ts',
+   header: header,
+   template: template,
 }

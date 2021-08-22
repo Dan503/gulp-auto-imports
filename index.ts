@@ -31,88 +31,88 @@ const format_error = require('./core/error-messages/format')
 const fileName_error = require('./core/error-messages/fileName')
 
 interface File {
-	isNull: () => boolean
-	isStream: () => boolean
-	stat?: {
-		mtime: number
-	}
+   isNull: () => boolean
+   isStream: () => boolean
+   stat?: {
+      mtime: number
+   }
 }
 type Done = () => void
 
 const autoImports = function (opt: Options): any {
-	if (opt.preset) {
-		opt = Object.assign({}, presets[opt.preset], opt)
-	}
+   if (opt.preset) {
+      opt = Object.assign({}, presets[opt.preset], opt)
+   }
 
-	err(!opt.fileName, fileName_error)
-	err(!opt.format, format_error)
-	err(!opt.dest, dest_error)
+   err(!opt.fileName, fileName_error)
+   err(!opt.format, format_error)
+   err(!opt.dest, dest_error)
 
-	let lastFile: File
-	let latestMod: number | undefined
-	const generatedFilePath = join([opt.dest, opt.fileName])
+   let lastFile: File
+   let latestMod: number | undefined
+   const generatedFilePath = join([opt.dest, opt.fileName])
 
-	const relativePaths: Array<string> = []
+   const relativePaths: Array<string> = []
 
-	function bufferContents(file: File, _enc: any, done: Done) {
-		// ignore empty files
-		if (file.isNull()) {
-			return done()
-		}
+   function bufferContents(file: File, _enc: any, done: Done) {
+      // ignore empty files
+      if (file.isNull()) {
+         return done()
+      }
 
-		// gulp-auto-imports doesn't support streams
-		err(file.isStream(), 'Streaming is not supported')
+      // gulp-auto-imports doesn't support streams
+      err(file.isStream(), 'Streaming is not supported')
 
-		// set latest file if not already set,
-		// or if the current file was modified more recently.
-		if (!latestMod || (file.stat && file.stat.mtime > latestMod)) {
-			lastFile = file
-			latestMod = file.stat && file.stat.mtime
-		}
+      // set latest file if not already set,
+      // or if the current file was modified more recently.
+      if (!latestMod || (file.stat && file.stat.mtime > latestMod)) {
+         lastFile = file
+         latestMod = file.stat && file.stat.mtime
+      }
 
-		relativePaths.push(get_relative_path(file, opt.dest))
+      relativePaths.push(get_relative_path(file, opt.dest))
 
-		done()
-	}
+      done()
+   }
 
-	function endStream(done: Done) {
-		// no files passed in, no file goes out
-		if (!lastFile) {
-			return done()
-		}
+   function endStream(done: Done) {
+      // no files passed in, no file goes out
+      if (!lastFile) {
+         return done()
+      }
 
-		const new_content = () =>
-			generate_content({ pathsArray: relativePaths, opt })
+      const new_content = () =>
+         generate_content({ pathsArray: relativePaths, opt })
 
-		const generate_file = (content: string) => {
-			const newFile = create_file(lastFile, opt, content)
-			log(`Generated ${c.magenta(join([opt.dest, c.yellow(opt.fileName)]))}`)
-			this.push(newFile)
-			done()
-		}
+      const generate_file = (content: string) => {
+         const newFile = create_file(lastFile, opt, content)
+         log(`Generated ${c.magenta(join([opt.dest, c.yellow(opt.fileName)]))}`)
+         this.push(newFile)
+         done()
+      }
 
-		fileExists(generatedFilePath, (error: any, exists: boolean) => {
-			err(error, error)
-			if (exists) {
-				read_file(generatedFilePath).then((oldContent: string) => {
-					const orderedContent = opt.retainOrder
-						? order_content({ oldContent, newPaths: relativePaths, opt })
-						: new_content()
+      fileExists(generatedFilePath, (error: any, exists: boolean) => {
+         err(error, error)
+         if (exists) {
+            read_file(generatedFilePath).then((oldContent: string) => {
+               const orderedContent = opt.retainOrder
+                  ? order_content({ oldContent, newPaths: relativePaths, opt })
+                  : new_content()
 
-					if (orderedContent === oldContent) {
-						//Skip file generation
-						done()
-					} else {
-						generate_file(orderedContent)
-					}
-				})
-			} else {
-				generate_file(new_content())
-			}
-		})
-	}
+               if (orderedContent === oldContent) {
+                  //Skip file generation
+                  done()
+               } else {
+                  generate_file(orderedContent)
+               }
+            })
+         } else {
+            generate_file(new_content())
+         }
+      })
+   }
 
-	return through.obj(bufferContents, endStream)
+   return through.obj(bufferContents, endStream)
 }
 
 export default autoImports

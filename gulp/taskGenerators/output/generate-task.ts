@@ -7,10 +7,10 @@ import '../input/preset-test-tasks-generator'
 import '../input/preset-types-generator'
 
 gulp.task(
-	'generate',
-	gulp.parallel(
-		'preset_imports_generator',
-		'preset_test_tasks_generator',
-		'preset_types_generator'
-	)
+   'generate',
+   gulp.parallel(
+      'preset_imports_generator',
+      'preset_test_tasks_generator',
+      'preset_types_generator'
+   )
 )

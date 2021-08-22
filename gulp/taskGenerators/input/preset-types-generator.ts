@@ -10,20 +10,20 @@ $format[typeDefinitions]
 `
 
 gulp.task('preset_types_generator', function () {
-	const dest = '../../'
+   const dest = '../../'
 
-	return gulp
-		.src('../../presets/*.js')
-		.pipe(
-			autoImports({
-				format: {
-					typeDefinitions: "	| '$name'",
-				},
-				dest,
-				fileName: 'preset-types.ts',
-				template,
-				header,
-			})
-		)
-		.pipe(gulp.dest(dest))
+   return gulp
+      .src('../../presets/*.js')
+      .pipe(
+         autoImports({
+            format: {
+               typeDefinitions: "	| '$name'",
+            },
+            dest,
+            fileName: 'preset-types.ts',
+            template,
+            header,
+         })
+      )
+      .pipe(gulp.dest(dest))
 })

@@ -18,40 +18,40 @@ Gulp Auto Imports also has the ability to remember the order that imports are de
 
 ## Contents <!-- omit in toc -->
 
-- [Before and after Gulp Auto Imports](#before-and-after-gulp-auto-imports)
-	- [SCSS Before](#scss-before)
-	- [SCSS After](#scss-after)
-	- [JS before](#js-before)
-	- [JS after](#js-after)
-- [Install](#install)
-- [Using the SCSS preset](#using-the-scss-preset)
-- [Using the automated Gulp task generator function](#using-the-automated-gulp-task-generator-function)
-- [Use in _combination_ with Gulp Sass Glob](#use-in-combination-with-gulp-sass-glob)
-	- [Gulp 3 combination](#gulp-3-combination)
-	- [Gulp 4 combination](#gulp-4-combination)
-	- [Using a combination inside main.scss](#using-a-combination-inside-mainscss)
-- [All available presets](#all-available-presets)
-	- [Overriding a preset](#overriding-a-preset)
-- [JS configuration examples](#js-configuration-examples)
-	- [Rollup](#rollup)
-		- [Rollup in Gulp 4](#rollup-in-gulp-4)
-		- [Rollup in Gulp 3](#rollup-in-gulp-3)
-	- [Browserify](#browserify)
-	- [Making use of the generated JS file](#making-use-of-the-generated-js-file)
-- [How to do custom configurations](#how-to-do-custom-configurations)
-	- [Manual SCSS set up](#manual-scss-set-up)
-	- [Manual JS set up](#manual-js-set-up)
-- [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
-	- [The `$name` placeholder](#the-name-placeholder)
-	- [The `$fileName` placeholder](#the-filename-placeholder)
-	- [The `$ext` placeholder](#the-ext-placeholder)
-	- [The `$path` placeholder](#the-path-placeholder)
-	- [The `$noExtPath` placeholder](#the-noextpath-placeholder)
-	- [The `$dir` placeholder](#the-dir-placeholder)
-	- [Using indents](#using-indents)
-- [The `retainOrder` setting](#the-retainorder-setting)
-- [Settings reference guide](#settings-reference-guide)
-- [Change Log](#change-log)
+-  [Before and after Gulp Auto Imports](#before-and-after-gulp-auto-imports)
+   -  [SCSS Before](#scss-before)
+   -  [SCSS After](#scss-after)
+   -  [JS before](#js-before)
+   -  [JS after](#js-after)
+-  [Install](#install)
+-  [Using the SCSS preset](#using-the-scss-preset)
+-  [Using the automated Gulp task generator function](#using-the-automated-gulp-task-generator-function)
+-  [Use in _combination_ with Gulp Sass Glob](#use-in-combination-with-gulp-sass-glob)
+   -  [Gulp 3 combination](#gulp-3-combination)
+   -  [Gulp 4 combination](#gulp-4-combination)
+   -  [Using a combination inside main.scss](#using-a-combination-inside-mainscss)
+-  [All available presets](#all-available-presets)
+   -  [Overriding a preset](#overriding-a-preset)
+-  [JS configuration examples](#js-configuration-examples)
+   -  [Rollup](#rollup)
+      -  [Rollup in Gulp 4](#rollup-in-gulp-4)
+      -  [Rollup in Gulp 3](#rollup-in-gulp-3)
+   -  [Browserify](#browserify)
+   -  [Making use of the generated JS file](#making-use-of-the-generated-js-file)
+-  [How to do custom configurations](#how-to-do-custom-configurations)
+   -  [Manual SCSS set up](#manual-scss-set-up)
+   -  [Manual JS set up](#manual-js-set-up)
+-  [Understanding the `format` and `template` settings](#understanding-the-format-and-template-settings)
+   -  [The `$name` placeholder](#the-name-placeholder)
+   -  [The `$fileName` placeholder](#the-filename-placeholder)
+   -  [The `$ext` placeholder](#the-ext-placeholder)
+   -  [The `$path` placeholder](#the-path-placeholder)
+   -  [The `$noExtPath` placeholder](#the-noextpath-placeholder)
+   -  [The `$dir` placeholder](#the-dir-placeholder)
+   -  [Using indents](#using-indents)
+-  [The `retainOrder` setting](#the-retainorder-setting)
+-  [Settings reference guide](#settings-reference-guide)
+-  [Change Log](#change-log)
 
 ## Before and after Gulp Auto Imports
 
@@ -97,10 +97,10 @@ import C from '../components/component-C/C.js'
 import D from '../components/component-D/D.js'
 
 $(() => {
-	A()
-	B()
-	C()
-	D()
+   A()
+   B()
+   C()
+   D()
 })
 ```
 
@@ -114,7 +114,7 @@ import $ from 'jquery'
 import autoImports from './auto-imports.js'
 
 $(() => {
-	autoImports()
+   autoImports()
 })
 ```
 
@@ -181,16 +181,16 @@ var sass = require('gulp-sass')
 
 // Preset SCSS gulp-auto-imports task
 gulp.task('sass:load', function () {
-	// Always relative to gulpfile.js even if this code is inside a folder
-	var dest = 'source/scss'
-	// Do not leave off the "return", it is vital!
-	return (
-		gulp
-			.src('./source/components/**/*.scss')
-			// Using the "scss" preset ("dest" must be provided here as well)
-			.pipe(autoImports({ preset: 'scss', dest: dest }))
-			.pipe(gulp.dest(dest))
-	)
+   // Always relative to gulpfile.js even if this code is inside a folder
+   var dest = 'source/scss'
+   // Do not leave off the "return", it is vital!
+   return (
+      gulp
+         .src('./source/components/**/*.scss')
+         // Using the "scss" preset ("dest" must be provided here as well)
+         .pipe(autoImports({ preset: 'scss', dest: dest }))
+         .pipe(gulp.dest(dest))
+   )
 })
 
 /************\
@@ -199,10 +199,10 @@ gulp.task('sass:load', function () {
 
 // Define a separate compile task
 gulp.task('sass:compile', function () {
-	return gulp
-		.src('source/scss/main.scss')
-		.pipe(sass())
-		.pipe(gulp.dest('build/assets/css'))
+   return gulp
+      .src('source/scss/main.scss')
+      .pipe(sass())
+      .pipe(gulp.dest('build/assets/css'))
 })
 
 // make "sass:load" run before "sass:compile" when "sass" is run
@@ -210,8 +210,8 @@ gulp.task('sass', gulp.series('sass:load', 'sass:compile'))
 
 // Watch for changes
 gulp.task('watch', function (done) {
-	gulp.watch('source/**/*.scss', gulp.series('sass'))
-	done()
+   gulp.watch('source/**/*.scss', gulp.series('sass'))
+   done()
 })
 
 /************\
@@ -220,15 +220,15 @@ gulp.task('watch', function (done) {
 
 // Make "sass" dependent on "sass:load"
 gulp.task('sass', ['sass:load'], function () {
-	return gulp
-		.src('source/scss/main.scss')
-		.pipe(sass())
-		.pipe(gulp.dest('build/assets/css'))
+   return gulp
+      .src('source/scss/main.scss')
+      .pipe(sass())
+      .pipe(gulp.dest('build/assets/css'))
 })
 
 // Watch for changes
 gulp.task('watch', function () {
-	gulp.watch('source/**/*.scss', ['sass'])
+   gulp.watch('source/**/*.scss', ['sass'])
 })
 ```
 
@@ -310,55 +310,53 @@ var { createAutoImportTask } = require('gulp-auto-imports')
 
 // Create a function for generating auto-import gulp tasks
 const createScssImporterTask = sourceFolder =>
-	createAutoImportTask({
-		sourceFolder,
-		// [optional] default = *all files*; Restrict imports to only target files with a specific extension name
-		fileExtension: 'scss',
-		// [optional] use this to resolve task name conflicts
-		taskPrefix: 'compile',
-		// [optional] default = true; will ignore the generated import file
-		ignoreImporterFile: true,
-		// Same settings object that you apply to the main gulp task
-		importerSettings: {
-			preset: 'scss',
-			// Note: `dest` will default to the source folder unless you define it here
-			// The generated output file will be ignored
-		},
-	})
+   createAutoImportTask({
+      sourceFolder,
+      // [optional] default = *all files*; Restrict imports to only target files with a specific extension name
+      fileExtension: 'scss',
+      // [optional] use this to resolve task name conflicts
+      taskPrefix: 'compile',
+      // [optional] default = true; will ignore the generated import file
+      ignoreImporterFile: true,
+      // Same settings object that you apply to the main gulp task
+      importerSettings: {
+         preset: 'scss',
+         // Note: `dest` will default to the source folder unless you define it here
+         // The generated output file will be ignored
+      },
+   })
 
 // Destructure into separate importer and watcher tasks
 const [scssVarsImporter, scssVarsImportWatcher] = createScssImporterTask(
-	'./source/scss/config/vars'
+   './source/scss/config/vars'
 )
 const [scssMixinsImporter, scssMixinsImportWatcher] = createScssImporterTask(
-	'./source/scss/config/mixins'
+   './source/scss/config/mixins'
 )
-const [
-	scssComponentsImporter,
-	scssComponentsImportWatcher,
-] = createScssImporterTask('./source/scss/config/components')
+const [scssComponentsImporter, scssComponentsImportWatcher] =
+   createScssImporterTask('./source/scss/config/components')
 
 // Gulp 4
 gulp.task(
-	'scss-auto-imports',
-	gulp.parallel(
-		scssVarsImporter,
-		scssVarsImportWatcher,
-		scssMixinsImporter,
-		scssMixinsImportWatcher,
-		scssComponentsImporter,
-		scssComponentsImportWatcher
-	)
+   'scss-auto-imports',
+   gulp.parallel(
+      scssVarsImporter,
+      scssVarsImportWatcher,
+      scssMixinsImporter,
+      scssMixinsImportWatcher,
+      scssComponentsImporter,
+      scssComponentsImportWatcher
+   )
 )
 
 // Gulp 3
 gulp.task('scss-auto-imports', [
-	scssVarsImporter,
-	scssVarsImportWatcher,
-	scssMixinsImporter,
-	scssMixinsImportWatcher,
-	scssComponentsImporter,
-	scssComponentsImportWatcher,
+   scssVarsImporter,
+   scssVarsImportWatcher,
+   scssMixinsImporter,
+   scssMixinsImportWatcher,
+   scssComponentsImporter,
+   scssComponentsImportWatcher,
 ])
 ```
 
@@ -371,19 +369,19 @@ If you don't want to write out all the task variables, you can also use destruct
 
 // Gulp 4
 gulp.task(
-	'scss-auto-imports',
-	gulp.parallel(
-		...createScssImporterTask('./source/scss/config/vars'),
-		...createScssImporterTask('./source/scss/config/mixins'),
-		...createScssImporterTask('./source/scss/config/mixins')
-	)
+   'scss-auto-imports',
+   gulp.parallel(
+      ...createScssImporterTask('./source/scss/config/vars'),
+      ...createScssImporterTask('./source/scss/config/mixins'),
+      ...createScssImporterTask('./source/scss/config/mixins')
+   )
 )
 
 // Gulp 3
 gulp.task('scss-auto-imports', [
-	...createScssImporterTask('./source/scss/config/vars'),
-	...createScssImporterTask('./source/scss/config/mixins'),
-	...createScssImporterTask('./source/scss/config/mixins'),
+   ...createScssImporterTask('./source/scss/config/vars'),
+   ...createScssImporterTask('./source/scss/config/mixins'),
+   ...createScssImporterTask('./source/scss/config/mixins'),
 ])
 ```
 
@@ -397,23 +395,23 @@ If you don't want to have gulp watch the files, simply don't pass the watcher in
 // Destructure to extract only the build task
 const [scssVarsImporter] = createScssImporterTask('./source/scss/config/vars')
 const [scssMixinsImporter] = createScssImporterTask(
-	'./source/scss/config/mixins'
+   './source/scss/config/mixins'
 )
 const [scssComponetsImporter] = createScssImporterTask(
-	'./source/scss/config/mixins'
+   './source/scss/config/mixins'
 )
 
 // Gulp 4 (no watching of files)
 gulp.task(
-	'scss-auto-imports',
-	gulp.parallel(scssVarsImporter, scssMixinsImporter, scssComponetsImporter)
+   'scss-auto-imports',
+   gulp.parallel(scssVarsImporter, scssMixinsImporter, scssComponetsImporter)
 )
 
 // Gulp 3 (no watching of files)
 gulp.task('scss-auto-imports', [
-	scssVarsImporter,
-	scssMixinsImporter,
-	scssComponetsImporter,
+   scssVarsImporter,
+   scssMixinsImporter,
+   scssComponetsImporter,
 ])
 ```
 
@@ -421,19 +419,19 @@ The values that `createAutoImportTask` returns are two task names in the format 
 
 ```js
 const taskNames = createAutoImportTask({
-	sourceFolder: './path/to/sourceFolder',
-	fileExtension: 'fileExtension',
-	taskPrefix: 'taskPrefix',
-	importerSettings: {
-		preset: 'scss',
-	},
+   sourceFolder: './path/to/sourceFolder',
+   fileExtension: 'fileExtension',
+   taskPrefix: 'taskPrefix',
+   importerSettings: {
+      preset: 'scss',
+   },
 })
 
 taskNames ===
-	[
-		'taskPrefix:fileExtension:auto-imports:sourceFolder',
-		'taskPrefix:fileExtension:auto-imports-watcher:sourceFolder',
-	]
+   [
+      'taskPrefix:fileExtension:auto-imports:sourceFolder',
+      'taskPrefix:fileExtension:auto-imports-watcher:sourceFolder',
+   ]
 ```
 
 More details about the `createAutoImportTask` function are documented in the [createAutoImportTask.types.ts](https://github.com/Dan503/gulp-auto-imports/blob/master/createAutoImportTask.types.ts) file.
@@ -460,20 +458,20 @@ var sassGlob = require('gulp-sass-glob')
 
 // Gulp Auto Imports task
 gulp.task('sass:load', function () {
-	var dest = 'source/scss'
-	return gulp
-		.src('./source/components/**/*.scss')
-		.pipe(autoImports({ preset: 'scss', dest: dest }))
-		.pipe(gulp.dest(dest))
+   var dest = 'source/scss'
+   return gulp
+      .src('./source/components/**/*.scss')
+      .pipe(autoImports({ preset: 'scss', dest: dest }))
+      .pipe(gulp.dest(dest))
 })
 
 // Sass compile task (depends on 'sass:load' task)
 gulp.task('sass', ['sass:load'], function () {
-	return gulp
-		.src('source/scss/main.scss')
-		.pipe(sassGlob()) // Sass Glob
-		.pipe(sass())
-		.pipe(gulp.dest('build/assets/css'))
+   return gulp
+      .src('source/scss/main.scss')
+      .pipe(sassGlob()) // Sass Glob
+      .pipe(sass())
+      .pipe(gulp.dest('build/assets/css'))
 })
 ```
 
@@ -489,20 +487,20 @@ var sassGlob = require('gulp-sass-glob')
 
 // Gulp Auto Imports task
 gulp.task('sass:load', function () {
-	var dest = 'source/scss'
-	return gulp
-		.src('./source/components/**/*.scss')
-		.pipe(autoImports({ preset: 'scss', dest: dest }))
-		.pipe(gulp.dest(dest))
+   var dest = 'source/scss'
+   return gulp
+      .src('./source/components/**/*.scss')
+      .pipe(autoImports({ preset: 'scss', dest: dest }))
+      .pipe(gulp.dest(dest))
 })
 
 // Sass compile task
 gulp.task('sass:compile', function () {
-	return gulp
-		.src('source/scss/main.scss')
-		.pipe(sassGlob()) // Sass Glob
-		.pipe(sass())
-		.pipe(gulp.dest('build/assets/css'))
+   return gulp
+      .src('source/scss/main.scss')
+      .pipe(sassGlob()) // Sass Glob
+      .pipe(sass())
+      .pipe(gulp.dest('build/assets/css'))
 })
 
 // Combined sass compile task
@@ -692,54 +690,54 @@ var source = require('vinyl-source-stream')
 var buffer = require('vinyl-buffer')
 
 gulp.task('js:load', function () {
-	const dest = './source/js'
-	return (
-		gulp
-			.src([
-				'./source/components/**/*.js',
-				// exclude files and folders starting with an underscore
-				'!./source/components/{**/_*,**/_*/**}',
-			])
-			// Run the auto imports
-			.pipe(autoImports({ preset: 'es6', dest }))
-			.pipe(gulp.dest(dest))
-	)
+   const dest = './source/js'
+   return (
+      gulp
+         .src([
+            './source/components/**/*.js',
+            // exclude files and folders starting with an underscore
+            '!./source/components/{**/_*,**/_*/**}',
+         ])
+         // Run the auto imports
+         .pipe(autoImports({ preset: 'es6', dest }))
+         .pipe(gulp.dest(dest))
+   )
 })
 
 var cache
 gulp.task('js', ['js:load'], function () {
-	return (
-		rollup({
-			// point to the entry file.
-			input: './source/js/main.js',
+   return (
+      rollup({
+         // point to the entry file.
+         input: './source/js/main.js',
 
-			// use cache for better performance
-			cache: cache,
+         // use cache for better performance
+         cache: cache,
 
-			// Note: these options are placed at the root level in older versions of Rollup
-			output: {
-				// Output bundle is intended for use in browsers
-				// (iife = "Immediately Invoked Function Expression")
-				format: 'iife',
+         // Note: these options are placed at the root level in older versions of Rollup
+         output: {
+            // Output bundle is intended for use in browsers
+            // (iife = "Immediately Invoked Function Expression")
+            format: 'iife',
 
-				// Show source code when debugging in browser
-				sourcemap: true,
-			},
-		})
-			.on('bundle', function (bundle) {
-				cache = bundle
-			})
-			// point to the entry file.
-			.pipe(source('main.js', './source/js'))
-			.pipe(buffer())
-			.pipe(sourcemaps.init({ loadMaps: true }))
-			.pipe(sourcemaps.write('.'))
-			.pipe(gulp.dest('./build/assets/js'))
-	)
+            // Show source code when debugging in browser
+            sourcemap: true,
+         },
+      })
+         .on('bundle', function (bundle) {
+            cache = bundle
+         })
+         // point to the entry file.
+         .pipe(source('main.js', './source/js'))
+         .pipe(buffer())
+         .pipe(sourcemaps.init({ loadMaps: true }))
+         .pipe(sourcemaps.write('.'))
+         .pipe(gulp.dest('./build/assets/js'))
+   )
 })
 
 gulp.task('js:watch', function () {
-	gulp.watch(['./source/**/*.js'], ['js'])
+   gulp.watch(['./source/**/*.js'], ['js'])
 })
 
 gulp.task('start', ['js', 'js:watch'])
@@ -770,9 +768,9 @@ var log = require('gulplog')
 var sourcemaps = require('gulp-sourcemaps')
 
 var customOpts = {
-	// entry file defined here
-	entries: ['./source/js/main.js'],
-	debug: true,
+   // entry file defined here
+   entries: ['./source/js/main.js'],
+   debug: true,
 }
 var opts = Object.assign({}, watchify.args, customOpts)
 
@@ -783,31 +781,31 @@ b.on('update', bundle) // on any dep update, runs the bundler
 b.on('log', log.info) // output build logs to terminal
 
 function bundle() {
-	// Then bundle the code
-	return b
-		.bundle()
-		.on('error', log.error.bind(log, 'Browserify Error'))
-		.pipe(source('main.js'))
-		.pipe(buffer())
-		.pipe(sourcemaps.init({ loadMaps: true }))
-		.pipe(sourcemaps.write('./'))
-		.pipe(gulp.dest('./build/assets/js'))
+   // Then bundle the code
+   return b
+      .bundle()
+      .on('error', log.error.bind(log, 'Browserify Error'))
+      .pipe(source('main.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({ loadMaps: true }))
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./build/assets/js'))
 }
 
 // File loader Gulp task
 gulp.task('js:load', function () {
-	const dest = './source/js'
-	return (
-		gulp
-			.src([
-				'./source/components/**/*.js',
-				// exclude files and folders starting with an underscore
-				'!./source/components/{**/_*,**/_*/**}',
-			])
-			// Run the auto imports
-			.pipe(autoImports({ preset: 'es5', dest }))
-			.pipe(gulp.dest(dest))
-	)
+   const dest = './source/js'
+   return (
+      gulp
+         .src([
+            './source/components/**/*.js',
+            // exclude files and folders starting with an underscore
+            '!./source/components/{**/_*,**/_*/**}',
+         ])
+         // Run the auto imports
+         .pipe(autoImports({ preset: 'es5', dest }))
+         .pipe(gulp.dest(dest))
+   )
 })
 
 ///////////////////////////
@@ -815,9 +813,9 @@ gulp.task('js:load', function () {
 /////////////////////////
 gulp.task('js', ['js:load'], bundle) // so you can run `gulp js` to build the file
 gulp.task('watch', function () {
-	// Gulp 3 can't distinguish between 'add','unlink', and 'change' events
-	// so it also has to run on file changes
-	gulp.watch('./source/components/**/*.js', ['js:load'])
+   // Gulp 3 can't distinguish between 'add','unlink', and 'change' events
+   // so it also has to run on file changes
+   gulp.watch('./source/components/**/*.js', ['js:load'])
 })
 
 ///////////////////////////
@@ -825,11 +823,11 @@ gulp.task('watch', function () {
 /////////////////////////
 gulp.task('js', gulp.series('js:load', bundle)) // so you can run `gulp js` to build the file
 gulp.task('watch', function (done) {
-	var watcher = gulp.watch('./source/components/**/*.js')
-	//Gulp 4 has the advantage of only running when a file is added/removed, not changed
-	watcher.on('add', gulp.series('js:load'))
-	watcher.on('unlink', gulp.series('js:load'))
-	done()
+   var watcher = gulp.watch('./source/components/**/*.js')
+   //Gulp 4 has the advantage of only running when a file is added/removed, not changed
+   watcher.on('add', gulp.series('js:load'))
+   watcher.on('unlink', gulp.series('js:load'))
+   done()
 })
 ```
 
@@ -843,8 +841,8 @@ import autoImports from './auto-imports.js' // ES6
 var autoImports = require('./auto-imports.js') // ES5
 
 document.addEventListener('DOMContentLoaded', function () {
-	// Run the auto-imports code on page load
-	autoImports()
+   // Run the auto-imports code on page load
+   autoImports()
 })
 ```
 
@@ -857,16 +855,16 @@ Note that a typical component js file will need to export a function by default 
 // ES6 //
 /////////
 export default function on_page_load() {
-	// Place code here that you wish to run
-	// when the `autoImports()` function is called
+   // Place code here that you wish to run
+   // when the `autoImports()` function is called
 }
 
 /////////
 // ES5 //
 /////////
 module.exports = function on_page_load() {
-	// Place code here that you wish to run
-	// when the `autoImports()` function is called
+   // Place code here that you wish to run
+   // when the `autoImports()` function is called
 }
 ```
 
@@ -887,32 +885,32 @@ var gulp = require('gulp')
 var autoImports = require('gulp-auto-imports')
 
 gulp.task('sass:load', function () {
-	// Always relative to gulpfile.js even if this code is inside a folder
-	var dest = 'source/scss'
+   // Always relative to gulpfile.js even if this code is inside a folder
+   var dest = 'source/scss'
 
-	// Do not leave off the "return", it is vital!
-	return gulp
-		.src([
-			// These paths are always relative to gulpfile.js
-			'./source/components/**/*.scss',
-			// Ignore files & folders that start with underscores
-			'!./source/{**/_*,**/_*/**}',
-		])
-		.pipe(
-			autoImports({
-				// "$path" is replaced with a relative file path
-				format: '@import "$path";',
-				// destination folder (must match gulp.dest)
-				dest: dest,
-				// name of the output file
-				fileName: 'auto-imports.scss',
-				// Don't change the order that imports are currently in
-				retainOrder: true,
-				// Add a message to the top of the file
-				header: '// output from gulp-auto-imports',
-			})
-		)
-		.pipe(gulp.dest(dest))
+   // Do not leave off the "return", it is vital!
+   return gulp
+      .src([
+         // These paths are always relative to gulpfile.js
+         './source/components/**/*.scss',
+         // Ignore files & folders that start with underscores
+         '!./source/{**/_*,**/_*/**}',
+      ])
+      .pipe(
+         autoImports({
+            // "$path" is replaced with a relative file path
+            format: '@import "$path";',
+            // destination folder (must match gulp.dest)
+            dest: dest,
+            // name of the output file
+            fileName: 'auto-imports.scss',
+            // Don't change the order that imports are currently in
+            retainOrder: true,
+            // Add a message to the top of the file
+            header: '// output from gulp-auto-imports',
+         })
+      )
+      .pipe(gulp.dest(dest))
 })
 ```
 
@@ -947,30 +945,30 @@ $format[functions]
 `
 
 gulp.task('js:load', function () {
-	var dest = 'source/js'
+   var dest = 'source/js'
 
-	return gulp
-		.src([
-			'./source/components/**/*.js',
-			// Ignore files & folders that start with underscores
-			'!./source/{**/_*,**/_*/**}',
-		])
-		.pipe(
-			autoImports({
-				// Format is now split into an object holding named format strings
-				format: {
-					// "$name" is replaced with the name of the file
-					// "$path" is replaced with a relative path to the file
-					imports: 'import $name from "$path";',
-					// The indent is added here, not in the template
-					functions: '  $name();',
-				},
-				dest: dest,
-				fileName: 'auto-imports.js',
-				template: template,
-			})
-		)
-		.pipe(gulp.dest(dest))
+   return gulp
+      .src([
+         './source/components/**/*.js',
+         // Ignore files & folders that start with underscores
+         '!./source/{**/_*,**/_*/**}',
+      ])
+      .pipe(
+         autoImports({
+            // Format is now split into an object holding named format strings
+            format: {
+               // "$name" is replaced with the name of the file
+               // "$path" is replaced with a relative path to the file
+               imports: 'import $name from "$path";',
+               // The indent is added here, not in the template
+               functions: '  $name();',
+            },
+            dest: dest,
+            fileName: 'auto-imports.js',
+            template: template,
+         })
+      )
+      .pipe(gulp.dest(dest))
 })
 ```
 
@@ -985,10 +983,10 @@ import three from '../components/three/three.js'
 import four from '../components/four/four.js'
 
 export default function () {
-	one()
-	two()
-	three()
-	four()
+   one()
+   two()
+   three()
+   four()
 }
 ```
 
@@ -1122,11 +1120,11 @@ import three from '../components/three/three.js'
 import four from '../components/four/four.js'
 
 export default function () {
-	// Notice the indent here
-	one()
-	two()
-	three()
-	four()
+   // Notice the indent here
+   one()
+   two()
+   three()
+   four()
 }
 ```
 
@@ -1169,11 +1167,11 @@ import three from '../components/three/three.js'
 import four from '../components/four/four.js'
 
 export default function () {
-	// Notice the indent here
-	one()
-	two()
-	three()
-	four()
+   // Notice the indent here
+   one()
+   two()
+   three()
+   four()
 }
 ```
 

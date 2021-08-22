@@ -5,7 +5,7 @@ var header = `
 `
 
 module.exports = {
-	format: 'include $path',
-	fileName: 'auto-imports.jade',
-	header: header,
+   format: 'include $path',
+   fileName: 'auto-imports.jade',
+   header: header,
 }

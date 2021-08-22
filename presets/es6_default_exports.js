@@ -4,7 +4,7 @@ var header = `
 // Do not save this file into source control.`
 
 module.exports = {
-	format: `export { default as $name } from '$path'`,
-	fileName: 'auto-imports.js',
-	header: header,
+   format: `export { default as $name } from '$path'`,
+   fileName: 'auto-imports.js',
+   header: header,
 }

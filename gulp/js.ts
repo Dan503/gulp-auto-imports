@@ -14,32 +14,32 @@ $format[functions]
 `
 
 gulp.task('js:load', function () {
-	const dest = 'tests/test/js'
+   const dest = 'tests/test/js'
 
-	return gulp
-		.src(['./tests/test/js/**/*.js', './tests/other-test-folder/js/**/*.js'])
-		.pipe(
-			autoImports({
-				format: {
-					imports: `import $name from '$path'`,
-					functions: '  $name()',
-				},
-				//needed so that relative paths are able to be generated properly
-				dest: dest,
-				fileName: 'auto-imports.js',
-				retainOrder: true,
-				template,
-			})
-		)
-		.pipe(gulp.dest(dest))
+   return gulp
+      .src(['./tests/test/js/**/*.js', './tests/other-test-folder/js/**/*.js'])
+      .pipe(
+         autoImports({
+            format: {
+               imports: `import $name from '$path'`,
+               functions: '  $name()',
+            },
+            //needed so that relative paths are able to be generated properly
+            dest: dest,
+            fileName: 'auto-imports.js',
+            retainOrder: true,
+            template,
+         })
+      )
+      .pipe(gulp.dest(dest))
 })
 
 gulp.task('js', gulp.series('js:load'))
 
 gulp.task('js:watch', function (done) {
-	gulp.watch(
-		['./tests/test/js/**/*.js', './tests/other-test-folder/js/**/*.js'],
-		gulp.series('js')
-	)
-	done()
+   gulp.watch(
+      ['./tests/test/js/**/*.js', './tests/other-test-folder/js/**/*.js'],
+      gulp.series('js')
+   )
+   done()
 })

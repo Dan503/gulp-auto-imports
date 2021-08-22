@@ -6,8 +6,8 @@ var header = `
 `
 
 module.exports = {
-	format: '@import $path',
-	fileName: 'auto-imports.sass',
-	retainOrder: true,
-	header: header,
+   format: '@import $path',
+   fileName: 'auto-imports.sass',
+   retainOrder: true,
+   header: header,
 }

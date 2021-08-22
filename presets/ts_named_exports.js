@@ -4,7 +4,7 @@ var header = `
 // Do not save this file into source control.`
 
 module.exports = {
-	format: `export { $name } from '$noExtPath'`,
-	fileName: 'auto-imports.ts',
-	header: header,
+   format: `export { $name } from '$noExtPath'`,
+   fileName: 'auto-imports.ts',
+   header: header,
 }

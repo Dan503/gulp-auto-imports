@@ -8,8 +8,8 @@ import two from '../../input/test/js/two.js'
 import two_1 from '../../input/other-test-folder/js/two.js'
 
 export default function () {
-	one()
-	one_1()
-	two()
-	two_1()
+   one()
+   one_1()
+   two()
+   two_1()
 }

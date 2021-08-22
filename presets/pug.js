@@ -5,7 +5,7 @@ var header = `
 `
 
 module.exports = {
-	format: 'include $path',
-	fileName: 'auto-imports.pug',
-	header: header,
+   format: 'include $path',
+   fileName: 'auto-imports.pug',
+   header: header,
 }

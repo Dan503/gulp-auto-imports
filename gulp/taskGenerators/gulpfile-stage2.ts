@@ -5,5 +5,5 @@ import * as gulp from 'gulp'
 import './output/generate-task'
 
 export default function (done: any) {
-	return gulp.series('generate')(done)
+   return gulp.series('generate')(done)
 }
