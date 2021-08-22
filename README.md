@@ -1,8 +1,3 @@
-TO DO:
-
-- Convert all js files to TypeScript
-- Make "prepublishOnly" npm script for converting the TS files into .js + .d.ts files
-
 # Gulp Auto Imports
 
 _Auto generate import-only files for any file type. SCSS, JS, Pug, whatever you want._
