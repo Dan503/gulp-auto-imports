@@ -28,6 +28,11 @@ const getTaskNames = ({
    }
 }
 
+/**
+ * Generate an auto-import gulp compiler tasks alongside a matching watcher task.
+ *
+ * @returns [ 'compiler task name', 'watcher task name' ]
+ */
 export const createAutoImportTask = ({
    sourceFolder,
    fileExtension,
