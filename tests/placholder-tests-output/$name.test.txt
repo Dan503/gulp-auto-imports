@@ -1,0 +1,16 @@
+
+main | main.css
+one | one.jade
+two | two.jade
+one_1 | one.js
+two_1 | two.js
+one_2 | one.pug
+two_2 | two.pug
+one_3 | one.sass
+two_3 | two.sass
+one_4 | one.scss
+two_4 | two.scss
+one_5 | one.styl
+two_5 | two.styl
+one_6 | one.ts
+two_6 | two.ts

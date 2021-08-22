@@ -1,0 +1,16 @@
+
+../input/test/css/main | main.css
+../input/test/jade/one | one.jade
+../input/test/jade/two | two.jade
+../input/test/js/one | one.js
+../input/test/js/two | two.js
+../input/test/pug/one | one.pug
+../input/test/pug/two | two.pug
+../input/test/sass/one | one.sass
+../input/test/sass/two | two.sass
+../input/test/scss/one | one.scss
+../input/test/scss/two | two.scss
+../input/test/styl/one | one.styl
+../input/test/styl/two | two.styl
+../input/test/ts/one | one.ts
+../input/test/ts/two | two.ts
