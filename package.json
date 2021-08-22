@@ -1,6 +1,6 @@
 {
 	"name": "gulp-auto-imports",
-	"version": "3.2.0",
+	"version": "3.2.0-beta.0",
 	"description": "Auto generate import-only files for any file type. SCSS, JS, Pug, whatever you want.",
 	"dependencies": {
 		"chalk": "^2.4.1",
@@ -31,7 +31,8 @@
 		"prepare": "npm run generate",
 		"ts:compile": "tsc --project tsconfig.npm.json",
 		"ts:clean": "node node/clean.js",
-		"prepublishOnly": "npm run ts:compile && npm run ts:clean"
+		"prepublishOnly": "npm run ts:compile",
+		"postpublish": "npm run ts:clean"
 	},
 	"repository": {
 		"type": "git",
