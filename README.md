@@ -2,7 +2,6 @@ TO DO:
 
 -   Convert all js files to TypeScript
 -   Make "prepublishOnly" npm script for converting the TS files into .js + .d.ts files
--   Document how to use `createAutoImportTask` function in Readme.md
 
 # Gulp Auto Imports
 
@@ -31,7 +30,7 @@ Gulp Auto Imports also has the ability to remember the order that imports are de
   - [JS after](#js-after)
 - [Install](#install)
 - [Using the SCSS preset](#using-the-scss-preset)
-- [Using the Gulp task generator](#using-the-gulp-task-generator)
+- [Using the automated Gulp task generator function](#using-the-automated-gulp-task-generator-function)
 - [Use in _combination_ with Gulp Sass Glob](#use-in-combination-with-gulp-sass-glob)
   - [Gulp 3 combination](#gulp-3-combination)
   - [Gulp 4 combination](#gulp-4-combination)
@@ -302,21 +301,27 @@ Add this line to your main scss file to auto-loaded your component styles:
 
 You can now auto-load all of you're component scss files while still retaining full control over CSS source order! 😃
 
-## Using the Gulp task generator
+## Using the automated Gulp task generator function
 
 Making a single auto-imports file is ok using the standard method, however when you start making more than one auto-import file, the process can become quite cumbersome. This is why Gulp Auto Imports also comes with a task generator to make generating multiple auto-import files super easy.
 
 For this example, we are going to generate three separate auto-import files. One for `vars`, one for `mixins`, and one for `components`.
 
+Here is the full code:
+
 ```js
 var gulp = require('gulp')
 var createAutoImportTask = require('gulp-auto-imports/createAutoImportTask')
 
-// Create a funciton for
+// Create a function for generating auto-import gulp tasks
 const createScssImporterTask = (sourceFolder) => createAutoImportTask({
   sourceFolder,
-  // restrict imports to only cover `.scss` files
+  // [optional] default = *all files*; Restrict imports to only target files with a specific extension name
   fileExtension: 'scss',
+  // [optional] use this to resolve task name conflicts
+  taskPrefix: 'compile',
+  // [optional] default = true; will ignore the generated import file
+  ignoreImporterFile: true,
   // Same settings object that you apply to the main gulp task
   importerSettings: {
     preset: 'scss',
@@ -325,6 +330,7 @@ const createScssImporterTask = (sourceFolder) => createAutoImportTask({
   },
 })
 
+// Destructure into separate importer and watcher tasks
 const [scssVarsImporter, scssVarsImportWatcher] = createScssImporterTask('./source/scss/config/vars')
 const [scssMixinsImporter, scssMixinsImportWatcher] = createScssImporterTask('./source/scss/config/mixins')
 const [scssComponetsImporter, scssComponetsImportWatcher] = createScssImporterTask('./source/scss/config/mixins')
@@ -372,7 +378,52 @@ gulp.task('scss-auto-imports', [
 ])
 ```
 
-If you don't want to
+If you don't want to have gulp watch the files, simply don't pass the watcher into your gulp process.
+
+```js
+/**
+ * Avoid watching files by not passing the generated watcher task into your main gulp process
+ */
+
+// Destructure to extract only the build task
+const [scssVarsImporter] = createScssImporterTask('./source/scss/config/vars')
+const [scssMixinsImporter] = createScssImporterTask('./source/scss/config/mixins')
+const [scssComponetsImporter] = createScssImporterTask('./source/scss/config/mixins')
+
+// Gulp 4 (no watching of files)
+gulp.task('scss-auto-imports', gulp.parallel(
+  scssVarsImporter,
+  scssMixinsImporter,
+  scssComponetsImporter
+))
+
+// Gulp 3 (no watching of files)
+gulp.task('scss-auto-imports', [
+  scssVarsImporter,
+  scssMixinsImporter,
+  scssComponetsImporter
+])
+```
+
+The values that `createAutoImportTask` returns are two task names in the format demonstrated below:
+
+```js
+const taskNames = createAutoImportTask({
+  sourceFolder: './path/to/sourceFolder',
+  fileExtension: 'fileExtension',
+  taskPrefix: 'taskPrefix',
+  importerSettings: {
+    preset: 'scss',
+  },
+})
+
+taskNames === [
+  "taskPrefix:fileExtension:auto-imports:sourceFolder",
+  "taskPrefix:fileExtension:auto-imports-watcher:sourceFolder"
+]
+```
+
+More details about the `createAutoImportTask` function are documented in the [createAutoImportTask.types.ts](https://github.com/Dan503/gulp-auto-imports/blob/master/createAutoImportTask.types.ts) file.
 
 ## Use in _combination_ with [Gulp Sass Glob](https://www.npmjs.com/package/gulp-sass-glob)
 
