@@ -334,9 +334,9 @@ const [scssMixinsImporter, scssMixinsImportWatcher] = createScssImporterTask(
 	'./source/scss/config/mixins'
 )
 const [
-	scssComponetsImporter,
-	scssComponetsImportWatcher,
-] = createScssImporterTask('./source/scss/config/mixins')
+	scssComponentsImporter,
+	scssComponentsImportWatcher,
+] = createScssImporterTask('./source/scss/config/components')
 
 // Gulp 4
 gulp.task(
@@ -346,8 +346,8 @@ gulp.task(
 		scssVarsImportWatcher,
 		scssMixinsImporter,
 		scssMixinsImportWatcher,
-		scssComponetsImporter,
-		scssComponetsImportWatcher
+		scssComponentsImporter,
+		scssComponentsImportWatcher
 	)
 )
 
@@ -357,8 +357,8 @@ gulp.task('scss-auto-imports', [
 	scssVarsImportWatcher,
 	scssMixinsImporter,
 	scssMixinsImportWatcher,
-	scssComponetsImporter,
-	scssComponetsImportWatcher,
+	scssComponentsImporter,
+	scssComponentsImportWatcher,
 ])
 ```
 
