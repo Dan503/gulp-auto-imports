@@ -22,7 +22,7 @@ const getTaskNames = ({
 	const prefix = (taskPrefix ? `${taskPrefix}:` : '') + fileExtension
 	return {
 		taskName: `${prefix}:auto-imports:${name}`,
-		watchName: `${prefix}:watch-auto-imports:${name}`,
+		watchName: `${prefix}:auto-imports-watcher:${name}`,
 	}
 }
 
